@@ -239,7 +239,7 @@ export const pageLs: {
     "/": (LsFileEntry | LsDirEntry)[];
     "/projects": LsDirEntry[];
     "/projects/:name": LsFileEntry[];
-    "/about-me": LsFileEntry[];
+    "/more-about-me": LsFileEntry[];
   };
 } = {
   "portfolio/": {
@@ -262,7 +262,7 @@ export const pageLs: {
       {
         name: "more-about-me",
         type: "dir",
-        path: "/about-me",
+        path: "/more-about-me",
       },
       ...(projectsInfos.slice(0, 4).map((project) => ({
         name: project.title.toLowerCase().split(" ").join("-"),
@@ -292,7 +292,7 @@ export const pageLs: {
         clickSelector: "#next-project-link",
       },
     ],
-    "/about-me": [
+    "/more-about-me": [
       {
         name: "read-more.sh",
         type: "file",

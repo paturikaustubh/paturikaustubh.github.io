@@ -40,7 +40,7 @@ export function Footer() {
       timestamp: "",
     }
   );
-  const [prevCursorColor, setPrevCursorColor] = useState("");
+
 
   const tl = gsap.timeline();
   const gsapMatchMedia = gsap.matchMedia();
@@ -67,15 +67,15 @@ export function Footer() {
           if (circleElement) {
             circleElement.forEach(
               (element) =>
-                (element.style.animation =
-                  "connector-circle-reveal 0.3s 0.35s cubic-bezier(.38,-0.01,.32,2.52) forwards")
+              (element.style.animation =
+                "connector-circle-reveal 0.3s 0.35s cubic-bezier(.38,-0.01,.32,2.52) forwards")
             );
           }
           if (rippleEle)
             rippleEle.forEach(
               (element) =>
-                (element.style.animation =
-                  "connector-circle-ripple 0.7s 0.4s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
+              (element.style.animation =
+                "connector-circle-ripple 0.7s 0.4s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
             );
         },
         onLeaveBack: () => {
@@ -93,38 +93,21 @@ export function Footer() {
           if (circleElement) {
             circleElement.forEach(
               (element) =>
-                (element.style.animation =
-                  "connector-circle-reveal-reset 0S ease-out forwards")
+              (element.style.animation =
+                "connector-circle-reveal-reset 0S ease-out forwards")
             );
           }
           if (rippleEle)
             rippleEle.forEach(
               (element) =>
-                (element.style.animation =
-                  "connector-circle-ripple-reset 0s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
+              (element.style.animation =
+                "connector-circle-ripple-reset 0s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
             );
         },
       },
     });
 
-    const footer = document.querySelector("footer");
-    if (footer) {
-      footer.addEventListener("mouseenter", () => {
-        const cursorElement =
-          document.querySelector<HTMLDivElement>(".__custom-cursor");
-        if (cursorElement) {
-          setPrevCursorColor(cursorElement.style.backgroundColor);
-          cursorElement.style.backgroundColor = "#E7E5E4";
-        }
-      });
-      footer.addEventListener("mouseleave", () => {
-        const cursorElement =
-          document.querySelector<HTMLDivElement>(".__custom-cursor");
-        if (cursorElement) {
-          cursorElement.style.backgroundColor = prevCursorColor;
-        }
-      });
-    }
+
 
     // ANCHOR FOOTER NAME ANIMATION ||========================================================================
     gsapMatchMedia.add("(min-width: 1024px)", () => {
@@ -163,7 +146,7 @@ export function Footer() {
         });
       }
     });
-  }, [gsapMatchMedia, prevCursorColor, tl]);
+  }, [gsapMatchMedia, tl]);
 
   const handleInstantMsgDetailsChange = (
     event:
@@ -232,22 +215,11 @@ export function Footer() {
     return;
   };
 
-  const handleSocialMediaLinkHover = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) cursor.classList.add("animate-pulse-fast");
-    if (cursor) cursor.style.backdropFilter = "blur(1.5px)";
-    if (cursor) cursor.style.backgroundColor = "var(--bg-color)";
-  };
 
-  const handleSocialMediaLinkBlur = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) cursor.classList.remove("animate-pulse-fast");
-    if (cursor) cursor.style.backdropFilter = "";
-  };
 
   return (
     <footer
-      className="bg-stone-950 lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#E2E0DF] mt-auto overflow-x-hidden dark-footer"
+      className="bg-stone-950 lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#E2E0DF] mt-auto overflow-x-hidden dark-footer __theme-change-dark"
       id="contact-me"
     >
       <div className="flex flex-col items-center md:flex-row gap-x-12 gap-y-6">
@@ -333,21 +305,7 @@ export function Footer() {
             </div>
             <div className="ml-auto">
               <button
-                className="px-3 py-1 text-2xl font-semibold border-2 rounded-md inst-msg-send"
-                onMouseEnter={() => {
-                  const cursor =
-                    document.querySelector<HTMLDivElement>(".__custom-cursor");
-                  if (cursor) {
-                    cursor.style.mixBlendMode = "difference";
-                  }
-                }}
-                onMouseLeave={() => {
-                  const cursor =
-                    document.querySelector<HTMLDivElement>(".__custom-cursor");
-                  if (cursor) {
-                    cursor.style.mixBlendMode = "";
-                  }
-                }}
+                className="px-3 py-1 text-2xl font-semibold border-2 rounded-md inst-msg-send __cursor-difference"
               >
                 Send
               </button>
@@ -366,9 +324,7 @@ export function Footer() {
                 <Link
                   target="_blank"
                   to={url}
-                  className={color}
-                  onMouseEnter={handleSocialMediaLinkHover}
-                  onMouseLeave={handleSocialMediaLinkBlur}
+                  className={`${color} __custom-cursor-social`}
                   id={`social-${id}`}
                 >
                   {username}
@@ -380,21 +336,7 @@ export function Footer() {
       </div>
 
       <p
-        className="mt-8 mb-16 footer-name"
-        onMouseEnter={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) {
-            cursor.style.mixBlendMode = "difference";
-          }
-        }}
-        onMouseLeave={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) {
-            cursor.style.mixBlendMode = "";
-          }
-        }}
+        className="mt-8 mb-16 footer-name __cursor-difference"
       >
         KaustubhPaturi
       </p>

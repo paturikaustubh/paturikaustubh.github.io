@@ -4,6 +4,12 @@ import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
 
 export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
+  const nameDisplayNameMapper = {
+    portfolio: "Welcome Home",
+    pyscope: "PyScope",
+    vboss: "VBOSS",
+  };
+
   const [locationName, setLocationName] = useState("");
 
   useLayoutEffect(() => {
@@ -52,6 +58,13 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     },
   };
 
+  const getTransitionName = (name: string): string => {
+    return (
+      nameDisplayNameMapper[name as keyof typeof nameDisplayNameMapper] ||
+      name.charAt(0).toUpperCase() + name.slice(1)
+    );
+  };
+
   return (
     <>
       <section>
@@ -91,12 +104,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
                   }}
                   className="inline-block"
                 >
-                  {locationName.charAt(0).toUpperCase() +
-                    locationName.slice(1) ===
-                  "Portfolio"
-                    ? "Welcome Home"
-                    : locationName.charAt(0).toUpperCase() +
-                      locationName.slice(1)}
+                  {getTransitionName(locationName.toLowerCase())}
                 </motion.span>
               </div>
             </motion.div>

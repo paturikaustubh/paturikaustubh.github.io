@@ -1,6 +1,11 @@
 footer {
   clear: both;
+
+  &.__theme-change-dark {
+    border-radius: 0;
+  }
 }
+
 
 input,
 textarea {

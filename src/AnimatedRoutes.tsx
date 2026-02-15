@@ -22,7 +22,7 @@ export default function AnimatedRoutes() {
       element: <ProjectDetails />,
     },
     {
-      path: "/portfolio/about-me",
+      path: "/portfolio/more-about-me",
       element: <MoreAboutMe />,
     },
     {

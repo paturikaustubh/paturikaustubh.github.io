@@ -30,12 +30,12 @@ export default function ProjectDetails() {
 
   const prevProjectDetails =
     projectsInfos[
-      projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1
+    projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1
     ];
 
   const nextProjectDetails =
     projectsInfos[
-      projectIndx + 1 === projectsInfos.length ? 0 : projectIndx + 1
+    projectIndx + 1 === projectsInfos.length ? 0 : projectIndx + 1
     ];
 
   // ANCHOR USELAYOUT EFFECT  ||========================================================================
@@ -49,107 +49,19 @@ export default function ProjectDetails() {
 
   const { pathname } = useLocation();
   useEffect(() => {
-    const imgArr = document.querySelectorAll<HTMLImageElement>("img");
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    const video = document.querySelector<HTMLVideoElement>("video");
-    minLg.add("(min-width: 1024px)", () => {
-      imgArr.forEach((img) => {
-        img.addEventListener("mouseenter", () => {
-          if (cursor) cursor.style.borderWidth = "2px";
-        });
-        video?.addEventListener("mouseenter", () => {
-          if (cursor) cursor.style.borderWidth = "2px";
-        });
-
-        img.addEventListener("mouseleave", () => {
-          if (cursor) cursor.style.borderWidth = "0";
-        });
-        video?.addEventListener("mouseleave", () => {
-          if (cursor) cursor.style.borderWidth = "0";
-        });
-      });
-    });
-
-    return () => {
-      if (cursor) cursor.style.borderWidth = "0";
-      handleMouseLeave();
-    };
+    // Cleaned up manual cursor event listeners for images/video
   }, [pathname, minLg]);
 
   // ANCHOR USEEFFECT  ||========================================================================
-  useEffect(() => {
-    minLg.add("(min-width:1024px)", () => {
-      const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-      if (cursor) {
-        cursor.style.mixBlendMode = "";
-        cursor.style.color = "var(--text-color)";
-        cursor.style.scale = "1";
-        cursor.style.zIndex = "11";
-      }
 
-      const textBlendElements =
-        document.querySelectorAll<HTMLElement>(".__cursor-blend");
-
-      textBlendElements.forEach((element) => {
-        element.addEventListener("mouseenter", handleMouseEnter);
-        element.addEventListener("mouseleave", handleMouseLeave);
-      });
-
-      return () => {
-        textBlendElements.forEach((element) => {
-          element.removeEventListener("mouseenter", handleMouseEnter);
-          element.removeEventListener("mouseleave", handleMouseLeave);
-        });
-      };
-    });
-  }, [minLg]);
-
-  // ANCHOR FUNCTIONS  ||========================================================================
-  const handleMouseEnter = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "14";
-
-      cursorElement.style.backgroundColor = "#E7E5E4";
-      cursorElement.style.mixBlendMode = "difference";
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "1";
-      cursorElement.style.mixBlendMode = "";
-      cursorElement.style.backgroundColor = "var(--text-color)";
-    }
-  };
-
-  const cursorHoverColorChange = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) {
-      cursor.style.mixBlendMode = "difference";
-      cursor.style.backgroundColor = "var(--bg-color)";
-    }
-  };
-
-  const cursorLeaveColorChange = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) {
-      cursor.style.mixBlendMode = "";
-      cursor.style.backgroundColor = "var(--text-color)";
-    }
-  };
 
   const handleFullscreen = () => {
     if (videoRef.current) {
       if (videoRef.current.requestFullscreen) {
-        const cursor =
-          document.querySelector<HTMLDivElement>(".__custom-cursor");
-        if (cursor) {
-          cursor.style.cursor = "default";
-        }
+
+        // if (cursor) {
+        //   cursor.style.cursor = "default";
+        // }
 
         videoRef.current.requestFullscreen();
       }
@@ -158,10 +70,10 @@ export default function ProjectDetails() {
 
   return (
     <TransitionOverlay>
-      <section className="min-h-[100dvh] __section-padding lg:mt-8 mt-0 lg:space-y-10 md:space-y-8 sm:space-y-6 space-y-4 overflow-hidden">
+      <section className="min-h-[100dvh] __section-padding lg:space-y-10 md:space-y-8 sm:space-y-6 space-y-4 overflow-hidden">
         <div className="flex justify-between overflow-hidden md:items-center">
           <h1
-            className={`__section-title __cursor-blend`}
+            className={`__section-title __cursor-blend __cursor-difference`}
             style={{ margin: 0 }}
           >
             {projectDetails.title}
@@ -170,9 +82,7 @@ export default function ProjectDetails() {
             <Link
               to={projectDetails.live}
               target="_blank"
-              className={`expand-bg border rounded-md __section-desc lg:px-8 md:px-6 px-4 sm:mr-0 h-fit my-auto flex items-center gap-4`}
-              onMouseEnter={cursorHoverColorChange}
-              onMouseLeave={cursorLeaveColorChange}
+              className={`expand-bg border rounded-md __section-desc lg:px-8 md:px-6 px-4 sm:mr-0 h-fit my-auto flex items-center gap-4 __cursor-difference`}
             >
               Preview{" "}
               <span className="material-symbols-outlined">open_in_new</span>
@@ -181,8 +91,8 @@ export default function ProjectDetails() {
             <></>
           )}
         </div>
-        <div className="grid grid-cols-12 grid-rows-2">
-          <div className="lg:text-xl row-span-1 lg:leading-[2rem] font-[500] md:text-lg md:leading-[1.5rem] text-base leading-[1.5rem] lg:col-span-8 md:col-span-10 col-span-12 w-fit __cursor-blend">
+        <div className="grid grid-cols-12">
+          <div className="lg:text-xl row-span-1 lg:leading-[2rem] font-[500] md:text-lg md:leading-[1.5rem] text-base leading-[1.5rem] lg:col-span-8 md:col-span-10 col-span-12 w-fit __cursor-blend __cursor-difference">
             {projectDetails.desc}
           </div>
         </div>
@@ -211,7 +121,7 @@ export default function ProjectDetails() {
         )}
 
         {/* ANCHOR VIDEO  ||========================================================== */}
-        <div className="py-12">
+        <div className="lg:mt-12 md:mt-8 mt-4">
           <video
             src={`/portfolio/assets/projects/${projectDetails.img}/sample.mp4`}
             ref={videoRef}
@@ -241,13 +151,7 @@ export default function ProjectDetails() {
               </span>
               <Link
                 to={`/portfolio/projects/${prevProjectDetails.to}`}
-                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element"
-                onMouseEnter={() => {
-                  cursorHoverColorChange();
-                }}
-                onMouseLeave={() => {
-                  cursorLeaveColorChange();
-                }}
+                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
                 id="prev-project-link"
               >
                 {prevProjectDetails.title}
@@ -266,13 +170,7 @@ export default function ProjectDetails() {
               </span>
               <Link
                 to={`/portfolio/projects/${nextProjectDetails.to}`}
-                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element"
-                onMouseEnter={() => {
-                  cursorHoverColorChange();
-                }}
-                onMouseLeave={() => {
-                  cursorLeaveColorChange();
-                }}
+                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
                 id="next-project-link"
               >
                 {nextProjectDetails.title}
@@ -284,11 +182,10 @@ export default function ProjectDetails() {
             className={`absolute w-full top-0 -z-10 left-1/2 duration-300 -translate-x-1/2 next-project-img-hider`}
           >
             <img
-              src={`/portfolio/assets/projects/${
-                showNextProjectImg
-                  ? nextProjectDetails.img
-                  : prevProjectDetails.img
-              }/logo.png`}
+              src={`/portfolio/assets/projects/${showNextProjectImg
+                ? nextProjectDetails.img
+                : prevProjectDetails.img
+                }/logo.png`}
               alt={
                 showNextProjectImg
                   ? nextProjectDetails.title
@@ -298,11 +195,10 @@ export default function ProjectDetails() {
             />
           </div>
           <div
-            className={`rounded-lg overflow-hidden absolute md:w-1/2 w-3/4 top-0 -z-20 left-1/2 duration-300 -translate-x-1/2 border-2 border-neutral-700 ${
-              showNextProjectImg || showPrevProjectImg
-                ? "-translate-y-1/4"
-                : "translate-y-0"
-            }`}
+            className={`rounded-lg overflow-hidden absolute md:w-1/2 w-3/4 top-0 -z-20 left-1/2 duration-300 -translate-x-1/2 border-2 border-neutral-700 ${showNextProjectImg || showPrevProjectImg
+              ? "-translate-y-1/4"
+              : "translate-y-0"
+              }`}
           >
             <img
               src={`/portfolio/assets/projects/${previewImgPath}/logo.png`}
