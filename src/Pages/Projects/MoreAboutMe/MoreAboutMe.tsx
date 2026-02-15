@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { Fragment, useEffect, useLayoutEffect, useState, useRef } from "react";
 
 import { gsap } from "gsap";
 import SplitType, { TargetElement } from "split-type";
@@ -15,8 +15,8 @@ export default function MoreAboutMe() {
 
   const paragraphs = [
     <p className="name-title">
-      <strong>Hey there! 👋 Kaustubh Paturi here</strong>
-      (yupp, that’s me in the pic 👀)
+      <strong>Hey there! <span className="emoji-z-index">👋</span> Kaustubh Paturi here</strong>
+      (yupp, that’s me in the pic <span className="emoji-z-index">👀</span>)
     </p>,
     <p>
       So, how did I end up on your screen? It all started on{" "}
@@ -25,12 +25,12 @@ export default function MoreAboutMe() {
           March 23<sup>rd</sup>
         </i>
       </strong>
-      , 2002 (yes, I’ll wait while you add it to your reminders—
+      , 2002 (yes, I’ll wait while you add it to your calendar—
       {dayjs().month(2).date(23).isBefore(dayjs(), "day")
         ? dayjs().month(2).date(23).add(1, "year").diff(dayjs(), "day")
         : dayjs().month(2).date(23).diff(dayjs(), "day")}{" "}
-      days to go! 🎂 😏). That’s when the world got 1 Kaustubh richer
-      (worldPopulation++).😎
+      days to go! <span className="emoji-z-index">🎂 😏</span>). That’s when the world got 1 Kaustubh richer
+      (worldPopulation++).<span className="emoji-z-index">😎</span>
     </p>,
     <p>
       Back in 2019, I finished my 12th grade with absolutely no clue what I
@@ -40,18 +40,18 @@ export default function MoreAboutMe() {
       <strong>
         <i>Exam Branch Portal</i>
       </strong>
-      {/* </Link> */}. And BOOM 💥—I was introduced to the beautiful chaos; web
+      {/* </Link> */}. And BOOM <span className="emoji-z-index">💥</span>—I was introduced to the beautiful chaos; web
       app development (I can really center a div, trust me).
     </p>,
     <p>
       I’m also into video and image editing — because who doesn’t love a bit of
-      creativity? 🎨 This love for creating things pushed me deeper into
-      frontend development (although, cars were my first love 😍). And talking
+      creativity? <span className="emoji-z-index">🎨</span> This love for creating things pushed me deeper into
+      frontend development (although, cars were my first love <span className="emoji-z-index">😍</span>). And talking
       about cars, I just admire{" "}
       <strong>
         <i>Aston Martin Vanquish</i>
       </strong>
-      . 💘
+      . <span className="emoji-z-index">💘</span>
     </p>,
     <>
       <p>
@@ -63,7 +63,7 @@ export default function MoreAboutMe() {
         <strong>
           <i>VBOSS</i>
         </strong>{" "}
-        (sounds fancy, right?). Then I leveled up 🎮 and joined{" "}
+        (sounds fancy, right?). Then I leveled up <span className="emoji-z-index">🎮</span> and joined{" "}
         <strong>
           <i>Centific</i>
         </strong>{" "}
@@ -78,7 +78,7 @@ export default function MoreAboutMe() {
 
       <p>
         The road ahead is long and wide, and guess what? It’s ours to shape.
-        Let’s build something incredible, one step at a time. 🌟
+        Let’s build something incredible, one step at a time. <span className="emoji-z-index">🌟</span>
       </p>
       <p className="flex w-full">
         <strong className="mx-auto">
@@ -91,18 +91,18 @@ export default function MoreAboutMe() {
   useLayoutEffect(() => {
     const gsapMatchMedia = gsap.matchMedia();
     const kaustubhImgEle = document.getElementById("img-container");
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    const textBlendElements =
-      document.querySelectorAll<HTMLElement>(".__cursor-blend");
+
+
 
     // ANCHOR LARGE SCREEN ANIMS  ||========================================================================
     gsapMatchMedia.add("(min-width: 768px)", () => {
       setIsSmallScreen(false);
       // ANCHOR CURSOR SIZING  ||========================================================================
-      textBlendElements.forEach((element) => {
-        element.addEventListener("mouseenter", handleMouseEnter);
-        element.addEventListener("mouseleave", handleMouseLeave);
-      });
+      // ANCHOR CURSOR SIZING  ||========================================================================
+      // textBlendElements.forEach((element) => {
+      //   element.addEventListener("mouseenter", handleMouseEnter);
+      //   element.addEventListener("mouseleave", handleMouseLeave);
+      // });
     });
 
     if (kaustubhImgEle) {
@@ -131,18 +131,11 @@ export default function MoreAboutMe() {
 
       const handleMouseEnter = () => {
         kaustubhImgEle.style.transition = "transform 0.1s ease-out";
-
-        if (cursor) {
-          cursor.style.border = "1px solid #E7E5E4";
-        }
       };
 
       const handleMouseLeave = () => {
         kaustubhImgEle.style.transition = "transform 0.3s ease-out";
         kaustubhImgEle.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
-        if (cursor) {
-          cursor.style.borderWidth = "0px";
-        }
       };
 
       kaustubhImgEle.addEventListener("mousemove", handleMouseMove);
@@ -165,7 +158,7 @@ export default function MoreAboutMe() {
     const newParagraphs = Array.from(paragraphs);
     const timeline = gsap.timeline({ paused: true });
 
-    (newParagraphs as TargetElement[]).forEach((paragraph) => {
+    (newParagraphs as TargetElement[]).forEach((paragraph, index) => {
       const { words } = new SplitType(paragraph, { types: "words" });
 
       timeline.from(words, {
@@ -174,54 +167,46 @@ export default function MoreAboutMe() {
         stagger: 0.04,
         duration: 1,
         ease: "power1.out",
-        delay: 0.8,
+        delay: index === 0 ? 0.8 : 0,
       });
     });
     timeline.play();
   }, []);
 
+  const previousCount = useRef(visibleParagraphs);
+
   useEffect(() => {
     const animateNewParagraphs = () => {
       const paragraphs = document.querySelectorAll(".desc-img .description p");
-      const newParagraphs = Array.from(paragraphs).slice(visibleParagraphs);
-      const timeline = gsap.timeline({ paused: true, delay: 0.2 });
+      const currentCount = paragraphs.length;
+      const start = previousCount.current;
 
-      (newParagraphs as TargetElement[]).forEach((paragraph) => {
-        const { words } = new SplitType(paragraph, { types: "words" });
+      if (currentCount > start) {
+        const newParagraphs = Array.from(paragraphs).slice(start, currentCount);
+        const timeline = gsap.timeline({ paused: true, delay: 0.2 });
 
-        timeline.from(words, {
-          opacity: 0.03,
-          filter: "blur(8px)",
-          stagger: 0.04,
-          duration: 1,
-          ease: "power1.out",
+        (newParagraphs as TargetElement[]).forEach((paragraph) => {
+          const { words } = new SplitType(paragraph, { types: "words" });
+
+          timeline.from(words, {
+            opacity: 0.03,
+            filter: "blur(8px)",
+            stagger: 0.04,
+            duration: 1,
+            ease: "power1.out",
+          });
         });
-      });
-      timeline.play();
+        timeline.play();
+        previousCount.current = currentCount;
+      }
     };
-    animateNewParagraphs();
+
+    if (visibleParagraphs > 2) {
+      animateNewParagraphs();
+    }
   }, [visibleParagraphs]);
 
-  const handleMouseEnter = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "14";
-      cursorElement.style.backgroundColor = "#E7E5E4";
-      cursorElement.style.mixBlendMode = "difference";
-    }
-  };
 
-  const handleMouseLeave = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "1";
-      cursorElement.style.zIndex = "11";
-      cursorElement.style.mixBlendMode = "";
-      cursorElement.style.backgroundColor = "var(--text-color)";
-    }
-  };
 
   const handleReadMore = () => {
     setVisibleParagraphs((prev) => (prev += 1));
@@ -230,9 +215,9 @@ export default function MoreAboutMe() {
   return (
     <TransitionOverlay>
       <section className="__section-padding">
-        <h1 className="__section-title __cursor-blend">
+        <h1 className="__section-title __cursor-blend __cursor-difference __cursor-hover">
           More About Me
-          <span className="z-[12] fun-text-container">
+          <span className="fun-text-container emoji-z-index">
             🧍🏻‍♂️
             {!isSmallScreen && (
               <span className="fun-text">Imagine the emojI with a beard</span>
@@ -257,7 +242,7 @@ export default function MoreAboutMe() {
             </div>
             {visibleParagraphs < paragraphs.length && (
               <button
-                className="px-4 py-2 mt-12 font-light border expand-bg duration-300s hover:rounded-md details-text"
+                className="px-4 py-2 mt-12 font-light border expand-bg duration-300s hover:rounded-md details-text __cursor-difference"
                 onClick={handleReadMore}
                 id="read-more-button"
               >
@@ -288,7 +273,7 @@ export default function MoreAboutMe() {
             </div>
             {visibleParagraphs < paragraphs.length && (
               <button
-                className="px-4 py-2 mt-12 font-light border expand-bg duration-300s hover:rounded-md details-text"
+                className="px-4 py-2 mt-12 font-light border expand-bg duration-300s hover:rounded-md details-text __cursor-difference"
                 onClick={handleReadMore}
               >
                 Read More

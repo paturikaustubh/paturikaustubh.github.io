@@ -82,7 +82,7 @@ export default function Skills() {
     <section className="__section-padding" id="tech-stack">
       <div className="whitespace-nowrap">
         <span className="flex flex-col __section-title __cursor-blend md:flex-row">
-          Tech Stack <span className="z-[12]">👨🏻‍💻</span>
+          Tech Stack <span className="emoji-z-index">👨🏻‍💻</span>
         </span>
       </div>
       <div className="grid w-full grid-cols-12 tech-stack-info-grid gap-y-8 md:gap-x-8">

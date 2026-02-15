@@ -83,8 +83,7 @@ button:focus-visible {
   outline: 1;
 }
 
-@media (max-width: 1024px) {
-}
+@media (max-width: 1024px) {}
 
 ::-webkit-scrollbar {
   @apply w-[11px] h-2 duration-300;
@@ -237,6 +236,11 @@ button:focus-visible {
 
 .__accent-bg {
   background-color: var(--accent-color) !important;
+}
+
+.emoji-z-index {
+  position: relative;
+  z-index: 20;
 }
 
 @media (min-width: 1024px) {

@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import Hero from "./Pages/Hero/Hero";
 import ProjectsList from "./Pages/Projects/ProjectsList";
@@ -7,26 +7,38 @@ import ProjectDetails from "./Pages/Projects/ProjectDetails";
 import NotFound from "./components/NotFound/NotFound";
 import MoreAboutMe from "./Pages/Projects/MoreAboutMe/MoreAboutMe";
 
+const RedirectToRoot = () => {
+  const location = useLocation();
+  // Replace /portfolio with empty string, default to / if empty
+  const newPath = location.pathname.replace(/^\/portfolio/, "") || "/";
+  // Preserve search params and hash
+  return <Navigate to={newPath + location.search + location.hash} replace />;
+};
+
 export default function AnimatedRoutes() {
   const paths = [
     {
-      path: "/portfolio/",
+      path: "/",
       element: <Hero />,
     },
     {
-      path: "/portfolio/projects",
+      path: "/projects",
       element: <ProjectsList />,
     },
     {
-      path: "/portfolio/projects/:name",
+      path: "/projects/:name",
       element: <ProjectDetails />,
     },
     {
-      path: "/portfolio/about-me",
+      path: "/more-about-me",
       element: <MoreAboutMe />,
     },
     {
       path: "/portfolio/*",
+      element: <RedirectToRoot />,
+    },
+    {
+      path: "/*",
       element: <NotFound />,
     },
   ];

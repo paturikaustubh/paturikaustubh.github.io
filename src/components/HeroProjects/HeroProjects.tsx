@@ -16,15 +16,7 @@ export default function Projects() {
   const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
   const titleRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const cursorHoverColorChange = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) cursor.style.mixBlendMode = "difference";
-  };
 
-  const cursorLeaveColorChange = () => {
-    const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursor) cursor.style.mixBlendMode = "";
-  };
 
   // ANCHOR EFFECTS
   useEffect(() => {
@@ -61,22 +53,9 @@ export default function Projects() {
           });
 
           if (isHoveringProjectRow) {
-            const cursor =
-              document.querySelector<HTMLDivElement>(".__custom-cursor");
-            if (cursor) {
-              cursor.style.zIndex = "15";
-              cursor.style.scale = "1";
-              cursor.style.mixBlendMode = "normal";
-            }
             setImgScale(1);
             return;
           }
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor && mousePresent)
-            setTimeout(() => {
-              cursor.style.zIndex = "11";
-            }, 400);
           setImgScale(0);
           return;
         });
@@ -123,24 +102,6 @@ export default function Projects() {
       {/* ANCHOR LARGE SCREENS */}
       <div
         className="flex-col items-center justify-center mt-8 overflow-hidden __projects-not-mobile"
-        onMouseEnter={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) cursor.style.zIndex = "15";
-        }}
-        onMouseMove={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) cursor.style.zIndex = "15";
-        }}
-        onMouseLeave={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor && mousePresent)
-            setTimeout(() => {
-              cursor.style.zIndex = "11";
-            }, 400);
-        }}
       >
         <div
           className="rounded-lg origin-top-left flex-col fixed z-[13] -translate-x-1/2 -translate-y-1/2 w-[34rem] items-center overflow-hidden duration-[600ms] __projects-img-section"
@@ -156,7 +117,7 @@ export default function Projects() {
           {projectsInfos.slice(0, 4).map(({ img, title }, indx) => (
             <img
               key={indx}
-              src={`/portfolio/assets/projects/${img}/logo.png`}
+              src={`/assets/projects/${img}/logo.png`}
               style={{
                 transform: `translateY(${activeProjectIndx * -100}%)`,
                 transition: "1300ms cubic-bezier(0.19, 1, 0.22, 1)",
@@ -168,15 +129,13 @@ export default function Projects() {
         {projectsInfos.slice(0, 4).map(({ title, to }, indx) => (
           <div
             key={indx}
-            className={`__project-row border-t lg:text-5xl duration-300s md:text-4xl text-3xl ${
-              mousePresent && indx !== activeProjectIndx
+            className={`__project-row border-t lg:text-5xl duration-300s md:text-4xl text-3xl ${mousePresent && indx !== activeProjectIndx
+              ? "p-8"
+              : !mousePresent
                 ? "p-8"
-                : !mousePresent
-                  ? "p-8"
-                  : "p-12"
-            } w-full flex justify-between items-center z-[14] translate-x-full __slide-right-left overflow-hidden ${
-              indx + 1 === 4 ? "border-b" : ""
-            }`}
+                : "p-12"
+              } w-full flex justify-between items-center z-[14] translate-x-full __slide-right-left overflow-hidden ${indx + 1 === 4 ? "border-b" : ""
+              }`}
             style={{
               borderColor: "var(--text-color)",
               transition: "padding 300ms ease",
@@ -192,27 +151,23 @@ export default function Projects() {
             }}
           >
             <span
-              className={`font-semibold ${
-                mousePresent && indx === activeProjectIndx
-                  ? ` brightness-100 translate-x-5`
-                  : mousePresent
-                    ? " brightness-[0.3]"
-                    : ""
-              } duration-300`}
+              className={`font-semibold ${mousePresent && indx === activeProjectIndx
+                ? ` brightness-100 translate-x-5`
+                : mousePresent
+                  ? " brightness-[0.3]"
+                  : ""
+                } duration-300`}
             >
               {title}
             </span>
             <Link
               to={`projects/${to}`}
-              onMouseEnter={cursorHoverColorChange}
-              onMouseLeave={cursorLeaveColorChange}
-              className={`expand-bg font-light __section-desc px-6 hover:rounded-xl border-2 ${
-                mousePresent && indx === activeProjectIndx
-                  ? `brightness-100 -translate-x-5`
-                  : mousePresent
-                    ? "brightness-[0.3]"
-                    : ""
-              }`}
+              className={`expand-bg font-light __section-desc px-6 hover:rounded-xl border-2 __cursor-difference ${mousePresent && indx === activeProjectIndx
+                ? `brightness-100 -translate-x-5`
+                : mousePresent
+                  ? "brightness-[0.3]"
+                  : ""
+                }`}
               style={{
                 transition: "transform cubic-bezier(0.19, 1, 0.22, 1), 300ms",
               }}
@@ -234,7 +189,7 @@ export default function Projects() {
             >
               <div className="inline-block w-full overflow-hidden rounded-lg">
                 <img
-                  src={`/portfolio/assets/projects/${img}/logo.png`}
+                  src={`/assets/projects/${img}/logo.png`}
                   alt={title}
                   className="translate-x-full __project-img-mobile"
                   ref={(el) => (imgRefs.current[indx] = el)}
@@ -259,9 +214,7 @@ export default function Projects() {
       <div className="flex items-center justify-end w-full mt-4 lg:mt-12 md:mt-8">
         <Link
           to={"projects"}
-          className="px-4 py-2 border-2 rounded-lg __section-desc md:px-10 expand-bg"
-          onMouseEnter={cursorHoverColorChange}
-          onMouseLeave={cursorLeaveColorChange}
+          className="px-4 py-2 border-2 rounded-lg __section-desc md:px-10 expand-bg __cursor-difference"
         >
           All projects
         </Link>

@@ -141,7 +141,7 @@ export const useConsole = (
 
   const executeCommand = useCallback(
     (cmd: string) => {
-      const currentPath = location.pathname.replace("/portfolio", "") || "/";
+      const currentPath = location.pathname || "/";
       const parsedResult = parseCommand(cmd);
 
       if (Array.isArray(parsedResult)) {
@@ -281,9 +281,9 @@ export const useConsole = (
           }
         } else {
           const pageContent =
-            pageLs["portfolio/"][
-              currentPath as keyof (typeof pageLs)["portfolio/"]
-            ] || pageLs["portfolio/"]["/projects/:name"];
+            pageLs["root"][
+            currentPath as keyof (typeof pageLs)["root"]
+            ] || pageLs["root"]["/projects/:name"];
 
           if (Array.isArray(pageContent)) {
             const targetFile = pageContent.find(
@@ -371,14 +371,14 @@ export const useConsole = (
 
     if (isFirstTab) {
       const [commandName, ...args] = command.trim().split(" ");
-      const currentPath = location.pathname.replace("/portfolio", "") || "/";
+      const currentPath = location.pathname || "/";
       let pageContent =
-        pageLs["portfolio/"][
-          currentPath as keyof (typeof pageLs)["portfolio/"]
+        pageLs["root"][
+        currentPath as keyof (typeof pageLs)["root"]
         ] || [];
 
       if (pageContent.length === 0 && currentPath.startsWith("/projects/")) {
-        pageContent = pageLs["portfolio/"]["/projects/:name"];
+        pageContent = pageLs["root"]["/projects/:name"];
       }
 
       let newSuggestions: string[] = [];
@@ -425,7 +425,7 @@ export const useConsole = (
   const handleInteractiveCommand = useCallback(async () => {
     if (!interactiveCommand || !interactivePrompt) return;
 
-    const currentPath = location.pathname.replace("/portfolio", "") || "/";
+    const currentPath = location.pathname || "/";
     const { steps, formData, currentStep } = interactiveCommand;
     const currentField = steps[currentStep];
     const currentValue = command;
@@ -528,13 +528,13 @@ export const useConsole = (
                 {
                   command: "",
                   response: `${interactivePrompt} ${command}^C`,
-                  path: location.pathname.replace("/portfolio", "") || "/",
+                  path: location.pathname || "/",
                   isInteractivePrompt: true,
                 },
                 {
                   command: "",
                   response: "write command cancelled.",
-                  path: location.pathname.replace("/portfolio", "") || "/",
+                  path: location.pathname || "/",
                   isInteractivePrompt: false,
                 },
               ]);

@@ -70,7 +70,7 @@ export default function Navbar() {
           <section className="flex flex-col text-[2.2rem] __nav-menu-element-list">
             {menuLinks.map(({ to, title, id }, indx) => (
               <Link
-                to={title !== "Resume" ? `/portfolio/${to}` : to}
+                to={title !== "Resume" ? `/${to}` : to}
                 target={title === "Resume" ? "_blank" : "_self"}
                 className={navMenuElementStyle}
                 id={id}
@@ -86,14 +86,16 @@ export default function Navbar() {
                   }
                 }}
                 key={indx}
+                style={{ animationDelay: `${indx * 300}ms` }}
               >
                 {title}
               </Link>
             ))}
             <button
-              className={navMenuElementStyle}
+              className={navMenuElementStyle + " contact-btn"}
               onClick={handleContactClick}
               data-testid="nav-contact-me"
+              style={{ animationDelay: `${menuLinks.length * 300}ms` }}
             >
               Contact Me
             </button>
@@ -103,17 +105,7 @@ export default function Navbar() {
 
       {/* ANCHOR NAVBAR */}
       <nav
-        className="sticky top-0 z-20 flex items-center justify-between w-full px-4 py-5 lg:px-16 md:px-8"
-        onMouseEnter={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) cursor.style.zIndex = "22";
-        }}
-        onMouseLeave={() => {
-          const cursor =
-            document.querySelector<HTMLDivElement>(".__custom-cursor");
-          if (cursor) cursor.style.zIndex = "12";
-        }}
+        className="sticky top-0 z-20 flex items-center justify-between w-full px-4 py-5 lg:px-16 md:px-8 __cursor-nav"
       >
         <div className="flex items-center gap-4">
           {locArr[locArr.length - 1] !== "portfolio" && (
@@ -124,7 +116,7 @@ export default function Navbar() {
               west
             </button>
           )}
-          <Link to={"/portfolio/"}>
+          <Link to={"/"}>
             <svg
               id="logo"
               xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +162,7 @@ export default function Navbar() {
           {menuLinks.map(({ to, title, id }, indx) => (
             <Link
               key={indx}
-              to={title !== "Resume" ? `/portfolio/${to}` : to}
+              to={title !== "Resume" ? `/${to}` : to}
               target={title === "Resume" ? "_blank" : "_self"}
               className="__nav-underline-element"
               data-testid={id}

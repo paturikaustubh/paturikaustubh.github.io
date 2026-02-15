@@ -21,32 +21,9 @@ export default function Accordion({
 }) {
   return (
     <div
-      className={`tech-stack-info-card __slide-right-left expand-bg ${
-        activeIndx === indx - 1 && indx !== 1 ? "" : "border-t-2"
-      } translate-x-full transition-all duration-300 overflow-hidden ${
-        borderB ? "border-b-2" : ""
-      } ${activeIndx === indx ? "active rounded-lg" : "my-0"}`}
-      onMouseMove={() => {
-        const cursor = document.querySelector<HTMLElement>(".__custom-cursor");
-        if (cursor) {
-          cursor.style.mixBlendMode = "difference";
-          cursor.style.backgroundColor = "#E7E5E4";
-        }
-      }}
-      onMouseEnter={() => {
-        const cursor = document.querySelector<HTMLElement>(".__custom-cursor");
-        if (cursor) {
-          cursor.style.mixBlendMode = "difference";
-          cursor.style.backgroundColor = "#E7E5E4";
-        }
-      }}
-      onMouseLeave={() => {
-        const cursor = document.querySelector<HTMLElement>(".__custom-cursor");
-        if (cursor) {
-          cursor.style.mixBlendMode = "";
-          cursor.style.backgroundColor = "var(--text-color)";
-        }
-      }}
+      className={`tech-stack-info-card __slide-right-left expand-bg ${activeIndx === indx - 1 && indx !== 1 ? "" : "border-t-2"
+        } translate-x-full transition-all duration-300 overflow-hidden ${borderB ? "border-b-2" : ""
+        } ${activeIndx === indx ? "active rounded-lg" : "my-0"} __cursor-difference`}
     >
       <button
         className="flex items-center justify-between w-full p-3 overflow-hidden text-xl font-semibold lg:text-4xl md:text-3xl sm:text-2xl lg:p-5 md:p-4"
@@ -70,28 +47,25 @@ export default function Accordion({
               width="16"
               height="2"
               rx="1"
-              className={`transform origin-center ${
-                activeIndx === indx ? "rotate-180" : "rotate-0"
-              } transition duration-300 ease-out`}
+              className={`transform origin-center ${activeIndx === indx ? "rotate-180" : "rotate-0"
+                } transition duration-300 ease-out`}
             ></rect>
             <rect
               y="7"
               width="16"
               height="2"
               rx="1"
-              className={`transform origin-center ${
-                activeIndx === indx ? "rotate-0" : "-rotate-[270deg]"
-              } transition duration-300 ease-out`}
+              className={`transform origin-center ${activeIndx === indx ? "rotate-0" : "-rotate-[270deg]"
+                } transition duration-300 ease-out`}
             ></rect>
           </svg>
         </span>
       </button>
       <div
-        className={`grid duration-300 ease-in-out ${
-          activeIndx === indx
+        className={`grid duration-300 ease-in-out ${activeIndx === indx
             ? "grid-rows-[1fr] opacity-100"
             : "grid-rows-[0fr] opacity-0"
-        }`}
+          }`}
       >
         <div className="overflow-hidden __skills-desc">
           <div className="px-5 pb-5 text-lg">{description}</div>

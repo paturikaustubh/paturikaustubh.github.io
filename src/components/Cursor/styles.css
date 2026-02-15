@@ -20,12 +20,45 @@
   mix-blend-mode: unset;
 }
 
-.__custom-cursor.animate-pulse-fast {
+.__custom-cursor.mode-difference {
+  background-color: #e7e5e4 !important;
+  mix-blend-mode: difference !important;
+}
+
+.__custom-cursor.mode-hover {
+  scale: 14 !important;
+  background-color: #e7e5e4;
+  mix-blend-mode: difference;
+  z-index: 15;
+}
+
+.__custom-cursor.mode-social {
   backdrop-filter: blur(15px) !important;
   background-color: #e7e5e4 !important;
   scale: 1 !important;
   z-index: 11 !important;
   mix-blend-mode: unset !important;
+}
+
+.__custom-cursor.mode-nav {
+  z-index: 30 !important;
+  scale: 1 !important;
+}
+
+.__custom-cursor.animate-pulse-fast {
+  animation: pulse-fast 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-fast {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @media (max-width: 1024px) {
