@@ -86,7 +86,7 @@ export default function Navbar() {
                   }
                 }}
                 key={indx}
-                style={{ animationDelay: `${indx * 300}ms` }}
+                style={{ animationDelay: `${150 + indx * 100}ms` }}
               >
                 {title}
               </Link>
@@ -95,7 +95,7 @@ export default function Navbar() {
               className={navMenuElementStyle + " contact-btn"}
               onClick={handleContactClick}
               data-testid="nav-contact-me"
-              style={{ animationDelay: `${menuLinks.length * 300}ms` }}
+              style={{ animationDelay: `${150 + menuLinks.length * 100}ms` }}
             >
               Contact Me
             </button>
