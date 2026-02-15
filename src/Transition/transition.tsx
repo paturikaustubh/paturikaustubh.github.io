@@ -16,8 +16,11 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     const locationArr = location.pathname
       .split("/")
       .filter((value: string) => value !== "");
+
+    const pageName = locationArr.length > 0 ? locationArr[locationArr.length - 1] : "portfolio";
+
     setLocationName(
-      locationArr[locationArr.length - 1]
+      pageName
         .split("-")
         .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" "),

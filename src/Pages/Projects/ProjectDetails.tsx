@@ -97,7 +97,7 @@ export default function ProjectDetails() {
           </div>
         </div>
         <img
-          src={`/portfolio/assets/projects/${projectDetails.img}/logo.png`}
+          src={`/assets/projects/${projectDetails.img}/logo.png`}
           alt={projectDetails.title}
           className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
         />
@@ -106,15 +106,15 @@ export default function ProjectDetails() {
         {projectDetails.responsive && (
           <div className="flex flex-col items-start justify-around gap-16 md:flex-row">
             <img
-              src={`/portfolio/assets/projects/${projectDetails.img}/responsive-1.png`}
+              src={`/assets/projects/${projectDetails.img}/responsive-1.png`}
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
             <img
-              src={`/portfolio/assets/projects/${projectDetails.img}/responsive-2.png`}
+              src={`/assets/projects/${projectDetails.img}/responsive-2.png`}
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
             <img
-              src={`/portfolio/assets/projects/${projectDetails.img}/responsive-3.png`}
+              src={`/assets/projects/${projectDetails.img}/responsive-3.png`}
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
           </div>
@@ -123,7 +123,7 @@ export default function ProjectDetails() {
         {/* ANCHOR VIDEO  ||========================================================== */}
         <div className="lg:mt-12 md:mt-8 mt-4">
           <video
-            src={`/portfolio/assets/projects/${projectDetails.img}/sample.mp4`}
+            src={`/assets/projects/${projectDetails.img}/sample.mp4`}
             ref={videoRef}
             loop
             muted
@@ -150,7 +150,7 @@ export default function ProjectDetails() {
                 Previous project
               </span>
               <Link
-                to={`/portfolio/projects/${prevProjectDetails.to}`}
+                to={`/projects/${prevProjectDetails.to}`}
                 className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
                 id="prev-project-link"
               >
@@ -169,7 +169,7 @@ export default function ProjectDetails() {
                 Next project
               </span>
               <Link
-                to={`/portfolio/projects/${nextProjectDetails.to}`}
+                to={`/projects/${nextProjectDetails.to}`}
                 className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
                 id="next-project-link"
               >
@@ -201,7 +201,7 @@ export default function ProjectDetails() {
               }`}
           >
             <img
-              src={`/portfolio/assets/projects/${previewImgPath}/logo.png`}
+              src={`/assets/projects/${previewImgPath}/logo.png`}
               alt={
                 showNextProjectImg
                   ? nextProjectDetails.title

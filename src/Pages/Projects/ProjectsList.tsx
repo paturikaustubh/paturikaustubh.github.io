@@ -153,7 +153,7 @@ export default function ProjectsList() {
               {projectsInfos.map(({ img, title }, indx) => (
                 <img
                   key={indx}
-                  src={`/portfolio/assets/projects/${img}/logo.png`}
+                  src={`/assets/projects/${img}/logo.png`}
                   style={{
                     transform: `translateY(${activeProjectIndx * -100}%)`,
                     transition: "1300ms cubic-bezier(0.19, 1, 0.22, 1)",
@@ -214,13 +214,13 @@ export default function ProjectsList() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-8">
               {projectsInfos.map(({ title, img, to }, indx) => (
                 <Link
-                  to={`/portfolio/projects/${to}`}
+                  to={`/projects/${to}`}
                   className="flex flex-col gap-2"
                   key={indx}
                 >
                   <div className="inline-block w-full overflow-hidden rounded-lg">
                     <img
-                      src={`/portfolio/assets/projects/${img}/logo.png`}
+                      src={`/assets/projects/${img}/logo.png`}
                       alt={title}
                       className="translate-x-full __project-img-mobile"
                       ref={(el) => (imgRefs.current[indx] = el)}

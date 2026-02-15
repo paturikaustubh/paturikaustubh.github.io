@@ -68,14 +68,14 @@ const lsCmd: CommandAction = (args) => {
   if (args.includes("--help")) {
     return "`ls`... for when you can't be bothered to remember what you just saw. Go on, type it.";
   }
-  const currentPath = window.location.pathname.replace("/portfolio", "");
+  const currentPath = window.location.pathname;
   let itemsToDisplay: LsEntry[] = [];
 
   let routeContent =
-    pageLs["portfolio/"][currentPath as keyof (typeof pageLs)["portfolio/"]];
+    pageLs["root"][currentPath as keyof (typeof pageLs)["root"]];
 
   if (!routeContent && currentPath.startsWith("/projects/")) {
-    routeContent = pageLs["portfolio/"]["/projects/:name"];
+    routeContent = pageLs["root"]["/projects/:name"];
   }
 
   if (routeContent) {
@@ -105,7 +105,7 @@ const cdCmd: CommandAction = (args, navigate) => {
     return `I wonder where a directory takes me...\n\nUsage: cd ${angLt}directory${angGt}`;
 
   const target = args[0];
-  const currentPath = window.location.pathname.replace("/portfolio", "") || "/";
+  const currentPath = window.location.pathname || "/";
 
   if (target.startsWith("..")) {
     if (currentPath === "/")
@@ -120,19 +120,19 @@ const cdCmd: CommandAction = (args, navigate) => {
 
     const newPathSegments = pathSegments.slice(0, -upLevels);
     const newPath = `/${newPathSegments.join("/")}`;
-    navigate(`/portfolio${newPath}`);
+    navigate(`${newPath}`);
     return `Navigating to ${newPath}`;
   }
 
   const currentDirContent =
-    pageLs["portfolio/"][currentPath as keyof (typeof pageLs)["portfolio/"]];
+    pageLs["root"][currentPath as keyof (typeof pageLs)["root"]];
 
   if (Array.isArray(currentDirContent)) {
     const targetItem = currentDirContent.find(
       (item): item is LsDirEntry => item.name === target && item.type === "dir"
     );
     if (targetItem && isLsDirEntry(targetItem) && targetItem.path) {
-      navigate(`/portfolio${targetItem.path}`);
+      navigate(`${targetItem.path}`);
       return `Navigating to ${targetItem.path}`;
     }
   }
@@ -235,14 +235,14 @@ export const cmdActions: Record<string, CommandAction> = {
 };
 
 export const pageLs: {
-  "portfolio/": {
+  "root": {
     "/": (LsFileEntry | LsDirEntry)[];
     "/projects": LsDirEntry[];
     "/projects/:name": LsFileEntry[];
     "/more-about-me": LsFileEntry[];
   };
 } = {
-  "portfolio/": {
+  "root": {
     "/": [
       {
         name: "about-me.sh",
