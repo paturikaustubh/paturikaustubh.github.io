@@ -64,7 +64,7 @@ export default function Console() {
   const contentRef = useRef<HTMLDivElement>(null);
   const consoleToggle = useRef<HTMLButtonElement>(null);
   const location = useLocation();
-  const currentPath = location.pathname.replace("/portfolio", "") || "/";
+  const currentPath = location.pathname || "/";
   const displayPath = currentPath === "/" ? "~" : currentPath;
 
   const toggleTerminalVisible = useCallback(() => {

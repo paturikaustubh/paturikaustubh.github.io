@@ -4,14 +4,23 @@ import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
 
 export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
+  const nameDisplayNameMapper = {
+    portfolio: "Welcome Home",
+    pyscope: "PyScope",
+    vboss: "VBOSS",
+  };
+
   const [locationName, setLocationName] = useState("");
 
   useLayoutEffect(() => {
     const locationArr = location.pathname
       .split("/")
       .filter((value: string) => value !== "");
+
+    const pageName = locationArr.length > 0 ? locationArr[locationArr.length - 1] : "portfolio";
+
     setLocationName(
-      locationArr[locationArr.length - 1]
+      pageName
         .split("-")
         .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" "),
@@ -50,6 +59,13 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
         ease: [0.76, 0, 0.24, 1],
       },
     },
+  };
+
+  const getTransitionName = (name: string): string => {
+    return (
+      nameDisplayNameMapper[name as keyof typeof nameDisplayNameMapper] ||
+      name.charAt(0).toUpperCase() + name.slice(1)
+    );
   };
 
   return (
@@ -91,12 +107,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
                   }}
                   className="inline-block"
                 >
-                  {locationName.charAt(0).toUpperCase() +
-                    locationName.slice(1) ===
-                  "Portfolio"
-                    ? "Welcome Home"
-                    : locationName.charAt(0).toUpperCase() +
-                      locationName.slice(1)}
+                  {getTransitionName(locationName.toLowerCase())}
                 </motion.span>
               </div>
             </motion.div>

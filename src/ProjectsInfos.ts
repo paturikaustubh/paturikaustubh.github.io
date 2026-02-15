@@ -23,7 +23,7 @@ export const projectsInfos: ProjectDetailsType[] = [
     img: "VBOSS",
     responsive: true,
     repo: null,
-    to: "VBOSS",
+    to: "vboss",
   },
   {
     title: "Exam Branch Portal",
@@ -39,7 +39,7 @@ export const projectsInfos: ProjectDetailsType[] = [
     img: "FlikiPedia",
     responsive: true,
     repo: "https://github.com/paturikaustubh/flikipedia",
-    to: "FlikiPedia",
+    to: "flikipedia",
     live: "https://paturikaustubh.github.io/flikipedia/",
   },
   {
