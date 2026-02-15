@@ -224,7 +224,7 @@ export function Footer() {
     >
       <div className="flex flex-col items-center md:flex-row gap-x-12 gap-y-6">
         <p className="text-4xl font-bold lg:text-7xl md:text-6xl">
-          Let's connect! 🔗
+          Let's connect! <span className="emoji-z-index">🔗</span>
         </p>
         <div className="flex items-center justify-between w-full px-6 grow md:w-fit md:px-0 ">
           <span className="connector-circle">

@@ -19,9 +19,8 @@ h1>span {
 
 .description>p {
   margin-bottom: 1.2em;
-  z-index: 20;
+  z-index: 0;
   line-height: 2em;
-  position: relative;
 }
 
 .details-text {
@@ -50,7 +49,7 @@ h1>span {
   margin-left: 2em;
   margin-bottom: 3em;
   position: relative;
-  z-index: 1;
+  z-index: 20;
   scale: 0.98;
   animation: shadow-lift 0.6s 1.5s cubic-bezier(0.84, 0.02, 0.28, 0.7) forwards;
 }

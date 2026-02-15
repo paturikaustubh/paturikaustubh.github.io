@@ -10,7 +10,7 @@ export default function Summary() {
     >
       <div id="summary" className="w-full lg:w-3/4">
         <h1 className="flex flex-col __section-title __cursor-blend md:flex-row __cursor-difference">
-          About Me <span className="z-[12]">🧔🏻‍♂️</span>
+          About Me <span className="emoji-z-index">🧔🏻‍♂️</span>
         </h1>
         <span className="inline-block h-full __fade-in __section-desc __cursor-blend __cursor-difference">
           A versatile Full-Stack Developer passionately dedicated to craft

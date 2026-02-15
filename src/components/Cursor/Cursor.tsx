@@ -1,28 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import "./styles.css";
 
 export default function Cursor() {
   // ANCHOR STATES && VARIABLES
+  const mousePos = useRef({ x: -100, y: -100 });
+  const location = useLocation();
 
   // ANCHOR EFFECTS
   useEffect(() => {
     const bodyElement = document.body;
 
-    bodyElement.addEventListener("mousemove", mouseMoveListner);
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePos.current = { x: e.clientX, y: e.clientY };
+      updateCursor(e.clientX, e.clientY);
+    };
+
+    bodyElement.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      bodyElement.removeEventListener("mousemove", mouseMoveListner);
+      bodyElement.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
+  useEffect(() => {
+    // Re-check cursor state on location change using last known position
+    // Add a small delay to allow DOM to settle/mount completely
+    const timer = setTimeout(() => {
+      if (mousePos.current.x !== -100) {
+        updateCursor(mousePos.current.x, mousePos.current.y);
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [location]);
+
   // ANCHOR FUNCTIONS
-  const mouseMoveListner = ({
-    clientX,
-    clientY,
-  }: {
-    clientX: number;
-    clientY: number;
-  }) => {
+  const updateCursor = (clientX: number, clientY: number) => {
     const cursor = document.querySelector<HTMLDivElement>(".__custom-cursor");
     const projectImgSection = document.querySelector<HTMLImageElement>(
       ".__projects-img-section",
@@ -52,12 +65,9 @@ export default function Cursor() {
       if (elementUnderCursor) {
         if (elementUnderCursor.closest(".__cursor-difference")) {
           cursor.classList.add("mode-difference");
-          // Remove light-mode if difference is active to prevent conflicts, 
-          // or rely on CSS specificity. Let's rely on CSS !important for difference.
         }
 
         if (elementUnderCursor.closest(".__cursor-hover")) {
-          // For general hover effect (scale up)
           cursor.classList.add("mode-hover");
         }
 

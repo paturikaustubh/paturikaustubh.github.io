@@ -15,8 +15,8 @@ export default function MoreAboutMe() {
 
   const paragraphs = [
     <p className="name-title">
-      <strong>Hey there! 👋 Kaustubh Paturi here</strong>
-      (yupp, that’s me in the pic 👀)
+      <strong>Hey there! <span className="emoji-z-index">👋</span> Kaustubh Paturi here</strong>
+      (yupp, that’s me in the pic <span className="emoji-z-index">👀</span>)
     </p>,
     <p>
       So, how did I end up on your screen? It all started on{" "}
@@ -29,8 +29,8 @@ export default function MoreAboutMe() {
       {dayjs().month(2).date(23).isBefore(dayjs(), "day")
         ? dayjs().month(2).date(23).add(1, "year").diff(dayjs(), "day")
         : dayjs().month(2).date(23).diff(dayjs(), "day")}{" "}
-      days to go! 🎂 😏). That’s when the world got 1 Kaustubh richer
-      (worldPopulation++).😎
+      days to go! <span className="emoji-z-index">🎂 😏</span>). That’s when the world got 1 Kaustubh richer
+      (worldPopulation++).<span className="emoji-z-index">😎</span>
     </p>,
     <p>
       Back in 2019, I finished my 12th grade with absolutely no clue what I
@@ -40,18 +40,18 @@ export default function MoreAboutMe() {
       <strong>
         <i>Exam Branch Portal</i>
       </strong>
-      {/* </Link> */}. And BOOM 💥—I was introduced to the beautiful chaos; web
+      {/* </Link> */}. And BOOM <span className="emoji-z-index">💥</span>—I was introduced to the beautiful chaos; web
       app development (I can really center a div, trust me).
     </p>,
     <p>
       I’m also into video and image editing — because who doesn’t love a bit of
-      creativity? 🎨 This love for creating things pushed me deeper into
-      frontend development (although, cars were my first love 😍). And talking
+      creativity? <span className="emoji-z-index">🎨</span> This love for creating things pushed me deeper into
+      frontend development (although, cars were my first love <span className="emoji-z-index">😍</span>). And talking
       about cars, I just admire{" "}
       <strong>
         <i>Aston Martin Vanquish</i>
       </strong>
-      . 💘
+      . <span className="emoji-z-index">💘</span>
     </p>,
     <>
       <p>
@@ -63,7 +63,7 @@ export default function MoreAboutMe() {
         <strong>
           <i>VBOSS</i>
         </strong>{" "}
-        (sounds fancy, right?). Then I leveled up 🎮 and joined{" "}
+        (sounds fancy, right?). Then I leveled up <span className="emoji-z-index">🎮</span> and joined{" "}
         <strong>
           <i>Centific</i>
         </strong>{" "}
@@ -78,7 +78,7 @@ export default function MoreAboutMe() {
 
       <p>
         The road ahead is long and wide, and guess what? It’s ours to shape.
-        Let’s build something incredible, one step at a time. 🌟
+        Let’s build something incredible, one step at a time. <span className="emoji-z-index">🌟</span>
       </p>
       <p className="flex w-full">
         <strong className="mx-auto">
@@ -217,7 +217,7 @@ export default function MoreAboutMe() {
       <section className="__section-padding">
         <h1 className="__section-title __cursor-blend __cursor-difference __cursor-hover">
           More About Me
-          <span className="z-[20] fun-text-container">
+          <span className="fun-text-container emoji-z-index">
             🧍🏻‍♂️
             {!isSmallScreen && (
               <span className="fun-text">Imagine the emojI with a beard</span>

@@ -135,7 +135,7 @@ export default function ProjectsList() {
         <section className="__theme-change-dark __section-padding no-border-radius">
           {/* ANCHOR LARGE SCREENS */}
           <h1 className="inline-block pb-1 overflow-hidden font-bold __section-title">
-            All Projects ⚒️
+            All Projects <span className="emoji-z-index">⚒️</span>
           </h1>
           <div
             className="flex-col items-center justify-center mt-6 overflow-hidden __projects-not-mobile"
