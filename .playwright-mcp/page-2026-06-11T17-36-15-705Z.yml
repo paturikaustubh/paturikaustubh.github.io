@@ -1,0 +1,219 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]:
+        - button "west" [ref=e6] [cursor=pointer]
+        - link [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+      - generic [ref=e12]:
+        - link "Home" [ref=e13] [cursor=pointer]:
+          - /url: /
+        - link "Projects" [ref=e14] [cursor=pointer]:
+          - /url: /projects
+        - link "Resume" [ref=e15] [cursor=pointer]:
+          - /url: https://drive.google.com/file/d/1MfsXpNlgKppnHvmwcpzISwZCl99xdEj5/view?usp=drive_link
+        - button "Contact Me" [ref=e16] [cursor=pointer]
+    - generic [ref=e17]:
+      - generic:
+        - generic:
+          - generic: Welcome Home
+      - main [ref=e18]:
+        - generic [ref=e19]:
+          - generic: hey!
+          - generic [ref=e20]:
+            - paragraph [ref=e21]: "[ application developer — folio 2026 ]"
+            - heading "K A U S T U B H P A T U R I" [level=1] [ref=e22]:
+              - generic [ref=e24]:
+                - generic [ref=e25]: K
+                - generic [ref=e26]: A
+                - generic [ref=e27]: U
+                - generic [ref=e28]: S
+                - generic [ref=e29]: T
+                - generic [ref=e30]: U
+                - generic [ref=e31]: B
+                - generic [ref=e32]: H
+              - generic [ref=e34]:
+                - generic [ref=e35]: P
+                - generic [ref=e36]: A
+                - generic [ref=e37]: T
+                - generic [ref=e38]: U
+                - generic [ref=e39]: R
+                - generic [ref=e40]: I
+            - paragraph [ref=e41]: ( based in india — open to interesting problems )
+          - paragraph [ref=e42]: scroll ↓
+        - generic [ref=e43]:
+          - paragraph [ref=e44]: "[ 01 — about ]"
+          - generic [ref=e45]:
+            - heading "A b o u t M e" [level=1] [ref=e46]:
+              - generic: A
+              - generic: b
+              - generic: o
+              - generic: u
+              - generic: t
+              - generic: M
+              - generic: e
+            - generic [ref=e47]:
+              - generic [ref=e48]: A
+              - generic [ref=e49]: versatile
+              - generic [ref=e50]: Full-Stack
+              - generic [ref=e51]: Developer
+              - generic [ref=e52]: passionately
+              - generic [ref=e53]: dedicated
+              - generic [ref=e54]: to
+              - generic [ref=e55]: craft
+              - generic [ref=e56]: user-centric
+              - generic [ref=e57]: digital
+              - generic [ref=e58]: experiences
+              - generic [ref=e59]: while
+              - generic [ref=e60]: solving
+              - generic [ref=e61]: business
+              - generic [ref=e62]: challenges
+              - generic [ref=e63]: with
+              - generic [ref=e64]: innovation.
+          - link "Tell me more →" [ref=e65] [cursor=pointer]:
+            - /url: /more-about-me
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: "[ 02 — tech stack ]"
+          - generic [ref=e69]:
+            - generic: T
+            - generic: e
+            - generic: c
+            - generic: h
+            - generic: S
+            - generic: t
+            - generic: a
+            - generic: c
+            - generic: k
+          - generic [ref=e71]:
+            - generic [ref=e72]: Over
+            - generic [ref=e73]: the
+            - generic [ref=e74]: time,
+            - generic [ref=e75]: I’ve
+            - generic [ref=e76]: picked
+            - generic [ref=e77]: up
+            - generic [ref=e78]: a
+            - generic [ref=e79]: bunch
+            - generic [ref=e80]: of
+            - generic [ref=e81]: cool
+            - generic [ref=e82]: tech
+            - generic [ref=e83]: skills.
+            - generic [ref=e84]: They’ve
+            - generic [ref=e85]: been
+            - generic [ref=e86]: my
+            - generic [ref=e87]: sidekicks
+            - generic [ref=e88]: in
+            - generic [ref=e89]: creating
+            - generic [ref=e90]: some
+            - generic [ref=e91]: awesome
+            - generic [ref=e92]: stuff
+            - generic [ref=e93]: and
+            - generic [ref=e94]: continue
+            - generic [ref=e95]: to
+            - generic [ref=e96]: fuel
+            - generic [ref=e97]: my
+            - generic [ref=e98]: coding
+            - generic [ref=e99]: adventures.
+        - generic [ref=e101]:
+          - generic [ref=e103]:
+            - generic: P
+            - generic: r
+            - generic: o
+            - generic: j
+            - generic: e
+            - generic: c
+            - generic: t
+            - generic: s
+            - generic [ref=e104]:
+              - generic: ⚒️
+          - generic [ref=e105]:
+            - generic:
+              - img "PyScope" [ref=e106]
+              - img "VBOSS" [ref=e107]
+              - img "Exam Branch Portal" [ref=e108]
+              - img "FlikiPedia" [ref=e109]
+            - generic [ref=e110]:
+              - generic [ref=e111]: PyScope
+              - link "view" [ref=e112] [cursor=pointer]:
+                - /url: /projects/pyscope
+            - generic [ref=e113]:
+              - generic [ref=e114]: VBOSS
+              - link "view" [ref=e115] [cursor=pointer]:
+                - /url: /projects/vboss
+            - generic [ref=e116]:
+              - generic [ref=e117]: Exam Branch Portal
+              - link "view" [ref=e118] [cursor=pointer]:
+                - /url: /projects/exam-branch-portal
+            - generic [ref=e119]:
+              - generic [ref=e120]: FlikiPedia
+              - link "view" [ref=e121] [cursor=pointer]:
+                - /url: /projects/flikipedia
+          - link "All projects" [ref=e123] [cursor=pointer]:
+            - /url: /projects
+  - contentinfo [ref=e124]:
+    - paragraph [ref=e126]: Let's connect! 🔗
+    - generic [ref=e132]:
+      - generic [ref=e133]:
+        - paragraph [ref=e134]: Send Instant Message
+        - generic [ref=e135]:
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - generic [ref=e138]:
+                - text: First Name
+                - textbox [ref=e139]
+              - generic [ref=e140]:
+                - text: Last Name
+                - textbox [ref=e141]
+            - generic [ref=e142]:
+              - text: Email
+              - textbox [ref=e143]
+          - generic [ref=e145]:
+            - text: Message
+            - textbox [ref=e146]
+            - text: 0/500
+          - button "Send" [ref=e148] [cursor=pointer]
+      - generic [ref=e149]:
+        - paragraph [ref=e150]: Find me on socials
+        - generic [ref=e151]:
+          - generic [ref=e152]:
+            - generic [ref=e153]: GitHub
+            - link "paturikaustubh" [ref=e154] [cursor=pointer]:
+              - /url: https://github.com/paturikaustubh
+          - generic [ref=e155]:
+            - generic [ref=e156]: LinkedIn
+            - link "kaustubhpaturi" [ref=e157] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/kaustubhpaturi/
+          - generic [ref=e158]:
+            - generic [ref=e159]: Facebook
+            - link "kaustubh.paturi.5" [ref=e160] [cursor=pointer]:
+              - /url: https://www.facebook.com/kaustubh.paturi.5/
+          - generic [ref=e161]:
+            - generic [ref=e162]: X (Twitter)
+            - link "kaustubhpaturi" [ref=e163] [cursor=pointer]:
+              - /url: https://x.com/kaustubhpaturi
+          - generic [ref=e164]:
+            - generic [ref=e165]: Instagram
+            - link "not_sardonian" [ref=e166] [cursor=pointer]:
+              - /url: https://www.instagram.com/not_sardonian/
+    - paragraph [ref=e167]:
+      - generic [ref=e168]: K
+      - generic [ref=e169]: a
+      - generic [ref=e170]: u
+      - generic [ref=e171]: s
+      - generic [ref=e172]: t
+      - generic [ref=e173]: u
+      - generic [ref=e174]: b
+      - generic [ref=e175]: h
+      - generic [ref=e176]: P
+      - generic [ref=e177]: a
+      - generic [ref=e178]: t
+      - generic [ref=e179]: u
+      - generic [ref=e180]: r
+      - generic [ref=e181]: i
+    - generic [ref=e182]:
+      - paragraph [ref=e183]: Nothing great ever came that easy
+      - generic [ref=e184]:
+        - paragraph [ref=e185]: © 2026 Kaustubh Paturi
+        - paragraph [ref=e186]: All rights reserved
+  - button "terminal" [ref=e187] [cursor=pointer]:
+    - generic [ref=e188]: terminal
