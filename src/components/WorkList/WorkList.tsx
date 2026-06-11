@@ -21,7 +21,7 @@ export default function WorkList({
   // cleanup only runs from what gsap.context(setup) returns, and useGsap's
   // setup type is (ctx) => void with no return path. mousemove lifecycle is
   // handled in a separate useEffect below.
-  useGsap((_ctx) => {
+  useGsap(() => {
     gsap.utils.toArray<HTMLElement>(".__work-row", listRef.current).forEach((row) => {
       gsap.from(row, {
         yPercent: 40,

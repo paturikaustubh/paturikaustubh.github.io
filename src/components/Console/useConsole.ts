@@ -233,7 +233,11 @@ export const useConsole = (
 
           if (steps.length === 0) {
             const submit = async () => {
-              const result = await submitMessageFromConsole(formData as any);
+              const result = await submitMessageFromConsole(
+                formData as unknown as Parameters<
+                  typeof submitMessageFromConsole
+                >[0],
+              );
               setOutput((prev) => [
                 ...prev,
                 { command: "", response: result, path: currentPath },
@@ -470,7 +474,9 @@ export const useConsole = (
       });
       setInteractivePrompt(`Enter ${getDisplayFieldName(nextField)}:`);
     } else {
-      const finalFormData = { ...newFormData } as any;
+      const finalFormData = {
+        ...newFormData,
+      } as unknown as Parameters<typeof submitMessageFromConsole>[0];
       const result = await submitMessageFromConsole(finalFormData);
       setOutput((prev) => [
         ...prev,
@@ -487,6 +493,7 @@ export const useConsole = (
 
     setCommand("");
     setCursorPosition(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interactiveCommand, command, location.pathname, interactivePrompt]);
 
   const handleKeyDown = useCallback(

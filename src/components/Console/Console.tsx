@@ -77,6 +77,7 @@ export default function Console() {
     if (isCurrentlyInvisible) {
       activateConsole();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
