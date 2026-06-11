@@ -77,7 +77,7 @@ export default function DistortImage({
         renderer.render(scene, camera);
       },
       undefined,
-      () => setFallback(true),
+      () => { if (!disposed) setFallback(true); },
     );
 
     let frame = 0;
@@ -105,6 +105,7 @@ export default function DistortImage({
       );
     };
     const onEnter = () => {
+      gsap.killTweensOf(uniforms.uIntensity);
       start();
       gsap.to(uniforms.uIntensity, { value: 1, duration: 0.5 });
     };
@@ -128,6 +129,7 @@ export default function DistortImage({
 
     return () => {
       disposed = true;
+      gsap.killTweensOf(uniforms.uIntensity);
       stop();
       mount.removeEventListener("mousemove", onMove);
       mount.removeEventListener("mouseenter", onEnter);
@@ -136,6 +138,7 @@ export default function DistortImage({
       geo.dispose();
       mat.dispose();
       uniforms.uTexture.value?.dispose();
+      renderer.forceContextLoss();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount)
         mount.removeChild(renderer.domElement);

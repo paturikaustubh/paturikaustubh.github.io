@@ -52,9 +52,10 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
         .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" "),
     );
-    setTimeout(() => {
+    const scrollId = setTimeout(() => {
       window.scrollTo({ top: 0 });
     }, 800);
+    return () => clearTimeout(scrollId);
   }, []);
 
   const getTransitionName = (name: string): string =>

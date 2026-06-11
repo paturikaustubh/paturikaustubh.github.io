@@ -110,6 +110,7 @@ export default function HeroScene() {
       window.removeEventListener("resize", onResize);
       geo.dispose();
       mat.dispose();
+      renderer.forceContextLoss();
       renderer.dispose();
       mount.removeChild(renderer.domElement);
     };

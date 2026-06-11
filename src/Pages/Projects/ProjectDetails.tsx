@@ -114,21 +114,23 @@ export default function ProjectDetails() {
             {projectDetails.desc}
           </div>
         </div>
-        <Suspense
-          fallback={
-            <img
+        {projectDetails.img && (
+          <Suspense
+            fallback={
+              <img
+                src={`/assets/projects/${projectDetails.img}/logo.png`}
+                alt={projectDetails.title}
+                className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
+              />
+            }
+          >
+            <DistortImage
               src={`/assets/projects/${projectDetails.img}/logo.png`}
               alt={projectDetails.title}
-              className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
+              className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700 overflow-hidden"
             />
-          }
-        >
-          <DistortImage
-            src={`/assets/projects/${projectDetails.img}/logo.png`}
-            alt={projectDetails.title}
-            className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700 overflow-hidden"
-          />
-        </Suspense>
+          </Suspense>
+        )}
 
         {/* ANCHOR RESPONSIVE IMAGES  ||========================================================== */}
         {projectDetails.responsive && (
