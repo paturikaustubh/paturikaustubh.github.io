@@ -8,8 +8,7 @@
 
 .__stroke-only {
   color: transparent;
-  -webkit-text-stroke: var(--text-color);
-  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke: 1.5px var(--text-color);
   font-style: italic;
 }
 
