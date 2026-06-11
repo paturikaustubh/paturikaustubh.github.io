@@ -60,7 +60,7 @@ export default function WorkList({
       {/* image follower — desktop only */}
       <div
         ref={followerRef}
-        className="fixed top-0 left-0 z-[13] hidden lg:block w-[30rem] pointer-events-none overflow-hidden rounded-xl"
+        className="fixed top-0 left-0 z-0 hidden lg:block w-[32rem] pointer-events-none overflow-hidden rounded-xl"
         style={{
           height: hovering ? "17rem" : "0rem",
           transition: "height 500ms cubic-bezier(0.76, 0, 0.24, 1)",
@@ -87,7 +87,7 @@ export default function WorkList({
           <Link
             to={`${linkPrefix}/${to}`}
             key={to}
-            className={`__work-row group flex items-baseline justify-between gap-6 border-t py-10 px-2 transition-[padding] duration-300 hover:px-6 ${
+            className={`__work-row group relative z-[1] flex items-baseline gap-8 border-t py-10 px-2 transition-[padding] duration-300 hover:px-6 ${
               indx === items.length - 1 ? "border-b" : ""
             }`}
             style={{ borderColor: "var(--text-color)" }}
@@ -97,17 +97,19 @@ export default function WorkList({
             }}
             onMouseLeave={() => setHovering(false)}
           >
-            <span className="font-mono text-sm opacity-60">
+            <span className="font-mono text-sm opacity-60 mix-blend-difference">
               {String(indx + 1).padStart(2, "0")}
             </span>
             <span
-              className={`font-display text-5xl xl:text-6xl grow transition-opacity duration-300 ${
+              className={`font-display text-5xl xl:text-6xl grow mix-blend-difference transition-[opacity,transform] duration-300 group-hover:translate-x-3 ${
                 hovering && indx !== active ? "opacity-30" : "opacity-100"
               }`}
             >
               {title}
             </span>
-            <span className="__mono-label">view ↗</span>
+            <span className="font-mono text-2xl opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 mix-blend-difference">
+              ⟶
+            </span>
           </Link>
         ))}
       </div>
