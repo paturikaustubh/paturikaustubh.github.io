@@ -14,11 +14,14 @@ import Console from "./components/Console/Console";
 function App() {
   useEffect(() => {
     const lenis = new Lenis();
-    function raf(time: DOMHighResTimeStamp) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    lenis.on("scroll", ScrollTrigger.update);
+    const tick = (time: number) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+    return () => {
+      gsap.ticker.remove(tick);
+      lenis.destroy();
+    };
   }, []);
 
   return (
