@@ -1,12 +1,21 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import { TransitionOverlay } from "../../Transition/transition";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  lazy,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./detailsStyles.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const DistortImage = lazy(() => import("../../components/Three/DistortImage"));
 
 export default function ProjectDetails() {
   const { name: projectName } = useParams();
@@ -24,6 +33,7 @@ export default function ProjectDetails() {
   const [showNextProjectImg, setShowNextProjectImg] = useState(false);
   const [showPrevProjectImg, setShowPrevProjectImg] = useState(false);
   const [previewImgPath, setPreviewImgPath] = useState("");
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const minLg = gsap.matchMedia();
@@ -78,61 +88,94 @@ export default function ProjectDetails() {
           >
             {projectDetails.title}
           </h1>
-          {projectDetails.live ? (
-            <Link
-              to={projectDetails.live}
-              target="_blank"
-              className={`expand-bg border rounded-md __section-desc lg:px-8 md:px-6 px-4 sm:mr-0 h-fit my-auto flex items-center gap-4 __cursor-difference`}
-            >
-              Preview{" "}
-              <span className="material-symbols-outlined">open_in_new</span>
-            </Link>
-          ) : (
-            <></>
-          )}
+          <div className="flex flex-wrap items-center gap-4 __mono-label h-fit my-auto shrink-0">
+            {projectDetails.repo && (
+              <Link
+                to={projectDetails.repo}
+                target="_blank"
+                className="underline"
+              >
+                repo ↗
+              </Link>
+            )}
+            {projectDetails.live && (
+              <Link
+                to={projectDetails.live}
+                target="_blank"
+                className="underline"
+              >
+                live ↗
+              </Link>
+            )}
+          </div>
         </div>
         <div className="grid grid-cols-12">
           <div className="lg:text-xl row-span-1 lg:leading-[2rem] font-[500] md:text-lg md:leading-[1.5rem] text-base leading-[1.5rem] lg:col-span-8 md:col-span-10 col-span-12 w-fit __cursor-blend __cursor-difference">
             {projectDetails.desc}
           </div>
         </div>
-        <img
-          src={`/assets/projects/${projectDetails.img}/logo.png`}
-          alt={projectDetails.title}
-          className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
-        />
+        <Suspense
+          fallback={
+            <img
+              src={`/assets/projects/${projectDetails.img}/logo.png`}
+              alt={projectDetails.title}
+              className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
+            />
+          }
+        >
+          <DistortImage
+            src={`/assets/projects/${projectDetails.img}/logo.png`}
+            alt={projectDetails.title}
+            className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700 overflow-hidden"
+          />
+        </Suspense>
 
         {/* ANCHOR RESPONSIVE IMAGES  ||========================================================== */}
         {projectDetails.responsive && (
           <div className="flex flex-col items-start justify-around gap-16 md:flex-row">
             <img
               src={`/assets/projects/${projectDetails.img}/responsive-1.png`}
+              loading="lazy"
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
             <img
               src={`/assets/projects/${projectDetails.img}/responsive-2.png`}
+              loading="lazy"
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
             <img
               src={`/assets/projects/${projectDetails.img}/responsive-3.png`}
+              loading="lazy"
               className="mx-auto border-2 rounded-md w-72 border-neutral-700"
             />
           </div>
         )}
 
         {/* ANCHOR VIDEO  ||========================================================== */}
-        <div className="lg:mt-12 md:mt-8 mt-4">
+        <div className="relative lg:mt-12 md:mt-8 mt-4">
           <video
             src={`/assets/projects/${projectDetails.img}/sample.mp4`}
             ref={videoRef}
             loop
             muted
-            controls={false}
             playsInline
-            autoPlay
-            className="max-h-[35rem] mx-auto border-2 border-neutral-700"
+            preload="none"
+            controls={false}
+            poster={`/assets/projects/${projectDetails.img}/logo.png`}
+            className="max-h-[35rem] mx-auto border-2 border-neutral-700 rounded-md"
             onClick={handleFullscreen}
           />
+          {!videoPlaying && (
+            <button
+              className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#100e0c] text-[#ede8e0] rounded-full border"
+              onClick={() => {
+                videoRef.current?.play();
+                setVideoPlaying(true);
+              }}
+            >
+              ( play demo )
+            </button>
+          )}
         </div>
 
         {/* ANCHOR NEXT PROJECT  ||========================================================== */}
@@ -182,7 +225,7 @@ export default function ProjectDetails() {
             className={`absolute w-full top-0 -z-10 left-1/2 duration-300 -translate-x-1/2 next-project-img-hider`}
           >
             <img
-              src={`/portfolio/assets/projects/${showNextProjectImg
+              src={`/assets/projects/${showNextProjectImg
                 ? nextProjectDetails.img
                 : prevProjectDetails.img
                 }/logo.png`}
@@ -191,6 +234,7 @@ export default function ProjectDetails() {
                   ? nextProjectDetails.title
                   : prevProjectDetails.title
               }
+              loading="lazy"
               className="opacity-0"
             />
           </div>
@@ -207,6 +251,7 @@ export default function ProjectDetails() {
                   ? nextProjectDetails.title
                   : prevProjectDetails.title
               }
+              loading="lazy"
               className="w-full"
             />
           </div>
