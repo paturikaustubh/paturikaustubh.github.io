@@ -7,11 +7,10 @@
   pointer-events: none;
   border-radius: 50%;
   background-color: #1c1917;
-  transition:
-    transform 300ms,
-    scale 300ms;
+  transition: scale 300ms;
   top: 0;
   left: 0;
+  transform: translate(-100px, -100px);
   border-color: var(--bg-color);
   /* transition: width 300ms; */
 }
