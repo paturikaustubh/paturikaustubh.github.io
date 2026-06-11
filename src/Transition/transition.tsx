@@ -3,22 +3,49 @@ import { useLayoutEffect, useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
 
-export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
-  const nameDisplayNameMapper = {
-    portfolio: "Welcome Home",
-    pyscope: "PyScope",
-    vboss: "VBOSS",
-  };
+const nameDisplayNameMapper: Record<string, string> = {
+  portfolio: "Welcome Home",
+  pyscope: "PyScope",
+  vboss: "VBOSS",
+};
 
+const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
+
+const curtain: Variants = {
+  initial: { y: "0%" },
+  enter: {
+    y: "-130%",
+    transition: { duration: 0.9, delay: 0.45, ease: EASE },
+  },
+  exit: {
+    y: "0%",
+    transition: { duration: 0.7, ease: EASE },
+  },
+};
+
+const label: Variants = {
+  initial: { y: "0%", opacity: 1 },
+  enter: {
+    y: "-20%",
+    opacity: 0,
+    transition: { duration: 0.5, delay: 0.35, ease: EASE },
+  },
+  exit: {
+    y: "0%",
+    opacity: 1,
+    transition: { duration: 0.45, delay: 0.25, ease: EASE },
+  },
+};
+
+export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
   const [locationName, setLocationName] = useState("");
 
   useLayoutEffect(() => {
     const locationArr = location.pathname
       .split("/")
       .filter((value: string) => value !== "");
-
-    const pageName = locationArr.length > 0 ? locationArr[locationArr.length - 1] : "portfolio";
-
+    const pageName =
+      locationArr.length > 0 ? locationArr[locationArr.length - 1] : "portfolio";
     setLocationName(
       pageName
         .split("-")
@@ -30,43 +57,9 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     }, 800);
   }, []);
 
-  const anim = (variants: Variants) => ({
-    initial: "initial",
-    animate: "enter",
-    exit: "exit",
-    variants,
-  });
-
-  const expand: Variants = {
-    initial: {
-      left: "0vw",
-    },
-    enter: {
-      left: "100vw",
-      transition: {
-        duration: 0.75,
-        delay: 0.5,
-        ease: [0.76, 0, 0.24, 1],
-      },
-      transitionEnd: {
-        left: "-100vw",
-      },
-    },
-    exit: {
-      x: "100vw",
-      transition: {
-        duration: 0.75,
-        ease: [0.76, 0, 0.24, 1],
-      },
-    },
-  };
-
-  const getTransitionName = (name: string): string => {
-    return (
-      nameDisplayNameMapper[name as keyof typeof nameDisplayNameMapper] ||
-      name.charAt(0).toUpperCase() + name.slice(1)
-    );
-  };
+  const getTransitionName = (name: string): string =>
+    nameDisplayNameMapper[name] ||
+    name.charAt(0).toUpperCase() + name.slice(1);
 
   return (
     <>
@@ -79,37 +72,40 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
               height: "100dvh",
               width: "100vw",
               position: "fixed",
-              top: 0,
-              left: 0,
+              inset: 0,
               pointerEvents: "none",
-              display: "flex",
+              overflow: "hidden",
               zIndex: 999999,
             }}
           >
             <motion.div
-              {...anim(expand)}
+              variants={curtain}
+              initial="initial"
+              animate="enter"
+              exit="exit"
               style={{
-                position: "relative",
-                height: "100%",
-                width: "100%",
-                backgroundColor: "#0c0a09",
+                position: "absolute",
+                top: "-15dvh",
+                left: "-5vw",
+                height: "130dvh",
+                width: "110vw",
+                backgroundColor: "#100e0c",
+                borderRadius: "50% / 6dvh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                willChange: "transform",
               }}
             >
-              <div className="inline-block px-2 py-1 overflow-hidden text-4xl font-bold translate-y-0 opacity-100 lg:text-6xl text-stone-200">
-                <motion.span
-                  initial={{ y: "100%" }}
-                  animate={{
-                    y: "0%",
-                    transitionEnd: { y: "100%", transitionDelay: "1s" },
-                  }}
-                  className="inline-block"
-                >
-                  {getTransitionName(locationName.toLowerCase())}
-                </motion.span>
-              </div>
+              <motion.span
+                variants={label}
+                initial="initial"
+                animate="enter"
+                exit="exit"
+                className="font-display italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0]"
+              >
+                {getTransitionName(locationName.toLowerCase())}
+              </motion.span>
             </motion.div>
           </div>
           <main>{children}</main>
