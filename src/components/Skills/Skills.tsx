@@ -80,13 +80,14 @@ export default function Skills() {
 
   return (
     <section className="__section-padding" id="tech-stack">
+      <p className="__mono-label">[ 02 — tech stack ]</p>
       <div className="whitespace-nowrap">
         <span className="flex flex-col __section-title __cursor-blend md:flex-row">
-          Tech Stack <span className="emoji-z-index">👨🏻‍💻</span>
+          Tech Stack
         </span>
       </div>
       <div className="grid w-full grid-cols-12 tech-stack-info-grid gap-y-8 md:gap-x-8">
-        <div className="col-span-12 lg:col-span-8 __section-desc __cursor-blend __fade-in">
+        <div className="col-span-12 lg:col-span-8 __section-desc __cursor-blend __fade-in font-display font-[400]">
           Over the time, I’ve picked up a bunch of cool tech skills. They’ve
           been my sidekicks in creating some awesome stuff and continue to fuel
           my coding adventures.

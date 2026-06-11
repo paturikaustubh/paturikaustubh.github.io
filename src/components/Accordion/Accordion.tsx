@@ -26,7 +26,7 @@ export default function Accordion({
         } ${activeIndx === indx ? "active rounded-lg" : "my-0"} __cursor-difference`}
     >
       <button
-        className="flex items-center justify-between w-full p-3 overflow-hidden text-xl font-semibold lg:text-4xl md:text-3xl sm:text-2xl lg:p-5 md:p-4"
+        className="flex items-center justify-between w-full p-3 overflow-hidden text-xl font-display font-[600] lg:text-4xl md:text-3xl sm:text-2xl lg:p-5 md:p-4"
         onClick={() => {
           setActiveIndx((prevVal: number) => {
             if (prevVal !== indx) return indx;
@@ -34,7 +34,12 @@ export default function Accordion({
           });
         }}
       >
-        <span>{title}</span>
+        <span className="flex items-baseline gap-4">
+          <span className="font-mono text-sm opacity-60">
+            {String(indx).padStart(2, "0")}
+          </span>
+          <span>{title}</span>
+        </span>
         <span>
           <svg
             className="ml-8 shrink-0 accordion-expand-indicator"
@@ -68,7 +73,7 @@ export default function Accordion({
           }`}
       >
         <div className="overflow-hidden __skills-desc">
-          <div className="px-5 pb-5 text-lg">{description}</div>
+          <div className="px-5 pb-5 text-lg font-body">{description}</div>
         </div>
       </div>
     </div>
