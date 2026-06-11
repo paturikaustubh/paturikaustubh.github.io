@@ -41,17 +41,9 @@ export default function Hero() {
     const sectionTitles = document.querySelectorAll(".__section-title");
     const fadeInText = document.querySelectorAll(".__fade-in");
     const darkThemeElements = document.querySelectorAll(".__theme-change-dark");
-    const textBlendElements =
-      document.querySelectorAll<HTMLElement>(".__cursor-blend");
 
     // ANCHOR LARGE SCREEN ANIMS  ||========================================================================
     gsapMatchMedia.add("(min-width: 768px)", () => {
-      // ANCHOR CURSOR SIZING  ||========================================================================
-      textBlendElements.forEach((element) => {
-        element.addEventListener("mouseenter", handleMouseEnter);
-        element.addEventListener("mouseleave", handleMouseLeave);
-      });
-
       darkThemeElements.forEach((darkElement) => {
         gsap.to("nav", {
           scrollTrigger: {
@@ -163,34 +155,8 @@ export default function Hero() {
 
     return () => {
       ScrollTrigger.killAll();
-      textBlendElements.forEach((element) => {
-        element.removeEventListener("mouseenter", handleMouseEnter);
-        element.removeEventListener("mouseleave", handleMouseLeave);
-      });
     };
   }, []);
-
-  // ANCHOR FUNCTIONS  ||========================================================================
-  const handleMouseEnter = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "14";
-      cursorElement.style.mixBlendMode = "difference";
-      cursorElement.style.backgroundColor = "#E7E5E4";
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "1";
-      cursorElement.style.zIndex = "11";
-      cursorElement.style.mixBlendMode = "unset";
-      cursorElement.style.backgroundColor = "";
-    }
-  };
 
   // ANCHOR JSX  ||========================================================================
   return (
