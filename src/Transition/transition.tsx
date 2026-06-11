@@ -70,6 +70,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
         oldChars,
         {
           yPercent: 115,
+          opacity: 0,
           duration: 0.42,
           ease: "power3.in",
           stagger: 0.045,
