@@ -22,3 +22,10 @@
 .__name-accent {
   color: var(--accent-color);
 }
+
+/* keep mono meta readable over the particle field */
+.__hero-meta {
+  text-shadow:
+    0 0 14px rgba(14, 12, 10, 0.95),
+    0 0 4px rgba(14, 12, 10, 0.95);
+}
