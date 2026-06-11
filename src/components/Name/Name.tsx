@@ -17,7 +17,7 @@ export default function Name() {
       .querySelectorAll(".__animate-full-name span")
       .forEach((line, i) => revealChars(line, { delay: 0.6 + i * 0.12 }));
     if (prefersReducedMotion()) {
-      gsap.set([".__hero-meta", ".__name-bg"], { opacity: 1 });
+      gsap.set(".__hero-meta", { opacity: 1 });
       return;
     }
     gsap.from(".__hero-meta", {
@@ -27,7 +27,6 @@ export default function Name() {
       delay: 1.4,
       ease: "power2.out",
     });
-    gsap.to(".__name-bg", { opacity: 1, duration: 0.8, delay: 1.8 });
   }, []);
 
   return (
@@ -40,9 +39,6 @@ export default function Name() {
           <HeroScene />
         </Suspense>
       )}
-      <div className="absolute flex items-center justify-center w-full h-full opacity-0 pointer-events-none __name-bg">
-        hey!
-      </div>
 
       <div className="relative z-[1] flex flex-col items-center justify-center gap-6">
         <p className="__hero-meta __mono-label">

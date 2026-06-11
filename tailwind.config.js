@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Fraunces"', "serif"],
+        display: ['"Syne"', "sans-serif"],
+        serif: ['"Fraunces"', "serif"],
         body: ['"Outfit"', "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],
       },

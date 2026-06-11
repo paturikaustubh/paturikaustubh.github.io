@@ -13,7 +13,7 @@ export default function Summary() {
         <h1 className="flex flex-col __section-title __cursor-blend md:flex-row __cursor-difference">
           About Me
         </h1>
-        <span className="inline-block h-full font-display font-[400] __fade-in __section-desc __cursor-blend __cursor-difference">
+        <span className="inline-block h-full font-serif italic font-[400] __fade-in __section-desc __cursor-blend __cursor-difference">
           A versatile Full-Stack Developer passionately dedicated to craft
           user-centric digital experiences while solving business challenges
           with innovation.

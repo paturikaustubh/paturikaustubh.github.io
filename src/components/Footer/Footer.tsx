@@ -219,7 +219,7 @@ export function Footer() {
 
   return (
     <footer
-      className="bg-[#100e0c] lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#E2E0DF] mt-auto overflow-x-hidden dark-footer __theme-change-dark"
+      className="bg-[#0a0807] border-t border-[#241f19] lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#efe9e1] mt-auto overflow-x-hidden dark-footer"
       id="contact-me"
     >
       <div className="flex flex-col items-center md:flex-row gap-x-12 gap-y-6">

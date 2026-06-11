@@ -4,10 +4,10 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #f4f1ec;
-  --text-color: #141210;
-  --nav-menu-bg: #e9e4dccc;
-  --accent-color: #c2410c;
+  --bg-color: #0e0c0a;
+  --text-color: #efe9e1;
+  --nav-menu-bg: rgba(14 12 10 / 0.88);
+  --accent-color: #ff5c28;
   /* console vars: KEEP UNCHANGED (everything from --console-bg down) */
 
   --console-bg: oklch(14.5% 0 0);
@@ -27,9 +27,11 @@ body {
   font-weight: 300;
 }
 
+/* inverted editorial band: cream on the dark canvas */
 .__theme-change-dark {
-  --bg-color: #100e0c;
-  --text-color: #ede8e0;
+  --bg-color: #efe9e1;
+  --text-color: #14110e;
+  --accent-color: #d63d0e;
   background-color: var(--bg-color);
   color: var(--text-color);
   border-radius: 1.5rem;
@@ -51,9 +53,9 @@ body {
 }
 
 *.__dark-mode {
-  --bg-color: #100e0c;
-  --text-color: #ede8e0;
-  --nav-menu-bg: rgba(16 14 12 / 0.85);
+  --bg-color: #0e0c0a;
+  --text-color: #efe9e1;
+  --nav-menu-bg: rgba(14 12 10 / 0.88);
 }
 
 * {
@@ -85,15 +87,15 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-neutral-300 hover:cursor-default;
+  @apply bg-[#14110e] hover:cursor-default;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-sm bg-neutral-600 hover:cursor-default;
+  @apply rounded-sm bg-[#4a4239] hover:cursor-default;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply w-4 rounded-sm bg-neutral-800;
+  @apply w-4 rounded-sm bg-[#6b5f52];
 }
 
 .__element-text {
@@ -134,10 +136,12 @@ button:focus-visible {
 }
 
 .__section-title {
-  font-family: "Fraunces", serif;
-  letter-spacing: -0.02em;
+  font-family: "Syne", sans-serif;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 0.95;
   @apply inline-block py-3 mb-2 overflow-hidden text-4xl lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .__section-title .fun-text {

@@ -1,22 +1,24 @@
 .__name-span {
-  font-family: "Fraunces", serif;
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  font-size: clamp(3rem, 11dvw, 11rem);
-  line-height: 0.95;
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: clamp(2.6rem, 10dvw, 10.5rem);
+  line-height: 0.92;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* lines are overflow-hidden for the char mask reveal — keep a little
+   horizontal air so glyph edges (last char stems) never get clipped */
+.__name-span > span {
+  padding-inline: 0.06em;
 }
 
 .__stroke-only {
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--text-color);
-  font-style: italic;
+  -webkit-text-stroke: 2px var(--text-color);
 }
 
-.__name-bg {
-  font-family: "Fraunces", serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--bg-color);
-  transition: 300ms ease-in-out;
-  font-size: 50dvw;
+.__name-accent {
+  color: var(--accent-color);
 }
