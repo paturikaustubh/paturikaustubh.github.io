@@ -7,7 +7,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const locArr = pathname.split("/").filter((value) => value !== "");
 
-  const navMenuElementStyle = "px-4 py-6 overflow-hidden border-t expand-bg";
+  const navMenuElementStyle = "px-4 py-6 overflow-hidden border-t expand-bg font-display";
 
   const handleContactClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -108,7 +108,7 @@ export default function Navbar() {
         className="sticky top-0 z-20 flex items-center justify-between w-full px-4 py-5 lg:px-16 md:px-8 __cursor-nav"
       >
         <div className="flex items-center gap-4">
-          {locArr[locArr.length - 1] !== "portfolio" && (
+          {locArr.length > 0 && (
             <button
               onClick={() => navigate(-1)}
               className="material-symbols-outlined"
@@ -164,14 +164,14 @@ export default function Navbar() {
               key={indx}
               to={title !== "Resume" ? `/${to}` : to}
               target={title === "Resume" ? "_blank" : "_self"}
-              className="__nav-underline-element"
+              className="__nav-underline-element font-mono text-sm uppercase tracking-widest"
               data-testid={id}
             >
               {title}
             </Link>
           ))}
           <button
-            className="__nav-underline-element"
+            className="__nav-underline-element font-mono text-sm uppercase tracking-widest"
             onClick={handleContactClick}
             data-testid="nav-contact-me"
           >

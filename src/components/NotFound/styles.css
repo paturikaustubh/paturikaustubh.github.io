@@ -21,6 +21,7 @@
 .not-found .title .number {
   font-size: 20dvw;
   font-weight: 900;
+  font-family: "Fraunces", serif;
   mix-blend-mode: difference;
   background-color: white;
   color: transparent;
@@ -31,12 +32,13 @@
 .not-found .title .text {
   font-size: 5dvw;
   font-weight: 300;
+  font-family: "JetBrains Mono", monospace;
   transform: translate(25%, 100%);
-  color: #595959;
+  color: var(--text-color);
 }
 
 body.__dark-mode .not-found .title .text {
-  color: rgb(139, 139, 139);
+  color: var(--text-color);
 }
 
 .not-found .button-container {
