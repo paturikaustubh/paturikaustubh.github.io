@@ -2,7 +2,7 @@ import { Suspense, lazy, useRef } from "react";
 import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
 import { revealChars } from "../../lib/reveal";
-import { getDeviceTier } from "../../lib/device";
+import { getDeviceTier, prefersReducedMotion } from "../../lib/device";
 
 import "./styles.css";
 
@@ -16,6 +16,10 @@ export default function Name() {
     document
       .querySelectorAll(".__animate-full-name span")
       .forEach((line, i) => revealChars(line, { delay: 0.6 + i * 0.12 }));
+    if (prefersReducedMotion()) {
+      gsap.set([".__hero-meta", ".__name-bg"], { opacity: 1 });
+      return;
+    }
     gsap.from(".__hero-meta", {
       opacity: 0,
       y: 16,
