@@ -1,23 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-color: #e7e5e4;
-  --text-color: #1c1917;
-  --nav-menu-bg: #d4d4d4cc;
-  --accent-color: #57534e;
-  --color1: 18, 113, 255;
-  --color2: 221, 74, 255;
-  --color3: 100, 220, 255;
-  --color4: 200, 50, 50;
-  --color5: 180, 180, 50;
-  --color-interactive: 140, 100, 255;
-  --circle-size: 60%;
-  --blending: hard-light;
+  --bg-color: #f4f1ec;
+  --text-color: #141210;
+  --nav-menu-bg: #e9e4dccc;
+  --accent-color: #c2410c;
+  /* console vars: KEEP UNCHANGED (everything from --console-bg down) */
 
   --console-bg: oklch(14.5% 0 0);
   --console-base-text-color: oklch(98.5% 0 0);
@@ -32,16 +23,16 @@
 body {
   color: var(--text-color);
   background-color: var(--bg-color);
-  font-family: "Montserrat", sans-serif;
-  transition: 00ms ease-in-out;
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
 }
 
 .__theme-change-dark {
-  --bg-color: #1c1917;
-  --text-color: #e7e5e4;
+  --bg-color: #100e0c;
+  --text-color: #ede8e0;
   background-color: var(--bg-color);
   color: var(--text-color);
-  border-radius: 1rem;
+  border-radius: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -60,9 +51,9 @@ body {
 }
 
 *.__dark-mode {
-  --bg-color: #1c1917;
-  --text-color: #e7e5e4;
-  --nav-menu-bg: rgba(23 23 23 / 0.8);
+  --bg-color: #100e0c;
+  --text-color: #ede8e0;
+  --nav-menu-bg: rgba(16 14 12 / 0.85);
 }
 
 * {
@@ -143,8 +134,10 @@ button:focus-visible {
 }
 
 .__section-title {
-  font-family: "Poppins", sans-serif;
-  @apply inline-block py-3 mb-2 overflow-hidden text-4xl font-bold lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  @apply inline-block py-3 mb-2 overflow-hidden text-4xl lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
 }
 
 .__section-title .fun-text {
@@ -154,7 +147,15 @@ button:focus-visible {
 }
 
 .__section-desc {
-  @apply lg:text-4xl lg:leading-[4rem] font-[500] md:text-2xl md:leading-[3rem] sm:text-xl text-base sm:leading-[2rem] leading-[1.7rem];
+  @apply lg:text-4xl lg:leading-[1.35] font-[350] md:text-2xl sm:text-xl text-base;
+}
+
+.__mono-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-color);
 }
 
 .__cursor-blend {
@@ -297,4 +298,21 @@ button:focus-visible {
   to {
     rotate: 360deg;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.__marquee-track {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
 }

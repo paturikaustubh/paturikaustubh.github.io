@@ -1,24 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
-
 .__name-span {
-  font-family: "Bebas Neue", sans-serif;
-  letter-spacing: 0.07em;
-  font-size: 12dvw;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-size: clamp(3rem, 11dvw, 11rem);
+  line-height: 0.95;
 }
 
 .__stroke-only {
   color: transparent;
   -webkit-text-stroke: var(--text-color);
-  -webkit-text-stroke-width: 1px;
-  font-weight: 600;
+  -webkit-text-stroke-width: 1.5px;
+  font-style: italic;
 }
 
 .__name-bg {
-  font-family: "Bebas Neue", sans-serif;
-  font-weight: 900;
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
   color: var(--bg-color);
-  /* opacity: 0; */
   transition: 300ms ease-in-out;
-  letter-spacing: 0.02em;
   font-size: 50dvw;
 }
