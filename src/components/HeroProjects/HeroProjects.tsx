@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { projectsInfos } from "../../ProjectsInfos";
 import WorkList from "../WorkList/WorkList";
 
-import "./styles.css";
 
 export default function Projects() {
   return (
