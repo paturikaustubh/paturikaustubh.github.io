@@ -22,7 +22,7 @@ export default function WorkList({
   // setup type is (ctx) => void with no return path. mousemove lifecycle is
   // handled in a separate useEffect below.
   useGsap((_ctx) => {
-    gsap.utils.toArray<HTMLElement>(".__work-row").forEach((row) => {
+    gsap.utils.toArray<HTMLElement>(".__work-row", listRef.current).forEach((row) => {
       gsap.from(row, {
         yPercent: 40,
         opacity: 0,
@@ -40,6 +40,7 @@ export default function WorkList({
     if (!follower || !list) return;
     if (window.matchMedia("(pointer: coarse)").matches) return;
 
+    gsap.set(follower, { xPercent: -50, yPercent: -50 });
     const xTo = gsap.quickTo(follower, "x", { duration: 0.55, ease: "power3" });
     const yTo = gsap.quickTo(follower, "y", { duration: 0.55, ease: "power3" });
     const move = (e: MouseEvent) => {
@@ -47,7 +48,11 @@ export default function WorkList({
       yTo(e.clientY);
     };
     list.addEventListener("mousemove", move);
-    return () => list.removeEventListener("mousemove", move);
+    return () => {
+      list.removeEventListener("mousemove", move);
+      xTo.tween.kill();
+      yTo.tween.kill();
+    };
   }, []);
 
   return (
@@ -55,15 +60,15 @@ export default function WorkList({
       {/* image follower — desktop only */}
       <div
         ref={followerRef}
-        className="fixed top-0 left-0 z-[13] hidden lg:block w-[30rem] -translate-x-1/2 -translate-y-1/2 pointer-events-none overflow-hidden rounded-xl"
+        className="fixed top-0 left-0 z-[13] hidden lg:block w-[30rem] pointer-events-none overflow-hidden rounded-xl"
         style={{
           height: hovering ? "17rem" : "0rem",
           transition: "height 500ms cubic-bezier(0.76, 0, 0.24, 1)",
         }}
       >
-        {items.map(({ img, title }, indx) => (
+        {items.map(({ img, title }) => (
           <img
-            key={indx}
+            key={img}
             src={`/assets/projects/${img}/logo.png`}
             alt={title}
             loading="lazy"
@@ -81,7 +86,7 @@ export default function WorkList({
         {items.map(({ title, to }, indx) => (
           <Link
             to={`${linkPrefix}/${to}`}
-            key={indx}
+            key={to}
             className={`__work-row group flex items-baseline justify-between gap-6 border-t py-10 px-2 transition-[padding] duration-300 hover:px-6 ${
               indx === items.length - 1 ? "border-b" : ""
             }`}
@@ -109,11 +114,11 @@ export default function WorkList({
 
       {/* mobile / tablet grid */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:hidden">
-        {items.map(({ title, img, to }, indx) => (
+        {items.map(({ title, img, to }) => (
           <Link
             to={`${linkPrefix}/${to}`}
             className="__work-row flex flex-col gap-3"
-            key={indx}
+            key={to}
           >
             <div className="w-full overflow-hidden rounded-xl">
               <img
