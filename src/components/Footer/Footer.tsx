@@ -45,6 +45,7 @@ export function Footer() {
   const tl = gsap.timeline();
   const gsapMatchMedia = gsap.matchMedia();
   useEffect(() => {
+    const ctx = gsap.context(() => {
     tl.to(".connector", {
       scrollTrigger: {
         trigger: ".connector",
@@ -146,6 +147,8 @@ export function Footer() {
         });
       }
     });
+    });
+    return () => ctx.revert();
   }, [gsapMatchMedia, tl]);
 
   const handleInstantMsgDetailsChange = (

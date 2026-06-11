@@ -20,11 +20,19 @@
   --console-error-color: oklch(57.7% 0.245 27.325);
 }
 
+html {
+  /* 100vw elements (transition curtain, marquee) include the scrollbar
+     gutter — clip instead of letting them create horizontal scroll.
+     `clip` (not `hidden`) keeps position: sticky descendants working. */
+  overflow-x: clip;
+}
+
 body {
   color: var(--text-color);
   background-color: var(--bg-color);
   font-family: "Outfit", sans-serif;
   font-weight: 300;
+  overflow-x: clip;
 }
 
 /* inverted editorial band: cream on the dark canvas */
