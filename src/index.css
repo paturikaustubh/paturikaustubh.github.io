@@ -135,9 +135,9 @@ button:focus-visible {
 
 .__section-title {
   font-family: "Fraunces", serif;
-  font-weight: 600;
   letter-spacing: -0.02em;
   @apply inline-block py-3 mb-2 overflow-hidden text-4xl lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
+  font-weight: 600;
 }
 
 .__section-title .fun-text {
@@ -147,7 +147,7 @@ button:focus-visible {
 }
 
 .__section-desc {
-  @apply lg:text-4xl lg:leading-[1.35] font-[350] md:text-2xl sm:text-xl text-base;
+  @apply lg:text-4xl lg:leading-[1.35] leading-[1.45] font-[400] md:text-2xl sm:text-xl text-base;
 }
 
 .__mono-label {
@@ -304,6 +304,10 @@ button:focus-visible {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .__marquee-track {
+    animation: none !important;
   }
 }
 
