@@ -10,7 +10,8 @@
   transition:
     transform 300ms,
     scale 300ms;
-  top: 200vh;
+  top: 0;
+  left: 0;
   border-color: var(--bg-color);
   /* transition: width 300ms; */
 }
@@ -62,6 +63,12 @@
 }
 
 @media (max-width: 1024px) {
+  .__custom-cursor {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
   .__custom-cursor {
     display: none;
   }
