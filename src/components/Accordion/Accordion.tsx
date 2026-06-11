@@ -21,8 +21,8 @@ export default function Accordion({
 }) {
   return (
     <div
-      className={`tech-stack-info-card __slide-right-left expand-bg ${activeIndx === indx - 1 && indx !== 1 ? "" : "border-t-2"
-        } translate-x-full transition-all duration-300 overflow-hidden ${borderB ? "border-b-2" : ""
+      className={`tech-stack-info-card expand-bg ${activeIndx === indx - 1 && indx !== 1 ? "" : "border-t-2"
+        } transition-all duration-300 overflow-hidden ${borderB ? "border-b-2" : ""
         } ${activeIndx === indx ? "active rounded-lg" : "my-0"} __cursor-difference`}
     >
       <button
