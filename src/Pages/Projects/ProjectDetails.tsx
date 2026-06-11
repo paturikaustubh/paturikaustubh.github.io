@@ -1,19 +1,11 @@
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { TransitionOverlay } from "../../Transition/transition";
-import {
-  Suspense,
-  lazy,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { Suspense, lazy, useLayoutEffect, useRef, useState } from "react";
 import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGsap } from "../../lib/useGsap";
+import { revealChars } from "../../lib/reveal";
 import "./detailsStyles.css";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const DistortImage = lazy(() => import("../../components/Three/DistortImage"));
 
@@ -30,234 +22,197 @@ export default function ProjectDetails() {
     live: "",
   });
   const [projectIndx, setProjectIndx] = useState(0);
-  const [showNextProjectImg, setShowNextProjectImg] = useState(false);
-  const [showPrevProjectImg, setShowPrevProjectImg] = useState(false);
-  const [previewImgPath, setPreviewImgPath] = useState("");
   const [videoPlaying, setVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  const minLg = gsap.matchMedia();
-
-  const prevProjectDetails =
-    projectsInfos[
-    projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1
-    ];
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   const nextProjectDetails =
-    projectsInfos[
-    projectIndx + 1 === projectsInfos.length ? 0 : projectIndx + 1
-    ];
+    projectsInfos[projectIndx + 1 === projectsInfos.length ? 0 : projectIndx + 1];
+  const prevProjectDetails =
+    projectsInfos[projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1];
 
-  // ANCHOR USELAYOUT EFFECT  ||========================================================================
   useLayoutEffect(() => {
-    const projectFilteredArr = projectsInfos.filter(
-      ({ to }) => to === projectName
-    );
-    setProjectDetails(projectFilteredArr[0]);
-    setProjectIndx(projectsInfos.indexOf(projectFilteredArr[0]));
+    const match = projectsInfos.find(({ to }) => to === projectName);
+    if (match) {
+      setProjectDetails(match);
+      setProjectIndx(projectsInfos.indexOf(match));
+    }
   }, [projectName]);
 
-  const { pathname } = useLocation();
-  useEffect(() => {
-    // Cleaned up manual cursor event listeners for images/video
-  }, [pathname, minLg]);
-
-  // ANCHOR USEEFFECT  ||========================================================================
-
+  useGsap(() => {
+    if (titleRef.current && projectDetails.title)
+      revealChars(titleRef.current, { delay: 0.55 });
+    gsap.from(".__case-meta", {
+      opacity: 0,
+      y: 14,
+      duration: 0.6,
+      delay: 1.1,
+      stagger: 0.06,
+      ease: "power2.out",
+    });
+  }, [projectDetails.title]);
 
   const handleFullscreen = () => {
-    if (videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-
-        // if (cursor) {
-        //   cursor.style.cursor = "default";
-        // }
-
-        videoRef.current.requestFullscreen();
-      }
-    }
+    videoRef.current?.requestFullscreen?.();
   };
+
+  const caseNumber = String(projectIndx + 1).padStart(2, "0");
+  const caseTotal = String(projectsInfos.length).padStart(2, "0");
 
   return (
     <TransitionOverlay>
-      <section className="min-h-[100dvh] __section-padding lg:space-y-10 md:space-y-8 sm:space-y-6 space-y-4 overflow-hidden">
-        <div className="flex justify-between overflow-hidden md:items-center">
-          <h1
-            className={`__section-title __cursor-blend __cursor-difference`}
-            style={{ margin: 0 }}
-          >
-            {projectDetails.title}
-          </h1>
-          <div className="flex flex-wrap items-center gap-4 __mono-label h-fit my-auto shrink-0">
-            {projectDetails.repo && (
-              <Link
-                to={projectDetails.repo}
-                target="_blank"
-                className="underline"
-              >
-                repo ↗
-              </Link>
-            )}
-            {projectDetails.live && (
-              <Link
-                to={projectDetails.live}
-                target="_blank"
-                className="underline"
-              >
-                live ↗
-              </Link>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-12">
-          <div className="lg:text-xl row-span-1 lg:leading-[2rem] font-[500] md:text-lg md:leading-[1.5rem] text-base leading-[1.5rem] lg:col-span-8 md:col-span-10 col-span-12 w-fit __cursor-blend __cursor-difference">
-            {projectDetails.desc}
-          </div>
-        </div>
-        {projectDetails.img && (
-          <Suspense
-            fallback={
-              <img
-                src={`/assets/projects/${projectDetails.img}/logo.png`}
-                alt={projectDetails.title}
-                className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700"
-              />
-            }
-          >
-            <DistortImage
-              src={`/assets/projects/${projectDetails.img}/logo.png`}
-              alt={projectDetails.title}
-              className="md:w-[80%] w-full mx-auto lg:mt-12 rounded-md relative border-2 border-neutral-700 overflow-hidden"
-            />
-          </Suspense>
-        )}
+      <section className="min-h-[100dvh] __section-padding overflow-hidden">
+        {/* header */}
+        <p className="__mono-label __case-meta">
+          [ case — {caseNumber} / {caseTotal} ]
+        </p>
+        <h1
+          ref={titleRef}
+          className="font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2.6rem,9dvw,9rem)] overflow-hidden __cursor-blend __cursor-difference"
+        >
+          {projectDetails.title}
+        </h1>
 
-        {/* ANCHOR RESPONSIVE IMAGES  ||========================================================== */}
-        {projectDetails.responsive && (
-          <div className="flex flex-col items-start justify-around gap-16 md:flex-row">
-            <img
-              src={`/assets/projects/${projectDetails.img}/responsive-1.png`}
-              loading="lazy"
-              className="mx-auto border-2 rounded-md w-72 border-neutral-700"
-            />
-            <img
-              src={`/assets/projects/${projectDetails.img}/responsive-2.png`}
-              loading="lazy"
-              className="mx-auto border-2 rounded-md w-72 border-neutral-700"
-            />
-            <img
-              src={`/assets/projects/${projectDetails.img}/responsive-3.png`}
-              loading="lazy"
-              className="mx-auto border-2 rounded-md w-72 border-neutral-700"
-            />
+        {/* meta strip */}
+        <div className="grid grid-cols-2 mt-8 border-y md:grid-cols-4 border-[#3a332b] divide-x divide-[#3a332b] __case-meta">
+          <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-70">
+            nº {caseNumber}
           </div>
-        )}
-
-        {/* ANCHOR VIDEO  ||========================================================== */}
-        <div className="relative lg:mt-12 md:mt-8 mt-4">
-          <video
-            src={`/assets/projects/${projectDetails.img}/sample.mp4`}
-            ref={videoRef}
-            loop
-            muted
-            playsInline
-            preload="none"
-            controls={false}
-            poster={`/assets/projects/${projectDetails.img}/logo.png`}
-            className="max-h-[35rem] mx-auto border-2 border-neutral-700 rounded-md"
-            onClick={handleFullscreen}
-          />
-          {!videoPlaying && (
-            <button
-              className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#100e0c] text-[#ede8e0] rounded-full border"
-              onClick={() => {
-                videoRef.current?.play();
-                setVideoPlaying(true);
-              }}
+          <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-70">
+            {projectDetails.responsive ? "responsive build" : "desktop-first"}
+          </div>
+          {projectDetails.repo ? (
+            <Link
+              to={projectDetails.repo}
+              target="_blank"
+              className="px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors hover:text-[--accent-color] __cursor-difference"
             >
-              ( play demo )
-            </button>
+              repo ↗
+            </Link>
+          ) : (
+            <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-40">
+              private repo
+            </div>
+          )}
+          {projectDetails.live ? (
+            <Link
+              to={projectDetails.live}
+              target="_blank"
+              className="px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors hover:text-[--accent-color] __cursor-difference"
+            >
+              live ↗
+            </Link>
+          ) : (
+            <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-40">
+              offline
+            </div>
           )}
         </div>
 
-        {/* ANCHOR NEXT PROJECT  ||========================================================== */}
-        <div className="relative z-10 px-0 py-3 border-t-2 lg:py-12 md:py-6 border-neutral-600 lg:px-10 md:px-5">
-          <div className="flex flex-col items-center justify-between md:flex-row gap-y-4">
-            <div
-              className="project-link"
-              onMouseEnter={() => {
-                setShowPrevProjectImg(true);
-                setPreviewImgPath(prevProjectDetails.img);
-              }}
-              onMouseLeave={() => setShowPrevProjectImg(false)}
-            >
-              <span className="text-2xl font-semibold lg:text-6xl md:text-4xl">
-                Previous project
-              </span>
-              <Link
-                to={`/projects/${prevProjectDetails.to}`}
-                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
-                id="prev-project-link"
-              >
-                {prevProjectDetails.title}
-              </Link>
+        {/* body */}
+        <div className="grid grid-cols-12 mt-12 gap-y-12 lg:gap-x-12">
+          {/* sticky aside */}
+          <aside className="col-span-12 lg:col-span-4">
+            <div className="lg:sticky lg:top-28 flex flex-col gap-8">
+              <div>
+                <p className="__mono-label mb-3">( about )</p>
+                <p className="text-base leading-relaxed lg:text-lg font-[350] __cursor-blend __cursor-difference">
+                  {projectDetails.desc}
+                </p>
+              </div>
+              <div className="flex flex-col gap-2">
+                <p className="__mono-label mb-1">( index )</p>
+                <Link
+                  to="/projects"
+                  className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
+                >
+                  ← all projects
+                </Link>
+                <Link
+                  to={`/projects/${prevProjectDetails.to}`}
+                  className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
+                >
+                  ↑ prev — {prevProjectDetails.title}
+                </Link>
+              </div>
             </div>
-            <div
-              className="project-link"
-              onMouseEnter={() => {
-                setShowNextProjectImg(true);
-                setPreviewImgPath(nextProjectDetails.img);
-              }}
-              onMouseLeave={() => setShowNextProjectImg(false)}
-            >
-              <span className="text-2xl font-semibold lg:text-6xl md:text-4xl">
-                Next project
-              </span>
-              <Link
-                to={`/projects/${nextProjectDetails.to}`}
-                className="text-2xl lg:text-6xl md:text-4xl __nav-underline-element __cursor-difference"
-                id="next-project-link"
-              >
-                {nextProjectDetails.title}
-              </Link>
-            </div>
-          </div>
+          </aside>
 
-          <div
-            className={`absolute w-full top-0 -z-10 left-1/2 duration-300 -translate-x-1/2 next-project-img-hider`}
-          >
-            <img
-              src={`/assets/projects/${showNextProjectImg
-                ? nextProjectDetails.img
-                : prevProjectDetails.img
-                }/logo.png`}
-              alt={
-                showNextProjectImg
-                  ? nextProjectDetails.title
-                  : prevProjectDetails.title
-              }
-              loading="lazy"
-              className="opacity-0"
-            />
-          </div>
-          <div
-            className={`rounded-lg overflow-hidden absolute md:w-1/2 w-3/4 top-0 -z-20 left-1/2 duration-300 -translate-x-1/2 border-2 border-neutral-700 ${showNextProjectImg || showPrevProjectImg
-              ? "-translate-y-1/4"
-              : "translate-y-0"
-              }`}
-          >
-            <img
-              src={`/assets/projects/${previewImgPath}/logo.png`}
-              alt={
-                showNextProjectImg
-                  ? nextProjectDetails.title
-                  : prevProjectDetails.title
-              }
-              loading="lazy"
-              className="w-full"
-            />
+          {/* media column */}
+          <div className="col-span-12 lg:col-span-8 space-y-10">
+            {projectDetails.img && (
+              <Suspense
+                fallback={
+                  <img
+                    src={`/assets/projects/${projectDetails.img}/logo.png`}
+                    alt={projectDetails.title}
+                    className="w-full rounded-md border border-[#3a332b]"
+                  />
+                }
+              >
+                <DistortImage
+                  src={`/assets/projects/${projectDetails.img}/logo.png`}
+                  alt={projectDetails.title}
+                  className="w-full rounded-md border border-[#3a332b] overflow-hidden"
+                />
+              </Suspense>
+            )}
+
+            {projectDetails.responsive && (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                {[1, 2, 3].map((n) => (
+                  <img
+                    key={n}
+                    src={`/assets/projects/${projectDetails.img}/responsive-${n}.png`}
+                    loading="lazy"
+                    alt={`${projectDetails.title} responsive view ${n}`}
+                    className="w-full rounded-md border border-[#3a332b]"
+                  />
+                ))}
+              </div>
+            )}
+
+            <div className="relative">
+              <video
+                src={`/assets/projects/${projectDetails.img}/sample.mp4`}
+                ref={videoRef}
+                loop
+                muted
+                playsInline
+                preload="none"
+                controls={false}
+                poster={`/assets/projects/${projectDetails.img}/logo.png`}
+                className="w-full max-h-[36rem] object-contain rounded-md border border-[#3a332b]"
+                onClick={handleFullscreen}
+              />
+              {!videoPlaying && (
+                <button
+                  className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#efe9e1] text-[#14110e] rounded-full __cursor-difference"
+                  onClick={() => {
+                    videoRef.current?.play();
+                    setVideoPlaying(true);
+                  }}
+                >
+                  ( play demo )
+                </button>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* giant next-project link */}
+        <Link
+          to={`/projects/${nextProjectDetails.to}`}
+          className="__next-case group block mt-20 border-t border-[#3a332b] pt-10 pb-6 __cursor-difference"
+        >
+          <p className="__mono-label mb-4">( next up )</p>
+          <span className="__next-case-title font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2.4rem,8dvw,8rem)]">
+            {nextProjectDetails.title}
+          </span>
+          <span className="block mt-4 font-mono text-sm uppercase tracking-widest opacity-0 -translate-x-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+            open case ⟶
+          </span>
+        </Link>
       </section>
     </TransitionOverlay>
   );

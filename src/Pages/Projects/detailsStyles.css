@@ -32,3 +32,16 @@ video::-webkit-media-controls-download-button {
   display: none !important;
   pointer-events: none;
 }
+
+/* giant next-case link: outlined by default, fills accent on hover */
+.__next-case-title {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--text-color);
+  transition: color 400ms ease, -webkit-text-stroke-color 400ms ease;
+  display: inline-block;
+}
+
+.__next-case:hover .__next-case-title {
+  color: var(--accent-color);
+  -webkit-text-stroke-color: var(--accent-color);
+}
