@@ -219,12 +219,12 @@ export function Footer() {
 
   return (
     <footer
-      className="bg-stone-950 lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#E2E0DF] mt-auto overflow-x-hidden dark-footer __theme-change-dark"
+      className="bg-[#100e0c] lg:px-12 flex flex-col lg:pt-12 md:px-6 md:pt-6 px-3 pt-3 text-[#E2E0DF] mt-auto overflow-x-hidden dark-footer __theme-change-dark"
       id="contact-me"
     >
       <div className="flex flex-col items-center md:flex-row gap-x-12 gap-y-6">
-        <p className="text-4xl font-bold lg:text-7xl md:text-6xl">
-          Let's connect! <span className="emoji-z-index">🔗</span>
+        <p className="font-display font-[600] text-4xl lg:text-7xl md:text-6xl">
+          Let's connect!
         </p>
         <div className="flex items-center justify-between w-full px-6 grow md:w-fit md:px-0 ">
           <span className="connector-circle">
@@ -239,7 +239,7 @@ export function Footer() {
 
       <div className="grid items-start grid-cols-1 mt-14 lg:grid-cols-5 gap-x-12 gap-y-6">
         <div className="lg:col-span-3">
-          <p className="text-3xl font-semibold md:text-4xl">
+          <p className="text-3xl font-display font-[600] md:text-4xl">
             Send Instant Message
           </p>
           <form className="flex flex-col gap-3 mt-6" onSubmit={handleSubmit}>
@@ -314,7 +314,7 @@ export function Footer() {
         </div>
 
         <div className="self-stretch lg:col-span-2">
-          <p className="text-4xl font-semibold text-center">
+          <p className="text-4xl font-display font-[600] text-center">
             Find me on socials
           </p>
           <div className="flex flex-col items-center justify-center gap-3 mt-12 text-xl">
@@ -332,6 +332,23 @@ export function Footer() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className="mt-16 -mx-12 overflow-hidden border-y border-neutral-800 py-3" aria-hidden="true">
+        <div className="__marquee-track font-mono text-sm uppercase tracking-widest text-neutral-500">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <span key={i} className="flex gap-16 shrink-0">
+              <span>kaustubh paturi</span><span>—</span>
+              <span>application developer</span><span>—</span>
+              <span>full-stack</span><span>—</span>
+              <span>open to work</span><span>—</span>
+              <span>kaustubh paturi</span><span>—</span>
+              <span>application developer</span><span>—</span>
+              <span>full-stack</span><span>—</span>
+              <span>open to work</span><span>—</span>
+            </span>
+          ))}
         </div>
       </div>
 

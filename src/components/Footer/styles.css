@@ -118,6 +118,7 @@ textarea:focus {
   --font-size: 11.5vw;
   font-size: clamp(var(--font-size), var(--font-size), var(--font-size));
   font-weight: 100;
+  font-family: "Fraunces", serif;
   margin-right: auto;
 }
 
