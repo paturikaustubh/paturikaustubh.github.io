@@ -29,7 +29,7 @@ export default function Name() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex flex-col items-center justify-center h-screen gap-10 overflow-hidden select-none __section-padding"
+      className="relative flex flex-col items-center justify-center h-[100dvh] -mt-20 gap-10 overflow-hidden select-none __section-padding"
     >
       {tier === "high" && (
         <Suspense fallback={null}>
