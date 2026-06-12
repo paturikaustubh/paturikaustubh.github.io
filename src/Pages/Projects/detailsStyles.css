@@ -33,15 +33,15 @@ video::-webkit-media-controls-download-button {
   pointer-events: none;
 }
 
-/* giant next-case link: outlined by default, fills accent on hover */
+/* next-case title: solid by default, accent fill on hover */
 .__next-case-title {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--text-color);
-  transition: color 400ms ease, -webkit-text-stroke-color 400ms ease;
+  color: var(--text-color);
+  -webkit-text-stroke: none;
+  transition: color 350ms ease;
   display: inline-block;
+  letter-spacing: -0.03em;
 }
 
 .__next-case:hover .__next-case-title {
   color: var(--accent-color);
-  -webkit-text-stroke-color: var(--accent-color);
 }

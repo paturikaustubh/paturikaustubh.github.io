@@ -12,8 +12,7 @@
   padding-inline: 0.05em;
 }
 
-/* second name line — accent color instead of stroke */
-.__name-second {
+.__name-accent {
   color: var(--accent-color);
 }
 

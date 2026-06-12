@@ -48,8 +48,8 @@ export default function Name() {
           id="full-name"
           className="flex flex-col items-center text-center __name-span __animate-full-name __cursor-blend"
         >
-          <span className="block overflow-hidden">KAUSTUBH</span>
-          <span className="block overflow-hidden __name-second">PATURI</span>
+          <span className="block overflow-hidden __name-accent">KAUSTUBH</span>
+          <span className="block overflow-hidden">PATURI</span>
         </h1>
         <p className="__hero-meta __mono-label">
           ( based in india — open to interesting problems )

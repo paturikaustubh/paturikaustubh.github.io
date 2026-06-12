@@ -63,6 +63,7 @@ export default function WorkList({
         className="fixed top-0 left-0 z-0 hidden lg:block w-[32rem] pointer-events-none overflow-hidden rounded-xl"
         style={{
           height: hovering ? "17rem" : "0rem",
+          filter: "brightness(65%) contrast(0.95)",
           transition: "height 500ms cubic-bezier(0.76, 0, 0.24, 1)",
         }}
       >
