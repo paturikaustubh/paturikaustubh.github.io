@@ -4,6 +4,8 @@ import * as THREE from "three";
 /** Minimal abstract particle network.
  *  Sparse dark dots float on the light hero bg; lines form between
  *  close pairs; cursor gently repels nearby dots.
+ *  Dots spawn with a staggered fade-in. Per-vertex ShaderMaterial
+ *  drives alpha + accent color on cursor proximity.
  *  DPR capped 1.5. Paused off-screen. Fully disposed on unmount. */
 export default function HeroScene() {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -28,13 +30,24 @@ export default function HeroScene() {
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
+    const clock = new THREE.Clock();
+
     // --- dots ---
     // scales with viewport: 30 on phone, ~55 on tablet, 70 on desktop
     const COUNT = Math.round(Math.min(70, Math.max(30, W * 0.048)));
-    // Correlated random walk: each dot steers toward a slowly-rotating angle.
-    // angleV is the angular velocity (how fast the direction drifts each tick).
-    // speed is the cruise speed in px/frame.
-    type Dot = { x: number; y: number; vx: number; vy: number; angle: number; angleV: number; speed: number };
+
+    type Dot = {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      angle: number;
+      angleV: number;
+      speed: number;
+      spawnAt: number;
+      alpha: number;
+    };
+
     const dots: Dot[] = Array.from({ length: COUNT }, () => {
       const angle = Math.random() * Math.PI * 2;
       const speed = 0.18 + Math.random() * 0.22;
@@ -44,29 +57,63 @@ export default function HeroScene() {
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         angle,
-        angleV: (Math.random() - 0.5) * 0.018, // slow directional drift per tick
+        angleV: (Math.random() - 0.5) * 0.018,
         speed,
+        spawnAt: Math.random() * 1500,
+        alpha: 0,
       };
     });
 
+    // --- dot geometry + shader ---
     const dotPositions = new Float32Array(COUNT * 3);
+    const dotAlphaArr = new Float32Array(COUNT);
+    const dotColorArr = new Float32Array(COUNT * 3);
+
     const dotGeo = new THREE.BufferGeometry();
-    dotGeo.setAttribute(
-      "position",
-      new THREE.BufferAttribute(dotPositions, 3),
-    );
-    const dotMat = new THREE.PointsMaterial({
-      color: 0x141210,
-      size: 3,
+    const dotPosAttr = new THREE.BufferAttribute(dotPositions, 3);
+    dotPosAttr.setUsage(THREE.DynamicDrawUsage);
+    dotGeo.setAttribute("position", dotPosAttr);
+
+    const dotAlphaAttr = new THREE.BufferAttribute(dotAlphaArr, 1);
+    dotAlphaAttr.setUsage(THREE.DynamicDrawUsage);
+    dotGeo.setAttribute("aAlpha", dotAlphaAttr);
+
+    const dotColorAttr = new THREE.BufferAttribute(dotColorArr, 3);
+    dotColorAttr.setUsage(THREE.DynamicDrawUsage);
+    dotGeo.setAttribute("aColor", dotColorAttr);
+
+    const dotMat = new THREE.ShaderMaterial({
       transparent: true,
-      opacity: 0.42,
-      sizeAttenuation: false,
       depthWrite: false,
+      vertexShader: /* glsl */ `
+        attribute float aAlpha;
+        attribute vec3 aColor;
+        varying float vAlpha;
+        varying vec3 vColor;
+        void main() {
+          vAlpha = aAlpha;
+          vColor = aColor;
+          vec4 mv = modelViewMatrix * vec4(position, 1.0);
+          gl_Position = projectionMatrix * mv;
+          gl_PointSize = 4.0;
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        precision mediump float;
+        varying float vAlpha;
+        varying vec3 vColor;
+        void main() {
+          vec2 c = gl_PointCoord - 0.5;
+          if (dot(c, c) > 0.25) discard;
+          gl_FragColor = vec4(vColor, vAlpha);
+        }
+      `,
     });
+
     const dotMesh = new THREE.Points(dotGeo, dotMat);
     scene.add(dotMesh);
 
-    // --- lines ---
+    // --- normal line geometry ---
     const MAX_PAIRS = COUNT * COUNT;
     const linePositions = new Float32Array(MAX_PAIRS * 6);
     const lineGeo = new THREE.BufferGeometry();
@@ -84,6 +131,44 @@ export default function HeroScene() {
       }),
     );
     scene.add(lineSegments);
+
+    // --- hot (accent) line geometry + shader ---
+    const hotPositions = new Float32Array(MAX_PAIRS * 6);
+    const hotAlphaArr = new Float32Array(MAX_PAIRS * 2);
+
+    const hotGeo = new THREE.BufferGeometry();
+    const hotPosAttr = new THREE.BufferAttribute(hotPositions, 3);
+    hotPosAttr.setUsage(THREE.DynamicDrawUsage);
+    hotGeo.setAttribute("position", hotPosAttr);
+
+    const hotAlphaAttr = new THREE.BufferAttribute(hotAlphaArr, 1);
+    hotAlphaAttr.setUsage(THREE.DynamicDrawUsage);
+    hotGeo.setAttribute("aHotAlpha", hotAlphaAttr);
+
+    hotGeo.setDrawRange(0, 0);
+
+    const hotMat = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      vertexShader: /* glsl */ `
+        attribute float aHotAlpha;
+        varying float vA;
+        void main() {
+          vA = aHotAlpha;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: /* glsl */ `
+        precision mediump float;
+        varying float vA;
+        void main() {
+          gl_FragColor = vec4(0.757, 0.255, 0.047, vA);
+        }
+      `,
+    });
+
+    const hotSegments = new THREE.LineSegments(hotGeo, hotMat);
+    scene.add(hotSegments);
 
     const LINK_DIST = 140;
     const REPEL_DIST = 110;
@@ -103,10 +188,19 @@ export default function HeroScene() {
     const tick = () => {
       frame = requestAnimationFrame(tick);
 
-      // update positions
+      const now = clock.getElapsedTime() * 1000; // ms
+
+      // update positions + spawn alpha + color
       const pos = dotGeo.attributes.position as THREE.BufferAttribute;
+      const influences = new Float32Array(COUNT);
+
       for (let i = 0; i < COUNT; i++) {
         const d = dots[i];
+
+        // spawn stagger fade-in
+        if (d.alpha < 1 && now >= d.spawnAt) {
+          d.alpha = Math.min(1, d.alpha + 0.04);
+        }
 
         // cursor repulsion (unchanged)
         const dx = d.x - mouse.x;
@@ -118,24 +212,21 @@ export default function HeroScene() {
           d.vy += (dy / dist) * force * REPEL_STR;
         }
 
-        // correlated random walk: slowly rotate the movement direction
-        // with a tiny random jitter per tick so paths never repeat
+        // correlated random walk
         d.angle += d.angleV + (Math.random() - 0.5) * 0.006;
         const targetVx = Math.cos(d.angle) * d.speed;
         const targetVy = Math.sin(d.angle) * d.speed;
-        // smoothly steer actual velocity toward target direction
         d.vx += (targetVx - d.vx) * 0.05;
         d.vy += (targetVy - d.vy) * 0.05;
 
         d.x += d.vx;
         d.y += d.vy;
 
-        // specular bounce: flip velocity AND reflect the angle
-        // so the dot immediately moves away from the wall
+        // specular bounce
         if (d.x < 0) {
           d.x = 0;
           d.vx = Math.abs(d.vx);
-          d.angle = Math.PI - d.angle; // reflect horizontally
+          d.angle = Math.PI - d.angle;
         }
         if (d.x > W) {
           d.x = W;
@@ -145,22 +236,44 @@ export default function HeroScene() {
         if (d.y < 0) {
           d.y = 0;
           d.vy = Math.abs(d.vy);
-          d.angle = -d.angle; // reflect vertically
+          d.angle = -d.angle;
         }
         if (d.y > H) {
           d.y = H;
           d.vy = -Math.abs(d.vy);
           d.angle = -d.angle;
         }
-        pos.setXYZ(i, d.x, H - d.y, 0);
-      }
-      pos.needsUpdate = true;
 
-      // build line segments
+        pos.setXYZ(i, d.x, H - d.y, 0);
+
+        // cursor influence for color
+        const cx = d.x - mouse.x;
+        const cy = d.y - mouse.y;
+        const cursorDist = Math.hypot(cx, cy);
+        const influence = d.alpha * Math.max(0, 1 - cursorDist / REPEL_DIST);
+        influences[i] = influence;
+
+        // interpolate ink (#141210) → accent (#c2410c)
+        dotColorArr[i * 3] = 0.078 + (0.757 - 0.078) * influence;
+        dotColorArr[i * 3 + 1] = 0.071 + (0.255 - 0.071) * influence;
+        dotColorArr[i * 3 + 2] = 0.055 + (0.047 - 0.055) * influence;
+        dotAlphaArr[i] = d.alpha * (0.35 + influence * 0.65);
+      }
+
+      pos.needsUpdate = true;
+      dotAlphaAttr.needsUpdate = true;
+      dotColorAttr.needsUpdate = true;
+
+      // build line segments (normal + hot)
       const lPos = lineGeo.attributes.position as THREE.BufferAttribute;
       let lineCount = 0;
+      let hotCount = 0;
+
       for (let i = 0; i < COUNT; i++) {
         for (let j = i + 1; j < COUNT; j++) {
+          // skip pairs where both dots are invisible
+          if (dots[i].alpha < 0.05 || dots[j].alpha < 0.05) continue;
+
           const dx = dots[i].x - dots[j].x;
           const dy = dots[i].y - dots[j].y;
           if (Math.hypot(dx, dy) < LINK_DIST) {
@@ -172,17 +285,48 @@ export default function HeroScene() {
             linePositions[base + 4] = H - dots[j].y;
             linePositions[base + 5] = 0;
             lineCount++;
+
+            // hot segment: either endpoint has influence > 0.05
+            const infI = influences[i];
+            const infJ = influences[j];
+            if (infI > 0.05 || infJ > 0.05) {
+              const hBase = hotCount * 6;
+              hotPositions[hBase] = dots[i].x;
+              hotPositions[hBase + 1] = H - dots[i].y;
+              hotPositions[hBase + 2] = 0;
+              hotPositions[hBase + 3] = dots[j].x;
+              hotPositions[hBase + 4] = H - dots[j].y;
+              hotPositions[hBase + 5] = 0;
+              const hotA = Math.min(0.8, (infI + infJ) * 0.5);
+              hotAlphaArr[hotCount * 2] = hotA;
+              hotAlphaArr[hotCount * 2 + 1] = hotA;
+              hotCount++;
+            }
           }
         }
       }
+
       lPos.needsUpdate = true;
       lineGeo.setDrawRange(0, lineCount * 2);
+
+      hotPosAttr.needsUpdate = true;
+      hotAlphaAttr.needsUpdate = true;
+      hotGeo.setDrawRange(0, hotCount * 2);
 
       renderer.render(scene, camera);
     };
 
-    const start = () => { if (!running) { running = true; tick(); } };
-    const stop = () => { running = false; cancelAnimationFrame(frame); };
+    const start = () => {
+      if (!running) {
+        running = true;
+        clock.start();
+        tick();
+      }
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(frame);
+    };
 
     const io = new IntersectionObserver(
       ([entry]) => (entry.isIntersecting ? start() : stop()),
@@ -192,7 +336,6 @@ export default function HeroScene() {
     const onResize = () => {
       const newW = mount.clientWidth;
       const newH = mount.clientHeight;
-      // proportionally redistribute dots so they cover the new canvas
       dots.forEach((d) => {
         d.x = (d.x / W) * newW;
         d.y = (d.y / H) * newH;
@@ -215,6 +358,8 @@ export default function HeroScene() {
       dotMat.dispose();
       lineGeo.dispose();
       (lineSegments.material as THREE.LineBasicMaterial).dispose();
+      hotGeo.dispose();
+      hotMat.dispose();
       renderer.forceContextLoss();
       renderer.dispose();
       if (renderer.domElement.parentNode === mount)
