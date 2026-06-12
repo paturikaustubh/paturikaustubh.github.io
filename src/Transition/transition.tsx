@@ -105,7 +105,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderChars = (word: string, _hidden: boolean) =>
+  const renderChars = (word: string) =>
     word.split("").map((ch, i) => (
       <span key={i} className="__t-ch inline-block">
         {ch === " " ? " " : ch}
@@ -154,13 +154,10 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
               >
                 {/* old word drops away, new word drops in, left â†’ right */}
                 <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(fromName, false)}
+                  {renderChars(fromName)}
                 </div>
                 <div className="__t-new flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(
-                    displayName,
-                    fromName !== displayName && fromName !== "",
-                  )}
+                  {renderChars(displayName)}
                 </div>
               </div>
             </motion.div>

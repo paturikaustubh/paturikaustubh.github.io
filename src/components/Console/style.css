@@ -1,27 +1,34 @@
 #console-toggle {
   visibility: hidden;
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
-  background-color: #1c1917;
-  color: #e7e5e4;
-  font-size: 1em;
-  padding: 1em;
-  outline: 1px solid #e7e5e4;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background-color: #0e0c0a;
+  color: var(--accent-color, #c2410c);
+  font-size: 0.85em;
+  padding: 0.7em;
+  border: 1.5px solid var(--accent-color, #c2410c);
   border-radius: 50%;
   z-index: 23;
   cursor: pointer;
+  box-shadow: 0 0 14px rgba(194, 65, 12, 0.22), 0 2px 8px rgba(0,0,0,0.45);
+  transition: box-shadow 300ms ease, transform 200ms ease;
 
   span {
-    font-size: 3.5em;
+    font-size: 2.2em;
+    display: block;
   }
+}
+
+#console-toggle:hover {
+  box-shadow: 0 0 22px rgba(194, 65, 12, 0.45), 0 2px 12px rgba(0,0,0,0.5);
+  transform: scale(1.05);
 }
 
 @media (min-width: 1024px) {
   #console-toggle {
     visibility: visible;
   }
-
 }
 
 #console-toggle.invisible {
@@ -39,7 +46,7 @@
   font-family: 'SF Mono Semibold', monospace;
   font-size: 1.1rem;
   z-index: 25;
-  border-top: 5px solid #696969;
+  border-top: 2px solid var(--accent-color, #c2410c);
   display: flex;
   flex-direction: column;
 
@@ -53,21 +60,30 @@
   }
 
   .console-header {
-    background-color: #222;
-    padding: 0.3em 1em;
+    background-color: #1a1815;
+    padding: 0.4em 1em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.3em;
+    font-size: 1em;
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid #2a2420;
 
     .actions {
       display: flex;
-      gap: 0.5em;
+      gap: 0.6em;
       align-items: center;
 
       span {
-        font-size: 1.2em;
+        font-size: 1.1em;
         cursor: pointer;
+        opacity: 0.65;
+        transition: opacity 200ms;
+      }
+
+      span:hover {
+        opacity: 1;
       }
     }
   }

@@ -165,8 +165,9 @@ export default function Console() {
         id="console-toggle"
         ref={consoleToggle}
         onClick={toggleTerminalVisible}
+        title="Open terminal (Ctrl + `)"
       >
-        <span className="material-symbols-outlined">terminal</span>
+        <span className="material-symbols-outlined">code</span>
       </button>
       <section
         id="console"
@@ -261,20 +262,21 @@ function PKBanner() {
   return (
     <pre
       style={{
-        fontSize: "1.5em",
-        color: "var(--console-base-text-color, white)",
+        fontSize: "1.2em",
+        color: "var(--accent-color, #c2410c)",
         lineHeight: "1.2",
         whiteSpace: "pre",
-        marginBottom: "1em",
+        marginBottom: "0.75em",
+        fontFamily: '"JetBrains Mono", monospace',
       }}
     >
       {String.raw`
-██╗  ██╗ ██████╗ 
+██╗  ██╗ ██████╗
 ██║ ██╔╝ ██╔══██╗
 █████╔╝  ██████╔╝
-██╔═██╗  ██╔═══╝ 
-██║ ╚██╗ ██║     
-╚═╝  ╚═╝ ╚═╝     
+██╔═██╗  ██╔═══╝
+██║ ╚██╗ ██║
+╚═╝  ╚═╝ ╚═╝
 `}
     </pre>
   );

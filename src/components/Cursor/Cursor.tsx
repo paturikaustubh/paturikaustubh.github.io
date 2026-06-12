@@ -57,7 +57,8 @@ export default function Cursor() {
     } else {
       cursor.classList.toggle(
         "light-mode",
-        !!elementUnderCursor?.closest(".__theme-change-dark"),
+        !!elementUnderCursor?.closest(".__theme-change-dark") ||
+          !!elementUnderCursor?.closest(".dark-footer"),
       );
     }
 

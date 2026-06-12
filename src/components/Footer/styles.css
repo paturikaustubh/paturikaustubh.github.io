@@ -75,8 +75,8 @@ textarea:focus {
   width: 15px;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  background-color: var(--text-color);
-  opacity: 0.2;
+  background-color: #ede8e0;
+  opacity: 0.25;
   filter: blur(4px) brightness(100%);
 }
 
@@ -91,7 +91,7 @@ textarea:focus {
   inset: 0;
   border-radius: 50%;
   background-color: transparent;
-  border: 1px solid var(--text-color);
+  border: 1px solid #ede8e0;
 }
 
 .social-link {
