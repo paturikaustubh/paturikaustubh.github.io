@@ -80,9 +80,10 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
         },
         0,
       );
-      // new chars rise up into view, left-to-right
-      tl.to(
+      // new chars: fromTo so GSAP owns both start and end — no inline-style conflict
+      tl.fromTo(
         newChars,
+        { yPercent: -115 },
         {
           yPercent: 0,
           duration: 0.5,
@@ -100,15 +101,12 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderChars = (word: string, hidden = false) =>
+  // Flat __t-ch spans — container-level overflow:hidden on __t-old/__t-new
+  // handles clipping. No per-char wrappers so italic ascenders aren't cut.
+  const renderChars = (word: string) =>
     word.split("").map((ch, i) => (
-      <span key={i} className="inline-block overflow-hidden align-top">
-        <span
-          className="__t-ch inline-block"
-          style={hidden ? { transform: "translateY(-115%)" } : undefined}
-        >
-          {ch === " " ? " " : ch}
-        </span>
+      <span key={i} className="__t-ch inline-block">
+        {ch === " " ? " " : ch}
       </span>
     ));
   return (
@@ -149,14 +147,14 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
             >
               <div
                 ref={labelRef}
-                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0]"
+                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0] overflow-hidden"
               >
                 {/* old word drops away, new word drops in, left â†’ right */}
                 <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
                   {renderChars(fromName)}
                 </div>
                 <div className="__t-new flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(displayName, fromName !== displayName && fromName !== '')}
+                  {renderChars(displayName)}
                 </div>
               </div>
             </motion.div>
