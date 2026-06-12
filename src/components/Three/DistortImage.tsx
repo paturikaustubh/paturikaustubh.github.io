@@ -12,6 +12,7 @@ const VERT = /* glsl */ `
 `;
 
 const FRAG = /* glsl */ `
+  precision mediump float;
   varying vec2 vUv;
   uniform sampler2D uTexture;
   uniform float uIntensity;
@@ -19,8 +20,27 @@ const FRAG = /* glsl */ `
   void main() {
     vec2 uv = vUv;
     float dist = distance(uv, uHover);
-    uv += (uv - uHover) * uIntensity * 0.12 * smoothstep(0.5, 0.0, dist);
-    gl_FragColor = texture2D(uTexture, uv);
+    float strength = uIntensity * 0.14 * smoothstep(0.6, 0.0, dist);
+    uv += (uv - uHover) * strength;
+
+    // Pixels displaced outside [0,1] UV → transparent (edge "melts" away)
+    vec2 outside = max(vec2(0.0), abs(uv - 0.5) - 0.5);
+    float outsideDist = length(outside);
+    if (outsideDist > 0.02) {
+      gl_FragColor = vec4(0.0);
+      return;
+    }
+
+    // Soft dissolve at the edges that grows with distortion intensity
+    // so the boundary blurs/melts near the cursor instead of staying crisp
+    float edgeSoft = 0.015 + uIntensity * 0.055;
+    float mask = smoothstep(0.0, edgeSoft, uv.x)
+               * smoothstep(0.0, edgeSoft, 1.0 - uv.x)
+               * smoothstep(0.0, edgeSoft, uv.y)
+               * smoothstep(0.0, edgeSoft, 1.0 - uv.y);
+
+    vec4 color = texture2D(uTexture, clamp(uv, 0.0, 1.0));
+    gl_FragColor = vec4(color.rgb, color.a * mask * (1.0 - smoothstep(0.0, 0.02, outsideDist)));
   }
 `;
 
