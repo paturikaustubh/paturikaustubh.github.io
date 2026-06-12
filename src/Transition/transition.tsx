@@ -16,14 +16,14 @@ const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 let lastShownName = "";
 
 const curtain: Variants = {
-  initial: { x: "0%" },
+  initial: { y: "0%" },
   enter: {
-    x: "110%",
-    transition: { duration: 0.82, delay: 0.9, ease: EASE },
+    y: "-130%",
+    transition: { duration: 0.9, delay: 0.45, ease: EASE },
   },
   exit: {
-    x: "0%",
-    transition: { duration: 0.6, ease: EASE },
+    y: "0%",
+    transition: { duration: 0.7, ease: EASE },
   },
 };
 
@@ -66,35 +66,32 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
       const oldChars = label.querySelectorAll<HTMLElement>(".__t-old .__t-ch");
       const newChars = label.querySelectorAll<HTMLElement>(".__t-new .__t-ch");
 
-      // ensure new chars start invisible before animation
-      gsap.set(newChars, { scaleY: 0, transformOrigin: "center top", opacity: 0 });
+      // pre-position new chars above the overflow-hidden line
+      gsap.set(newChars, { yPercent: -115 });
 
-      const tl = gsap.timeline({ delay: 0.08 });
-      // old chars: compress down (scaleY 1→0) left-to-right
-      tl.fromTo(
+      const tl = gsap.timeline({ delay: 0.12 });
+      // old chars drop down and out, left-to-right
+      tl.to(
         oldChars,
-        { scaleY: 1, transformOrigin: "center bottom" },
         {
-          scaleY: 0,
+          yPercent: 115,
           opacity: 0,
-          duration: 0.38,
-          ease: "power2.in",
-          stagger: { each: 0.04, from: "start" },
+          duration: 0.42,
+          ease: "power3.in",
+          stagger: 0.045,
         },
         0,
       );
-      // new chars: expand from top (scaleY 0→1) left-to-right
-      tl.fromTo(
+      // new chars rise up into view, left-to-right
+      tl.to(
         newChars,
-        { scaleY: 0, transformOrigin: "center top" },
         {
-          scaleY: 1,
-          opacity: 1,
-          duration: 0.46,
+          yPercent: 0,
+          duration: 0.5,
           ease: "power3.out",
-          stagger: { each: 0.04, from: "start" },
+          stagger: 0.045,
         },
-        0.2,
+        0.18,
       );
     }
 
@@ -136,12 +133,12 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
               exit="exit"
               style={{
                 position: "absolute",
-                top: 0,
+                top: "-15dvh",
                 left: "-5vw",
-                height: "100dvh",
+                height: "130dvh",
                 width: "110vw",
-                backgroundColor: "#100e0c",
-                borderRadius: "50dvh / 50%",
+                backgroundColor: "#efe9e1",
+                borderRadius: "50% / 6dvh",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -150,7 +147,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
             >
               <div
                 ref={labelRef}
-                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0]"
+                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#14110e]"
               >
                 {/* old word drops away, new word drops in, left â†’ right */}
                 <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
