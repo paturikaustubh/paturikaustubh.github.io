@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { ProjectDetailsType } from "../../ProjectsInfos";
 import { useGsap } from "../../lib/useGsap";
+import { INTRO_DELAY } from "../../lib/intro";
 
 export default function WorkList({
   items,
@@ -22,15 +23,29 @@ export default function WorkList({
   // setup type is (ctx) => void with no return path. mousemove lifecycle is
   // handled in a separate useEffect below.
   useGsap(() => {
-    gsap.utils.toArray<HTMLElement>(".__work-row", listRef.current).forEach((row) => {
-      gsap.from(row, {
-        yPercent: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: row, start: "top 88%" },
+    const vh = window.innerHeight;
+    gsap.utils
+      .toArray<HTMLElement>(".__work-row", listRef.current)
+      .forEach((row, i) => {
+        if (row.getBoundingClientRect().top < vh * 0.88) {
+          // already in view at page-enter: wait for the curtain, then cascade
+          gsap.from(row, {
+            yPercent: 40,
+            opacity: 0,
+            duration: 0.8,
+            delay: INTRO_DELAY + i * 0.08,
+            ease: "power3.out",
+          });
+        } else {
+          gsap.from(row, {
+            yPercent: 40,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: row, start: "top 88%" },
+          });
+        }
       });
-    });
   }, []);
 
   // mousemove quickTo — plain useEffect for correct cleanup on unmount

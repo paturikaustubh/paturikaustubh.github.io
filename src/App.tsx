@@ -46,10 +46,11 @@ function App() {
   }, []);
 
   // After boot, lazy chunks/images below the fold can shift layout —
-  // recompute ScrollTrigger positions once the entry sequence settles.
+  // recompute ScrollTrigger positions once the whole entry sequence
+  // (curtain + reveals + deferred WebGL mount) has settled.
   useEffect(() => {
     if (!booted) return;
-    const t = setTimeout(() => ScrollTrigger.refresh(), 1800);
+    const t = setTimeout(() => ScrollTrigger.refresh(), 3000);
     return () => clearTimeout(t);
   }, [booted]);
 

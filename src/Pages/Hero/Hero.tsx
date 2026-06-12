@@ -10,6 +10,7 @@ import "./styles.css";
 import { TransitionOverlay } from "../../Transition/transition";
 import { useGsap } from "../../lib/useGsap";
 import { prefersReducedMotion } from "../../lib/device";
+import { INTRO_DELAY } from "../../lib/intro";
 
 export default function Hero() {
   useGsap(() => {
@@ -17,7 +18,11 @@ export default function Hero() {
     if (body.classList.contains("__dark-mode"))
       body.classList.remove("__dark-mode");
 
-    gsap.fromTo("nav", { y: "-100%" }, { y: 0, delay: 1.5, duration: 0.8 });
+    gsap.fromTo(
+      "nav",
+      { y: "-100%" },
+      { y: 0, delay: INTRO_DELAY + 0.45, duration: 0.8 },
+    );
 
     // nav flips to ink while floating over the cream band
     document.querySelectorAll(".__theme-change-dark").forEach((band) => {
@@ -75,8 +80,8 @@ export default function Hero() {
           scrollTrigger: {
             trigger: words,
             scrub: 0.6,
-            start: "top 85%",
-            end: "center 70%",
+            start: "top 98%",
+            end: "center 75%",
             toggleActions: "play none none reverse",
           },
           opacity: 0.03,
@@ -92,7 +97,7 @@ export default function Hero() {
           types: "words",
         });
         gsap.from(words, {
-          scrollTrigger: { trigger: el, start: "top 88%" },
+          scrollTrigger: { trigger: el, start: "top 98%" },
           opacity: 0.06,
           stagger: 0.02,
           duration: 0.5,

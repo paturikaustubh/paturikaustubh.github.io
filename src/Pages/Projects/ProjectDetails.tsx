@@ -5,6 +5,7 @@ import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
 import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
 import { revealChars } from "../../lib/reveal";
+import { INTRO_DELAY } from "../../lib/intro";
 import "./detailsStyles.css";
 
 const DistortImage = lazy(() => import("../../components/Three/DistortImage"));
@@ -41,12 +42,12 @@ export default function ProjectDetails() {
 
   useGsap(() => {
     if (titleRef.current && projectDetails.title)
-      revealChars(titleRef.current, { delay: 0.55 });
+      revealChars(titleRef.current, { delay: INTRO_DELAY });
     gsap.from(".__case-meta", {
       opacity: 0,
       y: 14,
       duration: 0.6,
-      delay: 1.1,
+      delay: INTRO_DELAY + 0.45,
       stagger: 0.06,
       ease: "power2.out",
     });

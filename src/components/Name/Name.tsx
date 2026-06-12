@@ -1,8 +1,9 @@
-import { Suspense, lazy, useRef } from "react";
+import { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
 import { revealChars } from "../../lib/reveal";
 import { getDeviceTier, prefersReducedMotion } from "../../lib/device";
+import { CURTAIN_DONE_MS, INTRO_DELAY } from "../../lib/intro";
 
 import "./styles.css";
 
@@ -12,10 +13,22 @@ export default function Name() {
   const sectionRef = useRef<HTMLElement>(null);
   const tier = getDeviceTier();
 
+  // Defer the WebGL scene until the curtain has fully lifted — context
+  // creation and the three.js chunk parse are the main sources of frame
+  // drops when they compete with the entry animations.
+  const [sceneReady, setSceneReady] = useState(false);
+  useEffect(() => {
+    if (tier !== "high") return;
+    const t = setTimeout(() => setSceneReady(true), CURTAIN_DONE_MS + 250);
+    return () => clearTimeout(t);
+  }, [tier]);
+
   useGsap(() => {
     document
       .querySelectorAll(".__animate-full-name span")
-      .forEach((line, i) => revealChars(line, { delay: 0.6 + i * 0.12 }));
+      .forEach((line, i) =>
+        revealChars(line, { delay: INTRO_DELAY + i * 0.12 }),
+      );
     if (prefersReducedMotion()) {
       gsap.set(".__hero-meta", { opacity: 1 });
       return;
@@ -24,7 +37,7 @@ export default function Name() {
       opacity: 0,
       y: 16,
       duration: 0.7,
-      delay: 1.4,
+      delay: INTRO_DELAY + 0.55,
       ease: "power2.out",
     });
   }, []);
@@ -34,9 +47,14 @@ export default function Name() {
       ref={sectionRef}
       className="relative flex flex-col items-center justify-center h-[100dvh] -mt-20 gap-10 overflow-hidden select-none __section-padding"
     >
-      {tier === "high" && (
+      {sceneReady && (
         <Suspense fallback={null}>
-          <HeroScene />
+          <div
+            className="absolute inset-0 z-0"
+            style={{ animation: "fade-in 800ms ease both" }}
+          >
+            <HeroScene />
+          </div>
         </Suspense>
       )}
 

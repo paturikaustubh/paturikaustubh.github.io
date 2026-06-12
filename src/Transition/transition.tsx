@@ -3,6 +3,7 @@ import { useLayoutEffect, useMemo, useRef } from "react";
 import { gsap } from "gsap";
 import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
+import { CURTAIN_DELAY, CURTAIN_DURATION } from "../lib/intro";
 
 const nameDisplayNameMapper: Record<string, string> = {
   portfolio: "Welcome Home",
@@ -19,7 +20,7 @@ const curtain: Variants = {
   initial: { y: "0%" },
   enter: {
     y: "-130%",
-    transition: { duration: 0.9, delay: 0.45, ease: EASE },
+    transition: { duration: CURTAIN_DURATION, delay: CURTAIN_DELAY, ease: EASE },
   },
   exit: {
     y: "0%",
