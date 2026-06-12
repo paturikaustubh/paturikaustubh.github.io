@@ -29,7 +29,8 @@ export default function HeroScene() {
     mount.appendChild(renderer.domElement);
 
     // --- dots ---
-    const COUNT = 55;
+    // ~1 dot per 30px width, clamped: 18 on small phones, 48 on wide desktops
+    const COUNT = Math.round(Math.min(48, Math.max(18, W * 0.033)));
     // Correlated random walk: each dot steers toward a slowly-rotating angle.
     // angleV is the angular velocity (how fast the direction drifts each tick).
     // speed is the cruise speed in px/frame.
