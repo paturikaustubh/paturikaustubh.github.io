@@ -308,6 +308,17 @@ button:focus-visible {
   }
 }
 
+/* boot preloader bar: eases toward 90%, overlay fades once the app is ready */
+@keyframes preload-fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
