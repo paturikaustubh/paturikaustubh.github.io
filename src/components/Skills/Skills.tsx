@@ -86,7 +86,7 @@ export default function Skills() {
         </span>
       </div>
       <div className="grid w-full grid-cols-12 tech-stack-info-grid gap-y-8 md:gap-x-8">
-        <div className="col-span-12 lg:col-span-7 __section-desc __cursor-blend __fade-in font-serif italic font-[400]">
+        <div className="col-span-12 lg:col-span-7 __section-desc __cursor-blend __fade-in font-[400]">
           Over the time, I’ve picked up a bunch of cool tech skills. They’ve
           been my sidekicks in creating some awesome stuff and continue to fuel
           my coding adventures.
