@@ -116,7 +116,7 @@ export default function ProjectDetails() {
         <div className="mt-12 overflow-hidden">
           {/* Main image: floated right on desktop so content flows around it */}
           {projectDetails.img && (
-            <div className="lg:float-right lg:w-[58%] lg:ml-12 lg:mb-4 mb-8">
+            <div className="lg:float-right lg:w-[52%] lg:ml-10 lg:mb-4 mb-8">
               <Suspense
                 fallback={
                   <img
