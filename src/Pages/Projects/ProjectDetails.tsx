@@ -131,6 +131,7 @@ export default function ProjectDetails() {
                 </Link>
                 <Link
                   to={`/projects/${prevProjectDetails.to}`}
+                  id="prev-project-link"
                   className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
                 >
                   ↑ prev — {prevProjectDetails.title}
@@ -204,6 +205,7 @@ export default function ProjectDetails() {
         {/* giant next-project link */}
         <Link
           to={`/projects/${nextProjectDetails.to}`}
+          id="next-project-link"
           className="__next-case group block mt-20 border-t border-[#3a332b] pt-10 pb-6 __cursor-difference"
         >
           <p className="__mono-label mb-4">( next up )</p>
