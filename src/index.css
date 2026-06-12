@@ -194,6 +194,7 @@ button:focus-visible {
   transform: translateY(100%);
   z-index: -1;
   transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  rotate: 0deg;
   overflow: hidden;
 }
 
@@ -205,11 +206,12 @@ button:focus-visible {
 .expand-bg:hover::after,
 .expand-bg:focus::after {
   transform: translateY(0%);
+  rotate: 180deg;
 }
 
 .inst-msg-send {
   border-color: var(--accent-color);
-  color: var(--accent-color);
+  color: #ede8e0;
   transition:
     color 300ms ease,
     border-radius 300ms ease;
