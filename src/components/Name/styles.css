@@ -2,10 +2,12 @@
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   letter-spacing: -0.03em;
-  font-size: clamp(2.8rem, 10.5dvw, 11rem);
+  /* 17.5dvw scales the name with viewport.
+     At 390px → 68px (4.25rem), at 1440px → 11rem cap.
+     white-space: nowrap not needed — each child span is a single word. */
+  font-size: clamp(3rem, 17.5dvw, 11rem);
   line-height: 0.92;
   text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .__name-span > span {
