@@ -74,9 +74,9 @@ export default function Hero() {
         gsap.from(words, {
           scrollTrigger: {
             trigger: words,
-            scrub: 1,
-            start: "top 90%",
-            end: "bottom 65%",
+            scrub: 0.6,
+            start: "top 85%",
+            end: "center 70%",
             toggleActions: "play none none reverse",
           },
           opacity: 0.03,
