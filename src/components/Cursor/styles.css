@@ -15,9 +15,9 @@
   /* transition: width 300ms; */
 }
 
-/* over the cream band the dot flips to ink */
+/* over dark sections the dot flips to cream */
 .__custom-cursor.light-mode {
-  background-color: #14110e;
+  background-color: #ede8e0;
   mix-blend-mode: unset;
 }
 

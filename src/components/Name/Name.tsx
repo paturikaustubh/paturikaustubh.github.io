@@ -49,7 +49,7 @@ export default function Name() {
           className="flex flex-col items-center text-center __name-span __animate-full-name __cursor-blend"
         >
           <span className="block overflow-hidden">KAUSTUBH</span>
-          <span className="block overflow-hidden __stroke-only">PATURI</span>
+          <span className="block overflow-hidden __name-second">PATURI</span>
         </h1>
         <p className="__hero-meta __mono-label">
           ( based in india — open to interesting problems )

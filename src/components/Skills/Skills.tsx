@@ -21,7 +21,7 @@ const FALLBACK_STACK: TechStackDetails[] = [
 ];
 
 export default function Skills() {
-  const [accordianActiveIndx, setAccordionActiveIndx] = useState(1);
+  const [accordianActiveIndx, setAccordionActiveIndx] = useState(0);
   const [techStackList, setTechStackList] =
     useState<TechStackDetails[]>(FALLBACK_STACK);
   const listWrapRef = useRef<HTMLDivElement>(null);
@@ -57,20 +57,23 @@ export default function Skills() {
   }, []);
 
   useGsap(() => {
-    const cards = listWrapRef.current?.querySelectorAll(
+    const cards = listWrapRef.current?.querySelectorAll<HTMLElement>(
       ".tech-stack-info-card",
     );
     if (!cards || cards.length === 0) return;
-    gsap.from(cards, {
-      xPercent: 30,
-      opacity: 0,
-      duration: 0.7,
-      ease: "power3.out",
-      stagger: 0.08,
-      scrollTrigger: {
-        trigger: listWrapRef.current,
-        start: "top 82%",
-      },
+    cards.forEach((card) => {
+      gsap.from(card, {
+        x: "100%",
+        opacity: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 78%",
+          end: "bottom 50%",
+          toggleActions: "play none none reverse",
+        },
+      });
     });
   }, [techStackList]);
 

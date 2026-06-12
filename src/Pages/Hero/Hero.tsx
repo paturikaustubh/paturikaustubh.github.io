@@ -52,13 +52,15 @@ export default function Hero() {
       gsap.from(chars, {
         scrollTrigger: {
           trigger: sectionTitle,
-          start: "top 85%",
+          start: "top 80%",
+          end: "bottom 40%",
+          toggleActions: "play none none none",
         },
         yPercent: 120,
-        skewY: 7,
+        skewY: 5,
         stagger: 0.025,
         ease: "power4.out",
-        duration: 0.9,
+        duration: 0.85,
       });
     });
 
@@ -71,14 +73,16 @@ export default function Hero() {
         });
         gsap.from(words, {
           scrollTrigger: {
-            trigger: el,
+            trigger: words,
             scrub: 1,
             start: "top 90%",
             end: "bottom 65%",
+            toggleActions: "play none none reverse",
           },
-          opacity: 0.06,
-          filter: "blur(6px)",
+          opacity: 0.03,
+          filter: "blur(8px)",
           stagger: 0.04,
+          duration: 1,
         });
       });
     });

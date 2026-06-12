@@ -1,11 +1,11 @@
-/* inverted = nav floating over the cream editorial band */
+/* inverted = nav floating over the dark sections */
 nav.__header-inverted svg#logo {
-  fill: #14110e;
+  fill: #ede8e0;
 }
 
 nav.__header-inverted {
-  color: #14110e;
-  --text-color: #14110e;
+  color: #ede8e0;
+  --text-color: #ede8e0;
 }
 
 nav {

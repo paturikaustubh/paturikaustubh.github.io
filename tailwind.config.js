@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Syne"', "sans-serif"],
+        display: ['"Space Grotesk"', "sans-serif"],
         serif: ['"Fraunces"', "serif"],
         body: ['"Outfit"', "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],

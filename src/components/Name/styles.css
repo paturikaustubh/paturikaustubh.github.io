@@ -1,31 +1,23 @@
 .__name-span {
-  font-family: "Syne", sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  font-size: clamp(2.6rem, 10dvw, 10.5rem);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(2.8rem, 10.5dvw, 11rem);
   line-height: 0.92;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-/* lines are overflow-hidden for the char mask reveal — keep a little
-   horizontal air so glyph edges (last char stems) never get clipped */
 .__name-span > span {
-  padding-inline: 0.06em;
+  padding-inline: 0.05em;
 }
 
-.__stroke-only {
-  color: transparent;
-  -webkit-text-stroke: 2px var(--text-color);
-}
-
-.__name-accent {
+/* second name line — accent color instead of stroke */
+.__name-second {
   color: var(--accent-color);
 }
 
-/* keep mono meta readable over the particle field */
+/* hero meta labels - subtle shadow only on dark bg */
 .__hero-meta {
-  text-shadow:
-    0 0 14px rgba(14, 12, 10, 0.95),
-    0 0 4px rgba(14, 12, 10, 0.95);
+  text-shadow: none;
 }
