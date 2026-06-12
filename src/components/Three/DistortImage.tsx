@@ -68,7 +68,7 @@ export default function DistortImage({
       src,
       (tex) => {
         if (disposed) return;
-        tex.colorSpace = THREE.SRGBColorSpace;
+        // No colorSpace override — keeps image colors faithful
         uniforms.uTexture.value = tex;
         const aspect = tex.image.width / tex.image.height;
         mount.style.aspectRatio = `${aspect}`;

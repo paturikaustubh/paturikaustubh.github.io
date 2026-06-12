@@ -111,43 +111,12 @@ export default function ProjectDetails() {
           )}
         </div>
 
-        {/* body */}
-        <div className="grid grid-cols-12 mt-12 gap-y-12 lg:gap-x-12">
-          {/* sticky aside */}
-          <aside className="col-span-12 lg:col-span-4">
-            <div className="lg:sticky lg:top-28 flex flex-col gap-8">
-              <div>
-                <p className="__mono-label mb-3">( about )</p>
-                {projectDetails.readmeRepo ? (
-                  <ReadmeViewer repo={projectDetails.readmeRepo} />
-                ) : (
-                  <p className="text-base leading-relaxed lg:text-lg font-[350] __cursor-blend __cursor-difference">
-                    {projectDetails.desc}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-col gap-2">
-                <p className="__mono-label mb-1">( index )</p>
-                <Link
-                  to="/projects"
-                  className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
-                >
-                  ← all projects
-                </Link>
-                <Link
-                  to={`/projects/${prevProjectDetails.to}`}
-                  id="prev-project-link"
-                  className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
-                >
-                  ↑ prev — {prevProjectDetails.title}
-                </Link>
-              </div>
-            </div>
-          </aside>
-
-          {/* media column */}
-          <div className="col-span-12 lg:col-span-8 space-y-10">
-            {projectDetails.img && (
+        {/* body — float layout so long content wraps around the image
+             and short content lets images/video use the full width below */}
+        <div className="mt-12 overflow-hidden">
+          {/* Main image: floated right on desktop so content flows around it */}
+          {projectDetails.img && (
+            <div className="lg:float-right lg:w-[58%] lg:ml-12 lg:mb-4 mb-8">
               <Suspense
                 fallback={
                   <img
@@ -163,48 +132,80 @@ export default function ProjectDetails() {
                   className="w-full rounded-md border border-[#3a332b] overflow-hidden"
                 />
               </Suspense>
-            )}
+            </div>
+          )}
 
-            {projectDetails.responsive && (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                {[1, 2, 3].map((n) => (
-                  <img
-                    key={n}
-                    src={`/assets/projects/${projectDetails.img}/responsive-${n}.png`}
-                    loading="lazy"
-                    alt={`${projectDetails.title} responsive view ${n}`}
-                    className="w-full rounded-md border border-[#3a332b]"
-                  />
-                ))}
-              </div>
-            )}
-
-            <div className="relative">
-              <video
-                src={`/assets/projects/${projectDetails.img}/sample.mp4`}
-                ref={videoRef}
-                loop
-                muted
-                playsInline
-                preload="none"
-                controls={false}
-                poster={`/assets/projects/${projectDetails.img}/logo.png`}
-                className="w-full max-h-[36rem] object-contain rounded-md border border-[#3a332b]"
-                onClick={handleFullscreen}
-              />
-              {!videoPlaying && (
-                <button
-                  className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#efe9e1] text-[#14110e] rounded-full __cursor-difference"
-                  onClick={() => {
-                    videoRef.current?.play();
-                    setVideoPlaying(true);
-                  }}
-                >
-                  ( play demo )
-                </button>
+          {/* Content: no width constraint — float handles the available space */}
+          <div className="flex flex-col gap-8 mb-10">
+            <div>
+              <p className="__mono-label mb-3">( about )</p>
+              {projectDetails.readmeRepo ? (
+                <ReadmeViewer repo={projectDetails.readmeRepo} />
+              ) : (
+                <p className="text-base leading-relaxed lg:text-lg font-[350] __cursor-blend __cursor-difference">
+                  {projectDetails.desc}
+                </p>
               )}
             </div>
+            <div className="flex flex-col gap-2">
+              <p className="__mono-label mb-1">( index )</p>
+              <Link
+                to="/projects"
+                className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
+              >
+                ← all projects
+              </Link>
+              <Link
+                to={`/projects/${prevProjectDetails.to}`}
+                id="prev-project-link"
+                className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
+              >
+                ↑ prev — {prevProjectDetails.title}
+              </Link>
+            </div>
           </div>
+          {/* overflow-hidden on parent clears the float */}
+        </div>
+
+        {/* Responsive screenshots + video — always full width below both columns */}
+        {projectDetails.responsive && (
+          <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3">
+            {[1, 2, 3].map((n) => (
+              <img
+                key={n}
+                src={`/assets/projects/${projectDetails.img}/responsive-${n}.png`}
+                loading="lazy"
+                alt={`${projectDetails.title} responsive view ${n}`}
+                className="w-full rounded-md border border-[#3a332b]"
+              />
+            ))}
+          </div>
+        )}
+
+        <div className="relative mt-10">
+          <video
+            src={`/assets/projects/${projectDetails.img}/sample.mp4`}
+            ref={videoRef}
+            loop
+            muted
+            playsInline
+            preload="none"
+            controls={false}
+            poster={`/assets/projects/${projectDetails.img}/logo.png`}
+            className="w-full max-h-[36rem] object-contain rounded-md border border-[#3a332b]"
+            onClick={handleFullscreen}
+          />
+          {!videoPlaying && (
+            <button
+              className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#efe9e1] text-[#14110e] rounded-full __cursor-difference"
+              onClick={() => {
+                videoRef.current?.play();
+                setVideoPlaying(true);
+              }}
+            >
+              ( play demo )
+            </button>
+          )}
         </div>
 
         {/* giant next-project link */}
