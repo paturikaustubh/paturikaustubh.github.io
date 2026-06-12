@@ -129,15 +129,15 @@ export default function ProjectDetails() {
                 <DistortImage
                   src={`/assets/projects/${projectDetails.img}/logo.png`}
                   alt={projectDetails.title}
-                  className="w-full rounded-md border border-[#3a332b] overflow-hidden"
+                  className="w-full"
                 />
               </Suspense>
             </div>
           )}
 
-          {/* Content: no width constraint — float handles the available space */}
-          <div className="flex flex-col gap-8 mb-10">
-            <div>
+          {/* Content: plain block (no flex/grid/overflow) so it wraps around the float */}
+          <div>
+            <div className="mb-8">
               <p className="__mono-label mb-3">( about )</p>
               {projectDetails.readmeRepo ? (
                 <ReadmeViewer repo={projectDetails.readmeRepo} />
@@ -147,7 +147,7 @@ export default function ProjectDetails() {
                 </p>
               )}
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 mb-10">
               <p className="__mono-label mb-1">( index )</p>
               <Link
                 to="/projects"
