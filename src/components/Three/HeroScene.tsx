@@ -30,15 +30,23 @@ export default function HeroScene() {
 
     // --- dots ---
     const COUNT = 55;
-    type Dot = { x: number; y: number; vx: number; vy: number; phase: number; freq: number };
-    const dots: Dot[] = Array.from({ length: COUNT }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.22,
-      vy: (Math.random() - 0.5) * 0.22,
-      phase: Math.random() * Math.PI * 2,
-      freq: 0.0004 + Math.random() * 0.0003,
-    }));
+    // Correlated random walk: each dot steers toward a slowly-rotating angle.
+    // angleV is the angular velocity (how fast the direction drifts each tick).
+    // speed is the cruise speed in px/frame.
+    type Dot = { x: number; y: number; vx: number; vy: number; angle: number; angleV: number; speed: number };
+    const dots: Dot[] = Array.from({ length: COUNT }, () => {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.18 + Math.random() * 0.22;
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        angle,
+        angleV: (Math.random() - 0.5) * 0.018, // slow directional drift per tick
+        speed,
+      };
+    });
 
     const dotPositions = new Float32Array(COUNT * 3);
     const dotGeo = new THREE.BufferGeometry();
@@ -90,16 +98,16 @@ export default function HeroScene() {
 
     let frame = 0;
     let running = false;
-    let t = 0;
 
     const tick = () => {
       frame = requestAnimationFrame(tick);
-      t++;
 
       // update positions
       const pos = dotGeo.attributes.position as THREE.BufferAttribute;
       for (let i = 0; i < COUNT; i++) {
         const d = dots[i];
+
+        // cursor repulsion (unchanged)
         const dx = d.x - mouse.x;
         const dy = d.y - mouse.y;
         const dist = Math.hypot(dx, dy);
@@ -108,19 +116,41 @@ export default function HeroScene() {
           d.vx += (dx / dist) * force * REPEL_STR;
           d.vy += (dy / dist) * force * REPEL_STR;
         }
-        // ambient sine drift — keeps particles alive without cursor
-        d.vx += Math.sin(t * d.freq + d.phase) * 0.012;
-        d.vy += Math.cos(t * d.freq + d.phase + 1.5) * 0.012;
-        d.vx = Math.max(-0.6, Math.min(0.6, d.vx));
-        d.vy = Math.max(-0.6, Math.min(0.6, d.vy));
-        d.vx *= 0.97;
-        d.vy *= 0.97;
+
+        // correlated random walk: slowly rotate the movement direction
+        // with a tiny random jitter per tick so paths never repeat
+        d.angle += d.angleV + (Math.random() - 0.5) * 0.006;
+        const targetVx = Math.cos(d.angle) * d.speed;
+        const targetVy = Math.sin(d.angle) * d.speed;
+        // smoothly steer actual velocity toward target direction
+        d.vx += (targetVx - d.vx) * 0.05;
+        d.vy += (targetVy - d.vy) * 0.05;
+
         d.x += d.vx;
         d.y += d.vy;
-        if (d.x < 0) { d.x = 0; d.vx *= -1; }
-        if (d.x > W) { d.x = W; d.vx *= -1; }
-        if (d.y < 0) { d.y = 0; d.vy *= -1; }
-        if (d.y > H) { d.y = H; d.vy *= -1; }
+
+        // specular bounce: flip velocity AND reflect the angle
+        // so the dot immediately moves away from the wall
+        if (d.x < 0) {
+          d.x = 0;
+          d.vx = Math.abs(d.vx);
+          d.angle = Math.PI - d.angle; // reflect horizontally
+        }
+        if (d.x > W) {
+          d.x = W;
+          d.vx = -Math.abs(d.vx);
+          d.angle = Math.PI - d.angle;
+        }
+        if (d.y < 0) {
+          d.y = 0;
+          d.vy = Math.abs(d.vy);
+          d.angle = -d.angle; // reflect vertically
+        }
+        if (d.y > H) {
+          d.y = H;
+          d.vy = -Math.abs(d.vy);
+          d.angle = -d.angle;
+        }
         pos.setXYZ(i, d.x, H - d.y, 0);
       }
       pos.needsUpdate = true;
