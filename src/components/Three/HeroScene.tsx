@@ -30,12 +30,14 @@ export default function HeroScene() {
 
     // --- dots ---
     const COUNT = 55;
-    type Dot = { x: number; y: number; vx: number; vy: number };
+    type Dot = { x: number; y: number; vx: number; vy: number; phase: number; freq: number };
     const dots: Dot[] = Array.from({ length: COUNT }, () => ({
       x: Math.random() * W,
       y: Math.random() * H,
       vx: (Math.random() - 0.5) * 0.22,
       vy: (Math.random() - 0.5) * 0.22,
+      phase: Math.random() * Math.PI * 2,
+      freq: 0.0004 + Math.random() * 0.0003,
     }));
 
     const dotPositions = new Float32Array(COUNT * 3);
@@ -88,9 +90,11 @@ export default function HeroScene() {
 
     let frame = 0;
     let running = false;
+    let t = 0;
 
     const tick = () => {
       frame = requestAnimationFrame(tick);
+      t++;
 
       // update positions
       const pos = dotGeo.attributes.position as THREE.BufferAttribute;
@@ -104,6 +108,11 @@ export default function HeroScene() {
           d.vx += (dx / dist) * force * REPEL_STR;
           d.vy += (dy / dist) * force * REPEL_STR;
         }
+        // ambient sine drift — keeps particles alive without cursor
+        d.vx += Math.sin(t * d.freq + d.phase) * 0.012;
+        d.vy += Math.cos(t * d.freq + d.phase + 1.5) * 0.012;
+        d.vx = Math.max(-0.6, Math.min(0.6, d.vx));
+        d.vy = Math.max(-0.6, Math.min(0.6, d.vy));
         d.vx *= 0.97;
         d.vy *= 0.97;
         d.x += d.vx;
