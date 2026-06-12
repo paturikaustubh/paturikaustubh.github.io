@@ -67,9 +67,6 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
       const oldChars = label.querySelectorAll<HTMLElement>(".__t-old .__t-ch");
       const newChars = label.querySelectorAll<HTMLElement>(".__t-new .__t-ch");
 
-      // pre-position new chars above the overflow-hidden line
-      gsap.set(newChars, { yPercent: -115 });
-
       const tl = gsap.timeline({ delay: 0.12 });
       // old chars drop down and out, left-to-right
       tl.to(
@@ -103,13 +100,17 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const renderChars = (word: string) =>
+  const renderChars = (word: string, hidden = false) =>
     word.split("").map((ch, i) => (
-      <span key={i} className="__t-ch inline-block">
-        {ch === " " ? " " : ch}
+      <span key={i} className="inline-block overflow-hidden align-top">
+        <span
+          className="__t-ch inline-block"
+          style={hidden ? { transform: "translateY(-115%)" } : undefined}
+        >
+          {ch === " " ? " " : ch}
+        </span>
       </span>
     ));
-
   return (
     <>
       <section>
@@ -138,7 +139,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
                 left: "-5vw",
                 height: "130dvh",
                 width: "110vw",
-                backgroundColor: "#efe9e1",
+                backgroundColor: "#100e0c",
                 borderRadius: "50% / 6dvh",
                 display: "flex",
                 justifyContent: "center",
@@ -148,14 +149,14 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
             >
               <div
                 ref={labelRef}
-                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#14110e]"
+                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0]"
               >
                 {/* old word drops away, new word drops in, left â†’ right */}
                 <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
                   {renderChars(fromName)}
                 </div>
                 <div className="__t-new flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(displayName)}
+                  {renderChars(displayName, fromName !== displayName && fromName !== '')}
                 </div>
               </div>
             </motion.div>
