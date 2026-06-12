@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
 import { revealChars } from "../../lib/reveal";
 import { INTRO_DELAY } from "../../lib/intro";
+import ReadmeViewer from "../../components/ReadmeViewer/ReadmeViewer";
 import "./detailsStyles.css";
 
 const DistortImage = lazy(() => import("../../components/Three/DistortImage"));
@@ -117,9 +118,13 @@ export default function ProjectDetails() {
             <div className="lg:sticky lg:top-28 flex flex-col gap-8">
               <div>
                 <p className="__mono-label mb-3">( about )</p>
-                <p className="text-base leading-relaxed lg:text-lg font-[350] __cursor-blend __cursor-difference">
-                  {projectDetails.desc}
-                </p>
+                {projectDetails.readmeRepo ? (
+                  <ReadmeViewer repo={projectDetails.readmeRepo} />
+                ) : (
+                  <p className="text-base leading-relaxed lg:text-lg font-[350] __cursor-blend __cursor-difference">
+                    {projectDetails.desc}
+                  </p>
+                )}
               </div>
               <div className="flex flex-col gap-2">
                 <p className="__mono-label mb-1">( index )</p>

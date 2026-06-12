@@ -14,10 +14,16 @@ interface TechStackDetails {
 
 /** Shown immediately; replaced by Firestore data when (if) it arrives. */
 const FALLBACK_STACK: TechStackDetails[] = [
-  { title: "Frontend", techs: ["React.js", "TypeScript", "Tailwind CSS", "GSAP", "Three.js"] },
+  {
+    title: "Frontend",
+    techs: ["React.js", "TypeScript", "Tailwind CSS", "GSAP", "Three.js"],
+  },
   { title: "Backend", techs: ["Node.js", "Express", "Python", "Flask"] },
   { title: "Databases", techs: ["MySQL", "MS SQL Server", "Firebase"] },
-  { title: "Gen AI", techs: ["LangChain", "RAG Pipelines", "Prompt Engineering"] },
+  {
+    title: "Gen AI",
+    techs: ["LangChain", "RAG Pipelines", "Prompt Engineering"],
+  },
 ];
 
 export default function Skills() {
@@ -69,8 +75,8 @@ export default function Skills() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 78%",
-          end: "bottom 50%",
+          start: "top 85%",
+          end: "center 75%",
           toggleActions: "play none none reverse",
         },
       });
