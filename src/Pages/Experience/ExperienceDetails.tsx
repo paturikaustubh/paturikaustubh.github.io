@@ -182,22 +182,22 @@ export default function ExperienceDetails() {
         </div>
 
         {/* prev / next experience navigation */}
-        <div className="relative z-10 px-0 py-3 border-t border-[#3a332b] mt-20 flex items-center justify-between gap-4">
-          <div className="project-link">
-            <span className="opacity-60">Previous experience</span>
+        <div className="mt-20 border-t border-[#3a332b] pt-8 flex flex-col sm:flex-row items-start justify-between gap-8">
+          <div className="flex flex-col gap-2">
+            <span className="font-mono text-xs uppercase tracking-widest opacity-60">Previous experience</span>
             <Link
               to={`/experience/${prevExp.to}`}
-              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
               id="prev-experience-link"
             >
               {prevExp.company}
             </Link>
           </div>
-          <div className="project-link">
-            <span className="opacity-60">Next experience</span>
+          <div className="flex flex-col gap-2 sm:items-end">
+            <span className="font-mono text-xs uppercase tracking-widest opacity-60">Next experience</span>
             <Link
               to={`/experience/${nextExp.to}`}
-              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
               id="next-experience-link"
             >
               {nextExp.company}
