@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom";
+import "../Projects/detailsStyles.css";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ExperienceType, experienceInfos } from "../../ExperienceInfos";
@@ -113,26 +114,9 @@ export default function ExperienceDetails() {
     <TransitionOverlay>
       <section className="min-h-[100dvh] __section-padding overflow-hidden">
         {/* header */}
-        <div className="flex items-center justify-between __exp-meta-cell">
-          <p className="__mono-label">
-            [ {exp.company} — {caseNumber} / {caseTotal} ]
-          </p>
-          <div className="flex gap-4">
-            <Link
-              to={`/experience/${prevExp.to}`}
-              id="prev-experience-link"
-              className="font-mono text-xs uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity __cursor-difference"
-            >
-              ← {prevExp.company}
-            </Link>
-            <Link
-              to="/experience"
-              className="font-mono text-xs uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity __cursor-difference"
-            >
-              all
-            </Link>
-          </div>
-        </div>
+        <p className="__mono-label __exp-meta-cell">
+          [ {exp.company} — {caseNumber} / {caseTotal} ]
+        </p>
         <h1
           ref={titleRef}
           className="font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2rem,7dvw,7rem)] overflow-hidden __cursor-blend"
@@ -197,20 +181,29 @@ export default function ExperienceDetails() {
           <div className="border-t border-[#3a332b]" />
         </div>
 
-        {/* next experience */}
-        <Link
-          to={`/experience/${nextExp.to}`}
-          id="next-experience-link"
-          className="__next-case group block mt-20 border-t border-[#3a332b] pt-10 pb-6 __cursor-difference"
-        >
-          <p className="__mono-label mb-4">( next up )</p>
-          <span className="__next-case-title font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2.4rem,8dvw,8rem)]">
-            {nextExp.company}
-          </span>
-          <span className="block mt-4 font-mono text-sm uppercase tracking-widest opacity-0 -translate-x-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-            view details ⟶
-          </span>
-        </Link>
+        {/* prev / next experience navigation */}
+        <div className="relative z-10 px-0 py-3 border-t border-[#3a332b] mt-20 flex items-center justify-between gap-4">
+          <div className="project-link">
+            <span className="opacity-60">Previous experience</span>
+            <Link
+              to={`/experience/${prevExp.to}`}
+              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              id="prev-experience-link"
+            >
+              {prevExp.company}
+            </Link>
+          </div>
+          <div className="project-link">
+            <span className="opacity-60">Next experience</span>
+            <Link
+              to={`/experience/${nextExp.to}`}
+              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              id="next-experience-link"
+            >
+              {nextExp.company}
+            </Link>
+          </div>
+        </div>
 
       </section>
     </TransitionOverlay>
