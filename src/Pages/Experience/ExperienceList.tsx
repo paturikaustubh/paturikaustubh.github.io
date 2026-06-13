@@ -38,18 +38,18 @@ export default function ExperienceList() {
             <Link
               to={`/experience/${exp.to}`}
               key={exp.to}
-              className={`__exp-row group flex items-baseline justify-between gap-6 border-t py-8 px-2 transition-[padding] duration-300 hover:px-6 ${
+              className={`__exp-row group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t py-8 px-2 transition-[padding] duration-300 hover:px-6 ${
                 indx === experienceInfos.length - 1 ? "border-b" : ""
               }`}
               style={{ borderColor: "var(--text-color)" }}
             >
-              <span className="font-mono text-sm opacity-60">
+              <span className="font-mono text-sm opacity-60 shrink-0">
                 {String(indx + 1).padStart(2, "0")}
               </span>
-              <span className="font-display text-3xl lg:text-5xl xl:text-6xl grow uppercase tracking-tight">
+              <span className="font-display text-2xl sm:text-3xl lg:text-5xl xl:text-6xl grow uppercase tracking-tight">
                 {exp.company}
               </span>
-              <div className="text-right shrink-0">
+              <div className="w-full sm:w-auto sm:text-right">
                 <p className="font-mono text-xs uppercase tracking-widest opacity-60">
                   {exp.role}
                 </p>

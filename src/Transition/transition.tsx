@@ -1,6 +1,5 @@
-﻿import { Variants, motion } from "framer-motion";
-import { useLayoutEffect, useMemo, useRef } from "react";
-import { gsap } from "gsap";
+import { Variants, motion } from "framer-motion";
+import { useEffect, useMemo } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
 import { CURTAIN_DELAY, CURTAIN_DURATION } from "../lib/intro";
@@ -15,19 +14,28 @@ const nameDisplayNameMapper: Record<string, string> = {
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
-/** Survives route unmounts so the incoming page knows which name to morph from. */
-let lastShownName = "";
+const ANIM_DELAY = 0.12;
+const STAGGER = 0.035;
+const OLD_DURATION = 0.32;
+const NEW_DURATION = 0.38;
+// New char starts when old is ~55% done — eliminates double-visibility overlap.
+const NEW_SLOT_DELAY = OLD_DURATION * 0.55;
 
-const curtain: Variants = {
+/** Survives route unmounts so the incoming page knows which name to morph from.
+ *  Advancing only on a genuine name change keeps `advanceName` idempotent under
+ *  React StrictMode's double-mount and double-invoked renders. */
+const nameSlot = { current: "", previous: "" };
+const advanceName = (name: string): string => {
+  if (nameSlot.current !== name) {
+    nameSlot.previous = nameSlot.current;
+    nameSlot.current = name;
+  }
+  return nameSlot.previous;
+};
+
+const curtainBase: Variants = {
   initial: { y: "0%" },
-  enter: {
-    y: "-130%",
-    transition: { duration: CURTAIN_DURATION, delay: CURTAIN_DELAY, ease: EASE },
-  },
-  exit: {
-    y: "0%",
-    transition: { duration: 0.7, ease: EASE },
-  },
+  exit: { y: "0%", transition: { duration: 0.7, ease: EASE } },
 };
 
 const getTransitionName = (raw: string): string => {
@@ -53,64 +61,81 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     () => pageNameFromPath(window.location.pathname),
     [],
   );
-  // capture the previous page's name once, before overwriting the module slot
-  const fromNameRef = useRef<string | null>(null);
-  if (fromNameRef.current === null) {
-    fromNameRef.current = lastShownName;
-    lastShownName = displayName;
-  }
-  const fromName = fromNameRef.current;
+  const fromName = useMemo(() => advanceName(displayName), [displayName]);
 
-  const labelRef = useRef<HTMLDivElement>(null);
+  const crossfade = fromName !== "" && fromName !== displayName;
 
-  useLayoutEffect(() => {
-    const label = labelRef.current;
-    if (label && fromName !== displayName) {
-      const oldChars = label.querySelectorAll<HTMLElement>(".__t-old .__t-ch");
-      const newChars = label.querySelectorAll<HTMLElement>(".__t-new .__t-ch");
+  // Curtain must stay down until animation finishes.
+  // spacerName is the wider name — its last index is the last stagger position.
+  const spacerLen = crossfade
+    ? Math.max(fromName.length, displayName.length)
+    : 0;
+  const animEndTime = crossfade
+    ? ANIM_DELAY + (spacerLen - 1) * STAGGER + NEW_SLOT_DELAY + NEW_DURATION + 0.08
+    : 0;
+  const curtainDelay = crossfade ? animEndTime : CURTAIN_DELAY;
 
-      const tl = gsap.timeline({ delay: 0.12 });
-      // old chars drop down and out, left-to-right
-      tl.to(
-        oldChars,
-        {
-          yPercent: 115,
-          opacity: 0,
-          duration: 0.42,
-          ease: "power3.in",
-          stagger: 0.045,
-        },
-        0,
-      );
-      // new chars: fromTo so GSAP owns both start and end — no inline-style conflict
-      tl.fromTo(
-        newChars,
-        { yPercent: -115 },
-        {
-          yPercent: 0,
-          duration: 0.5,
-          ease: "power3.out",
-          stagger: 0.045,
-        },
-        0.18,
-      );
-    }
+  const curtainVariants: Variants = {
+    ...curtainBase,
+    enter: {
+      y: "-130%",
+      transition: { duration: CURTAIN_DURATION, delay: curtainDelay, ease: EASE },
+    },
+  };
 
+  // Wider name sizes the container; both layers sit inside absolutely.
+  const spacerName =
+    fromName.length >= displayName.length ? fromName : displayName;
+
+  // Both names are centered inside spacerName's box. Stagger by horizontal
+  // position (offset + charIndex) so chars at the same x-slot animate at the
+  // same time — prevents overlap when names differ in length.
+  const oldOffset = Math.round((spacerName.length - fromName.length) / 2);
+  const newOffset = Math.round((spacerName.length - displayName.length) / 2);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       window.scrollTo({ top: 0 });
     }, 800);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Flat __t-ch spans — container-level overflow:hidden on __t-old/__t-new
-  // handles clipping. No per-char wrappers so italic ascenders aren't cut.
-  const renderChars = (word: string) =>
+  const renderOldChars = (word: string) =>
     word.split("").map((ch, i) => (
-      <span key={i} className="__t-ch inline-block">
-        {ch === " " ? " " : ch}
+      <span key={i} className="inline-block overflow-hidden leading-none">
+        <motion.span
+          className="inline-block"
+          initial={{ y: "0%", opacity: 1 }}
+          animate={{ y: "-120%", opacity: 0 }}
+          transition={{
+            duration: OLD_DURATION,
+            delay: ANIM_DELAY + (oldOffset + i) * STAGGER,
+            ease: [0.76, 0, 0.24, 1],
+          }}
+        >
+          {ch === " " ? " " : ch}
+        </motion.span>
       </span>
     ));
+
+  const renderNewChars = (word: string) =>
+    word.split("").map((ch, i) => (
+      <span key={i} className="inline-block overflow-hidden leading-none">
+        <motion.span
+          className="inline-block"
+          initial={{ y: crossfade ? "120%" : "0%", opacity: crossfade ? 0 : 1 }}
+          animate={{ y: "0%", opacity: 1 }}
+          transition={{
+            duration: NEW_DURATION,
+            delay: crossfade ? ANIM_DELAY + (newOffset + i) * STAGGER + NEW_SLOT_DELAY : 0,
+            ease: [0.24, 1, 0.24, 1],
+          }}
+        >
+          {ch === " " ? " " : ch}
+        </motion.span>
+      </span>
+    ));
+
   return (
     <>
       <section>
@@ -129,7 +154,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
             }}
           >
             <motion.div
-              variants={curtain}
+              variants={curtainVariants}
               initial="initial"
               animate="enter"
               exit="exit"
@@ -147,16 +172,19 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
                 willChange: "transform",
               }}
             >
-              <div
-                ref={labelRef}
-                className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0] overflow-hidden"
-              >
-                {/* old word drops away, new word drops in, left → right */}
-                <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(fromName)}
-                </div>
-                <div className="__t-new flex items-center justify-center overflow-hidden whitespace-nowrap">
-                  {renderChars(displayName)}
+              {/* Invisible spacer sizes container to the wider name.
+                  Both animation layers are absolute so they don't stack. */}
+              <div className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0]">
+                <span className="invisible whitespace-nowrap select-none pointer-events-none">
+                  {spacerName}
+                </span>
+                {crossfade && (
+                  <div className="absolute inset-0 flex items-center justify-center whitespace-nowrap">
+                    {renderOldChars(fromName)}
+                  </div>
+                )}
+                <div className="absolute inset-0 flex items-center justify-center whitespace-nowrap">
+                  {renderNewChars(displayName)}
                 </div>
               </div>
             </motion.div>
