@@ -1,4 +1,5 @@
 import { projectsInfos } from "../../ProjectsInfos";
+import { experienceInfos } from "../../ExperienceInfos";
 import { socialLinks } from "../../socialLinks";
 
 const angLt = "&lt;";
@@ -76,6 +77,10 @@ const lsCmd: CommandAction = (args) => {
 
   if (!routeContent && currentPath.startsWith("/projects/")) {
     routeContent = pageLs["root"]["/projects/:name"];
+  }
+
+  if (!routeContent && currentPath.startsWith("/experience/")) {
+    routeContent = pageLs["root"]["/experience/:name"];
   }
 
   if (routeContent) {
@@ -240,6 +245,8 @@ export const pageLs: {
     "/projects": LsDirEntry[];
     "/projects/:name": LsFileEntry[];
     "/more-about-me": LsFileEntry[];
+    "/experience": LsDirEntry[];
+    "/experience/:name": LsFileEntry[];
   };
 } = {
   "root": {
@@ -258,6 +265,16 @@ export const pageLs: {
         name: "projects.sh",
         type: "file",
         scrollId: "projects",
+      },
+      {
+        name: "experience.sh",
+        type: "file" as const,
+        scrollId: "experience",
+      },
+      {
+        name: "experience",
+        type: "dir" as const,
+        path: "/experience",
       },
       {
         name: "more-about-me",
@@ -297,6 +314,23 @@ export const pageLs: {
         name: "read-more.sh",
         type: "file",
         clickSelector: "#read-more-button",
+      },
+    ],
+    "/experience": experienceInfos.map((exp) => ({
+      name: exp.company.toLowerCase().replace(/\s+/g, "-"),
+      type: "dir" as const,
+      path: `/experience/${exp.to}`,
+    })),
+    "/experience/:name": [
+      {
+        name: "previous-experience.sh",
+        type: "file" as const,
+        clickSelector: "#prev-experience-link",
+      },
+      {
+        name: "next-experience.sh",
+        type: "file" as const,
+        clickSelector: "#next-experience-link",
       },
     ],
   },

@@ -385,6 +385,10 @@ export const useConsole = (
         pageContent = pageLs["root"]["/projects/:name"];
       }
 
+      if (pageContent.length === 0 && currentPath.startsWith("/experience/")) {
+        pageContent = pageLs["root"]["/experience/:name"];
+      }
+
       let newSuggestions: string[] = [];
       const commandPart = commandName === "cd" ? args[0] || "" : command.trim();
 

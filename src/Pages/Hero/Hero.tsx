@@ -2,6 +2,7 @@ import Name from "../../components/Name/Name";
 import Projects from "../../components/HeroProjects/HeroProjects";
 import Skills from "../../components/Skills/Skills";
 import Summary from "../../components/Summary/Summary";
+import Experience from "../../components/Experience/Experience";
 
 import { gsap } from "gsap";
 import SplitType, { TargetElement } from "split-type";
@@ -116,6 +117,7 @@ export default function Hero() {
         <Name />
         <Summary />
         <Skills />
+        <Experience />
         <Projects />
       </>
     </TransitionOverlay>

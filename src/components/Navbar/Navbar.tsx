@@ -31,6 +31,11 @@ export default function Navbar() {
       id: "nav-home",
     },
     {
+      to: "experience",
+      title: "Experience",
+      id: "nav-experience",
+    },
+    {
       to: "projects",
       title: "Personal Projects",
       id: "nav-projects",
