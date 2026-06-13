@@ -1,23 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg-color: #e7e5e4;
-  --text-color: #1c1917;
-  --nav-menu-bg: #d4d4d4cc;
-  --accent-color: #57534e;
-  --color1: 18, 113, 255;
-  --color2: 221, 74, 255;
-  --color3: 100, 220, 255;
-  --color4: 200, 50, 50;
-  --color5: 180, 180, 50;
-  --color-interactive: 140, 100, 255;
-  --circle-size: 60%;
-  --blending: hard-light;
+  --bg-color: #f4f1ec;
+  --text-color: #141210;
+  --nav-menu-bg: #ece7ddcc;
+  --accent-color: #c2410c;
+  /* console vars: KEEP UNCHANGED (everything from --console-bg down) */
 
   --console-bg: oklch(14.5% 0 0);
   --console-base-text-color: oklch(98.5% 0 0);
@@ -29,19 +20,28 @@
   --console-error-color: oklch(57.7% 0.245 27.325);
 }
 
+html {
+  /* 100vw elements (transition curtain, marquee) include the scrollbar
+     gutter — clip instead of letting them create horizontal scroll.
+     `clip` (not `hidden`) keeps position: sticky descendants working. */
+  overflow-x: clip;
+}
+
 body {
   color: var(--text-color);
   background-color: var(--bg-color);
-  font-family: "Montserrat", sans-serif;
-  transition: 00ms ease-in-out;
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  overflow-x: clip;
 }
 
 .__theme-change-dark {
-  --bg-color: #1c1917;
-  --text-color: #e7e5e4;
+  --bg-color: #100e0c;
+  --text-color: #ede8e0;
+  --accent-color: #c2410c;
   background-color: var(--bg-color);
   color: var(--text-color);
-  border-radius: 1rem;
+  border-radius: 1.5rem;
 }
 
 @media (min-width: 768px) {
@@ -60,9 +60,9 @@ body {
 }
 
 *.__dark-mode {
-  --bg-color: #1c1917;
-  --text-color: #e7e5e4;
-  --nav-menu-bg: rgba(23 23 23 / 0.8);
+  --bg-color: #100e0c;
+  --text-color: #ede8e0;
+  --nav-menu-bg: rgba(16 14 12 / 0.85);
 }
 
 * {
@@ -94,15 +94,15 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-neutral-300 hover:cursor-default;
+  @apply bg-[#14110e] hover:cursor-default;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-sm bg-neutral-600 hover:cursor-default;
+  @apply rounded-sm bg-[#4a4239] hover:cursor-default;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply w-4 rounded-sm bg-neutral-800;
+  @apply w-4 rounded-sm bg-[#6b5f52];
 }
 
 .__element-text {
@@ -143,8 +143,12 @@ button:focus-visible {
 }
 
 .__section-title {
-  font-family: "Poppins", sans-serif;
-  @apply inline-block py-3 mb-2 overflow-hidden text-4xl font-bold lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 0.95;
+  @apply inline-block py-3 mb-2 overflow-hidden text-4xl lg:text-8xl md:text-6xl sm:text-5xl lg:mb-8 md:mb-4;
+  font-weight: 700;
 }
 
 .__section-title .fun-text {
@@ -154,7 +158,15 @@ button:focus-visible {
 }
 
 .__section-desc {
-  @apply lg:text-4xl lg:leading-[4rem] font-[500] md:text-2xl md:leading-[3rem] sm:text-xl text-base sm:leading-[2rem] leading-[1.7rem];
+  @apply lg:text-4xl lg:leading-[1.35] leading-[1.45] font-[400] md:text-2xl sm:text-xl text-base;
+}
+
+.__mono-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-color);
 }
 
 .__cursor-blend {
@@ -162,11 +174,12 @@ button:focus-visible {
 }
 
 .expand-bg {
-  border-color: var(--text-color);
+  border-color: var(--accent-color);
+  color: var(--text-color);
   transition:
     color 300ms ease,
-    border-radius 300ms ease;
-  color: var(--text-color);
+    border-radius 300ms ease,
+    border-color 300ms ease;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -177,7 +190,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   width: 100%;
-  background-color: var(--text-color);
+  background-color: var(--accent-color);
   transform: translateY(100%);
   z-index: -1;
   transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
@@ -187,7 +200,7 @@ button:focus-visible {
 
 .expand-bg:hover,
 .expand-bg:focus {
-  color: var(--bg-color);
+  color: #efe9e1;
 }
 
 .expand-bg:hover::after,
@@ -197,11 +210,11 @@ button:focus-visible {
 }
 
 .inst-msg-send {
-  border-color: #e7e5e4;
+  border-color: var(--accent-color);
+  color: #ede8e0;
   transition:
     color 300ms ease,
     border-radius 300ms ease;
-  color: #e7e5e4;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -212,22 +225,20 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   width: 100%;
-  background-color: #e7e5e4;
+  background-color: var(--accent-color);
   transform: translateY(100%);
   z-index: -1;
   transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-  rotate: 0deg;
 }
 
 .inst-msg-send:hover,
 .inst-msg-send:focus {
-  color: #1c1917;
+  color: #efe9e1;
 }
 
 .inst-msg-send:hover::after,
 .inst-msg-send:focus::after {
   transform: translateY(0%);
-  rotate: 180deg;
 }
 
 .__accent-text {
@@ -297,4 +308,36 @@ button:focus-visible {
   to {
     rotate: 360deg;
   }
+}
+
+/* boot preloader bar: eases toward 90%, overlay fades once the app is ready */
+@keyframes preload-fill {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .__marquee-track {
+    animation: none !important;
+  }
+}
+
+.__marquee-track {
+  display: flex;
+  gap: 4rem;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
 }

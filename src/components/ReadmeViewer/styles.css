@@ -1,0 +1,200 @@
+/* ─── Loading skeleton ─────────────────────────────────────────────────── */
+.readme-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.readme-skeleton__line {
+  height: 0.9em;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--text-color) 0%,
+    transparent 50%,
+    var(--text-color) 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0.08;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Markdown body ─────────────────────────────────────────────────────── */
+.readme-body {
+  /* inherit app font tokens */
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  color: var(--text-color);
+  line-height: 1.75;
+}
+
+/* Headings – use app display font so they feel native */
+.readme-body h1,
+.readme-body h2,
+.readme-body h3,
+.readme-body h4,
+.readme-body h5,
+.readme-body h6 {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+/* H1 is usually the project title — skip it since we render our own */
+.readme-body h1:first-of-type {
+  display: none;
+}
+
+.readme-body h1 { font-size: clamp(1.5rem, 3dvw, 2.2rem); }
+.readme-body h2 { font-size: clamp(1.2rem, 2.4dvw, 1.7rem); }
+.readme-body h3 { font-size: clamp(1rem, 2dvw, 1.3rem); }
+.readme-body h4,
+.readme-body h5,
+.readme-body h6 { font-size: 1rem; }
+
+/* A thin accent rule under H2 for visual hierarchy */
+.readme-body h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid rgba(194, 65, 12, 0.3);
+}
+
+/* Paragraphs */
+.readme-body p {
+  margin-bottom: 1em;
+}
+
+/* Inline code */
+.readme-body code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85em;
+  background-color: rgba(194, 65, 12, 0.08);
+  border: 1px solid rgba(194, 65, 12, 0.18);
+  border-radius: 3px;
+  padding: 0.15em 0.45em;
+  color: var(--accent-color);
+  word-break: break-word;
+}
+
+/* Code blocks */
+.readme-body pre {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82em;
+  background-color: rgba(20, 18, 16, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 1.1em 1.3em;
+  overflow-x: auto;
+  line-height: 1.65;
+  margin-bottom: 1.2em;
+}
+
+.readme-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #ede8e0;
+  font-size: 1em;
+}
+
+/* Blockquote */
+.readme-body blockquote {
+  border-left: 3px solid var(--accent-color);
+  padding-left: 1.1em;
+  margin: 1.2em 0;
+  opacity: 0.75;
+  font-style: italic;
+}
+
+/* Lists */
+.readme-body ul,
+.readme-body ol {
+  padding-left: 1.6em;
+  margin-bottom: 1em;
+}
+
+.readme-body li {
+  margin-bottom: 0.3em;
+}
+
+.readme-body ul li::marker {
+  color: var(--accent-color);
+}
+
+/* Task lists (GFM) */
+.readme-body input[type="checkbox"] {
+  accent-color: var(--accent-color);
+  margin-right: 0.4em;
+}
+
+/* Tables */
+.readme-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.2em;
+  font-size: 0.88em;
+  overflow-x: auto;
+  display: block;
+}
+
+.readme-body th {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding: 0.5em 0.9em;
+  text-align: left;
+}
+
+.readme-body td {
+  padding: 0.5em 0.9em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.readme-body tr:last-child td {
+  border-bottom: none;
+}
+
+/* Images from README */
+.readme-body img {
+  max-width: 100%;
+  border-radius: 6px;
+  display: block;
+  margin: 1.2em auto;
+}
+
+/* Horizontal rule */
+.readme-body hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 2em 0;
+}
+
+/* Links */
+.readme-body a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: opacity 200ms;
+}
+
+.readme-body a:hover {
+  opacity: 0.75;
+}
+
+/* Strikethrough */
+.readme-body del {
+  opacity: 0.5;
+}

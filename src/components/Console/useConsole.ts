@@ -233,7 +233,11 @@ export const useConsole = (
 
           if (steps.length === 0) {
             const submit = async () => {
-              const result = await submitMessageFromConsole(formData as any);
+              const result = await submitMessageFromConsole(
+                formData as unknown as Parameters<
+                  typeof submitMessageFromConsole
+                >[0],
+              );
               setOutput((prev) => [
                 ...prev,
                 { command: "", response: result, path: currentPath },
@@ -282,8 +286,11 @@ export const useConsole = (
         } else {
           const pageContent =
             pageLs["root"][
-            currentPath as keyof (typeof pageLs)["root"]
-            ] || pageLs["root"]["/projects/:name"];
+              currentPath as keyof (typeof pageLs)["root"]
+            ] ||
+            (currentPath.startsWith("/experience/")
+              ? pageLs["root"]["/experience/:name"]
+              : pageLs["root"]["/projects/:name"]);
 
           if (Array.isArray(pageContent)) {
             const targetFile = pageContent.find(
@@ -381,6 +388,10 @@ export const useConsole = (
         pageContent = pageLs["root"]["/projects/:name"];
       }
 
+      if (pageContent.length === 0 && currentPath.startsWith("/experience/")) {
+        pageContent = pageLs["root"]["/experience/:name"];
+      }
+
       let newSuggestions: string[] = [];
       const commandPart = commandName === "cd" ? args[0] || "" : command.trim();
 
@@ -470,7 +481,9 @@ export const useConsole = (
       });
       setInteractivePrompt(`Enter ${getDisplayFieldName(nextField)}:`);
     } else {
-      const finalFormData = { ...newFormData } as any;
+      const finalFormData = {
+        ...newFormData,
+      } as unknown as Parameters<typeof submitMessageFromConsole>[0];
       const result = await submitMessageFromConsole(finalFormData);
       setOutput((prev) => [
         ...prev,
@@ -487,6 +500,7 @@ export const useConsole = (
 
     setCommand("");
     setCursorPosition(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interactiveCommand, command, location.pathname, interactivePrompt]);
 
   const handleKeyDown = useCallback(

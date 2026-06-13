@@ -6,6 +6,8 @@ import ProjectsList from "./Pages/Projects/ProjectsList";
 import ProjectDetails from "./Pages/Projects/ProjectDetails";
 import NotFound from "./components/NotFound/NotFound";
 import MoreAboutMe from "./Pages/Projects/MoreAboutMe/MoreAboutMe";
+import ExperienceList from "./Pages/Experience/ExperienceList";
+import ExperienceDetails from "./Pages/Experience/ExperienceDetails";
 
 const RedirectToRoot = () => {
   const location = useLocation();
@@ -32,6 +34,14 @@ export default function AnimatedRoutes() {
     {
       path: "/more-about-me",
       element: <MoreAboutMe />,
+    },
+    {
+      path: "/experience",
+      element: <ExperienceList />,
+    },
+    {
+      path: "/experience/:name",
+      element: <ExperienceDetails />,
     },
     {
       path: "/portfolio/*",

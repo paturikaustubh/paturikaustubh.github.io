@@ -6,6 +6,9 @@ export interface ProjectDetailsType {
   readonly to: string;
   repo: string | null;
   readonly live?: string;
+  /** GitHub "owner/repo" slug — when set, project page fetches and renders
+   *  the repo README instead of `desc`. Photos + video are unchanged. */
+  readonly readmeRepo?: string;
 }
 
 export const projectsInfos: ProjectDetailsType[] = [
@@ -16,6 +19,7 @@ export const projectsInfos: ProjectDetailsType[] = [
     responsive: false,
     repo: "https://github.com/paturikaustubh/py-scope",
     to: "pyscope",
+    readmeRepo: "paturikaustubh/py-scope",
   },
   {
     title: "VBOSS",
