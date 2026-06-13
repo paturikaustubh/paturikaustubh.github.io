@@ -95,29 +95,29 @@ export default function ProjectDetails() {
         </p>
         <h1
           ref={titleRef}
-          className="font-display font-[800] upperproject leading-[0.95] tracking-tight text-[clamp(2.6rem,9dvw,9rem)] overflow-hidden __cursor-blend __cursor-difference"
+          className="font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2.6rem,9dvw,9rem)] overflow-hidden __cursor-blend __cursor-difference"
         >
           {projectDetails.title}
         </h1>
 
         {/* meta strip */}
         <div className="grid grid-cols-2 mt-8 border-y md:grid-cols-4 border-[#3a332b] divide-x divide-[#3a332b] __project-meta">
-          <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-70">
-            nÂº {projectNumber}
+          <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-70">
+            nº {projectNumber}
           </div>
-          <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-70">
+          <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-70">
             {projectDetails.responsive ? "responsive build" : "desktop-first"}
           </div>
           {projectDetails.repo ? (
             <Link
               to={projectDetails.repo}
               target="_blank"
-              className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
+              className="px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors hover:text-[--accent-color] __cursor-difference"
             >
               repo ↗
             </Link>
           ) : (
-            <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
+            <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-40">
               private repo
             </div>
           )}
@@ -125,12 +125,12 @@ export default function ProjectDetails() {
             <Link
               to={projectDetails.live}
               target="_blank"
-              className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
+              className="px-4 py-3 font-mono text-xs tracking-widest uppercase transition-colors hover:text-[--accent-color] __cursor-difference"
             >
               live ↗
             </Link>
           ) : (
-            <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
+            <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-40">
               offline
             </div>
           )}
@@ -166,7 +166,7 @@ export default function ProjectDetails() {
               <p className="__mono-label mb-1">( index )</p>
               <Link
                 to="/projects"
-                className="font-mono text-sm upperproject tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
+                className="font-mono text-sm uppercase tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
               >
                 ← all projects
               </Link>
@@ -205,7 +205,7 @@ export default function ProjectDetails() {
           />
           {!videoPlaying && (
             <button
-              className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm upperproject tracking-widest bg-[#efe9e1] text-[#14110e] rounded-full __cursor-difference"
+              className="absolute inset-0 m-auto h-fit w-fit px-6 py-2 font-mono text-sm uppercase tracking-widest bg-[#efe9e1] text-[#14110e] rounded-full __cursor-difference"
               onClick={() => {
                 videoRef.current?.play();
                 setVideoPlaying(true);
