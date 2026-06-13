@@ -161,8 +161,8 @@ const exitCmd: CommandAction = (
 
 const navCmd: CommandAction = (args) => {
   const navMapping: { [key: string]: string } = {
-    home: "nav-home",
     projects: "nav-projects",
+    experience: "nav-experience",
     resume: "nav-resume",
     "contact-me": "nav-contact-me",
   };

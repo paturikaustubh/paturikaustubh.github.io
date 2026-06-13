@@ -26,11 +26,6 @@ export default function Navbar() {
 
   const menuLinks = [
     {
-      to: "",
-      title: "Home",
-      id: "nav-home",
-    },
-    {
       to: "experience",
       title: "Experience",
       id: "nav-experience",
