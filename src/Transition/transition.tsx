@@ -2,7 +2,7 @@ import { Variants, motion } from "framer-motion";
 import { useEffect, useMemo } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import { Footer } from "../components/Footer/Footer";
-import { CURTAIN_DELAY, CURTAIN_DURATION } from "../lib/intro";
+import { CURTAIN_DELAY, CURTAIN_DURATION, setIntroDelay } from "../lib/intro";
 
 const nameDisplayNameMapper: Record<string, string> = {
   portfolio: "Welcome Home",
@@ -74,6 +74,10 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     ? ANIM_DELAY + (spacerLen - 1) * STAGGER + NEW_SLOT_DELAY + NEW_DURATION + 0.08
     : 0;
   const curtainDelay = crossfade ? animEndTime : CURTAIN_DELAY;
+
+  // Sync INTRO_DELAY so page animations wait for the actual curtain lift.
+  // Called during render — fires before children's useEffect/useLayoutEffect.
+  setIntroDelay(curtainDelay + CURTAIN_DURATION * 0.5);
 
   const curtainVariants: Variants = {
     ...curtainBase,
