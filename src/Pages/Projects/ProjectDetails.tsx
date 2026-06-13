@@ -170,13 +170,6 @@ export default function ProjectDetails() {
               >
                 ← all projects
               </Link>
-              <Link
-                to={`/projects/${prevProjectDetails.to}`}
-                id="prev-project-link"
-                className="font-mono text-sm upperproject tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
-              >
-                ↑ prev — {prevProjectDetails.title}
-              </Link>
             </div>
           </div>
           {/* overflow-hidden on parent clears the float */}
@@ -223,20 +216,29 @@ export default function ProjectDetails() {
           )}
         </div>
 
-        {/* giant next-project link */}
-        <Link
-          to={`/projects/${nextProjectDetails.to}`}
-          id="next-project-link"
-          className="__next-project group block mt-20 border-t border-[#3a332b] pt-10 pb-6 __cursor-difference"
-        >
-          <p className="__mono-label mb-4">( next up )</p>
-          <span className="__next-project-title font-display font-[800] upperproject leading-[0.95] tracking-tight text-[clamp(2.4rem,8dvw,8rem)]">
-            {nextProjectDetails.title}
-          </span>
-          <span className="block mt-4 font-mono text-sm upperproject tracking-widest opacity-0 -translate-x-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-            open project ⟶
-          </span>
-        </Link>
+        {/* prev / next project navigation */}
+        <div className="relative z-10 px-0 py-3 border-t border-[#3a332b] mt-20 flex items-center justify-between gap-4">
+          <div className="project-link">
+            <span className="opacity-60">Previous project</span>
+            <Link
+              to={`/projects/${prevProjectDetails.to}`}
+              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              id="prev-project-link"
+            >
+              {prevProjectDetails.title}
+            </Link>
+          </div>
+          <div className="project-link">
+            <span className="opacity-60">Next project</span>
+            <Link
+              to={`/projects/${nextProjectDetails.to}`}
+              className="text-2xl lg:text-4xl font-display font-[700] uppercase __nav-underline-element __cursor-difference"
+              id="next-project-link"
+            >
+              {nextProjectDetails.title}
+            </Link>
+          </div>
+        </div>
       </section>
     </TransitionOverlay>
   );
