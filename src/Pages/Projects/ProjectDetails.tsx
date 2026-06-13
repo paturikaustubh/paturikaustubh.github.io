@@ -127,10 +127,10 @@ export default function ProjectDetails() {
 
         {/* body — float layout so long content wraps around the image
              and short content lets images/video use the full width below */}
-        <div className="mt-12 overflow-hidden __project-section">
+        <div className="mt-12 overflow-hidden">
           {/* Main image: floated right on desktop so content flows around it */}
           {projectDetails.img && (
-            <div className="lg:float-right lg:w-[52%] lg:ml-10 lg:mb-4 mb-8">
+            <div className="lg:float-right lg:w-[52%] lg:ml-10 lg:mb-4 mb-8 __project-section">
               <img
                 src={`/assets/projects/${projectDetails.img}/logo.png`}
                 alt={projectDetails.title}
@@ -140,7 +140,7 @@ export default function ProjectDetails() {
           )}
 
           {/* Content: plain block (no flex/grid/overflow) so it wraps around the float */}
-          <div>
+          <div className="__project-section">
             <div className="mb-8">
               <p className="__mono-label mb-3">( about )</p>
               {projectDetails.readmeRepo ? (
