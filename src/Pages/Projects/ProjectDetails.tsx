@@ -56,15 +56,26 @@ export default function ProjectDetails() {
       stagger: 0.06,
       ease: "power2.out",
     });
-    // scroll-triggered reveals for body content below the fold
-    document.querySelectorAll<HTMLElement>(".__project-section").forEach((el) => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 28,
-        duration: 0.7,
-        ease: "power3.out",
-        scrollTrigger: { trigger: el, start: "top 85%" },
-      });
+    // in-view at load → delay-based; below fold → ScrollTrigger
+    const vh = window.innerHeight;
+    document.querySelectorAll<HTMLElement>(".__project-section").forEach((el, i) => {
+      if (el.getBoundingClientRect().top < vh * 0.88) {
+        gsap.from(el, {
+          opacity: 0,
+          y: 28,
+          duration: 0.7,
+          delay: INTRO_DELAY + 0.3 + i * 0.12,
+          ease: "power3.out",
+        });
+      } else {
+        gsap.from(el, {
+          opacity: 0,
+          y: 28,
+          duration: 0.7,
+          ease: "power3.out",
+          scrollTrigger: { trigger: el, start: "top 85%" },
+        });
+      }
     });
   }, [projectDetails.title]);
 
