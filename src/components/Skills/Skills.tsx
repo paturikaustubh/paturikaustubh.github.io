@@ -77,7 +77,6 @@ export default function Skills() {
           trigger: card,
           start: "top 85%",
           end: "center 75%",
-          toggleActions: "play none none reverse",
         },
       });
     });

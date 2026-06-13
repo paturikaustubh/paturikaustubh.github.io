@@ -50,7 +50,7 @@ export default function ReadmeViewer({ repo }: { repo: string }) {
   if (status === "loading") {
     return (
       <div className="readme-skeleton">
-        {[...Array(6)].map((_, i) => (
+        {new Array(6).map((_, i) => (
           <div
             key={i}
             className="readme-skeleton__line"
@@ -63,9 +63,7 @@ export default function ReadmeViewer({ repo }: { repo: string }) {
 
   if (status === "error") {
     return (
-      <p className="font-mono text-sm opacity-50">
-        [ readme not available ]
-      </p>
+      <p className="font-mono text-sm opacity-50">[ readme not available ]</p>
     );
   }
 
@@ -89,6 +87,7 @@ export default function ReadmeViewer({ repo }: { repo: string }) {
           img: ({ src, alt, ...rest }) => (
             <img src={src} alt={alt} loading="lazy" {...rest} />
           ),
+          hr: ({ ...rest }) => <hr className="my-0 bg-inherit" {...rest} />,
         }}
       >
         {markdown}

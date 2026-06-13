@@ -7,6 +7,7 @@ import { CURTAIN_DELAY, CURTAIN_DURATION } from "../lib/intro";
 
 const nameDisplayNameMapper: Record<string, string> = {
   portfolio: "Welcome Home",
+  projects: "Personal Projects",
   pyscope: "PyScope",
   vboss: "VBOSS",
 };

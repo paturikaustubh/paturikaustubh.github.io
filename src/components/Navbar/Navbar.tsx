@@ -32,7 +32,7 @@ export default function Navbar() {
     },
     {
       to: "projects",
-      title: "Projects",
+      title: "Personal Projects",
       id: "nav-projects",
     },
     {

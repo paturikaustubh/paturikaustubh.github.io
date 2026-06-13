@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "./styles.css";
 
 export default function Summary() {
-
   return (
     <section
       className="flex flex-col items-start justify-start gap-5 overflow-hidden bg-transparent select-none h-fit __section-padding __theme-change-dark"
@@ -21,7 +20,7 @@ export default function Summary() {
       </div>
       <Link
         to={"more-about-me"}
-        className="px-6 py-2 ml-auto font-mono text-sm uppercase tracking-widest border rounded-full expand-bg __cursor-difference"
+        className="px-6 py-2 ml-auto font-mono text-sm uppercase tracking-widest border rounded-full expand-bg"
       >
         Tell me more →
       </Link>
