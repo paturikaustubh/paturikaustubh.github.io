@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+﻿import { Link, useParams } from "react-router-dom";
 import "../Projects/detailsStyles.css";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
@@ -34,7 +34,7 @@ function getDuration(exp: ExperienceType): string {
     }
     return `${diff} mo`;
   } catch {
-    return "—";
+    return "â€”";
   }
 }
 
@@ -115,7 +115,7 @@ export default function ExperienceDetails() {
       <section className="min-h-[100dvh] __section-padding overflow-hidden">
         {/* header */}
         <p className="__mono-label __exp-meta-cell">
-          [ {exp.company} — {caseNumber} / {caseTotal} ]
+          [ {exp.company} â€” {caseNumber} / {caseTotal} ]
         </p>
         <h1
           ref={titleRef}
@@ -138,7 +138,7 @@ export default function ExperienceDetails() {
           <div className="px-4 py-3 font-mono text-xs tracking-widest uppercase opacity-70">
             {getDuration(exp)}
             {exp.current && (
-              <span style={{ color: "var(--accent-color)" }}> · Current</span>
+              <span style={{ color: "var(--accent-color)" }}> Â· Current</span>
             )}
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function ExperienceDetails() {
           className="mt-12 font-serif italic text-2xl lg:text-3xl leading-snug opacity-80 border-l-4 pl-6 lg:pl-8 max-w-4xl __exp-meta-cell"
           style={{ borderColor: "var(--accent-color)" }}
         >
-          ❝ {exp.pullQuote} ❞
+          â {exp.pullQuote} âž
         </blockquote>
 
         {/* tech stack chips */}
@@ -187,7 +187,7 @@ export default function ExperienceDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Previous experience</span>
             <Link
               to={`/experience/${prevExp.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
               id="prev-experience-link"
             >
               {prevExp.company}
@@ -197,7 +197,7 @@ export default function ExperienceDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Next experience</span>
             <Link
               to={`/experience/${nextExp.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
               id="next-experience-link"
             >
               {nextExp.company}

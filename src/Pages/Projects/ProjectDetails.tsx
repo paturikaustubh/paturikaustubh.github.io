@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+﻿import { Link, useParams } from "react-router-dom";
 import { TransitionOverlay } from "../../Transition/transition";
 import { useLayoutEffect, useRef, useState } from "react";
 import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
@@ -56,7 +56,7 @@ export default function ProjectDetails() {
       stagger: 0.06,
       ease: "power2.out",
     });
-    // in-view at load → delay-based; below fold → ScrollTrigger
+    // in-view at load â†’ delay-based; below fold â†’ ScrollTrigger
     const vh = window.innerHeight;
     document.querySelectorAll<HTMLElement>(".__project-section").forEach((el, i) => {
       if (el.getBoundingClientRect().top < vh * 0.88) {
@@ -91,7 +91,7 @@ export default function ProjectDetails() {
       <section className="min-h-[100dvh] __section-padding overflow-hidden">
         {/* header */}
         <p className="__mono-label __project-meta">
-          [ project — {projectNumber} / {projectTotal} ]
+          [ project â€” {projectNumber} / {projectTotal} ]
         </p>
         <h1
           ref={titleRef}
@@ -103,7 +103,7 @@ export default function ProjectDetails() {
         {/* meta strip */}
         <div className="grid grid-cols-2 mt-8 border-y md:grid-cols-4 border-[#3a332b] divide-x divide-[#3a332b] __project-meta">
           <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-70">
-            nº {projectNumber}
+            nÂº {projectNumber}
           </div>
           <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-70">
             {projectDetails.responsive ? "responsive build" : "desktop-first"}
@@ -114,7 +114,7 @@ export default function ProjectDetails() {
               target="_blank"
               className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
             >
-              repo ↗
+              repo â†—
             </Link>
           ) : (
             <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
@@ -127,7 +127,7 @@ export default function ProjectDetails() {
               target="_blank"
               className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
             >
-              live ↗
+              live â†—
             </Link>
           ) : (
             <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
@@ -136,7 +136,7 @@ export default function ProjectDetails() {
           )}
         </div>
 
-        {/* body — float layout so long content wraps around the image
+        {/* body â€” float layout so long content wraps around the image
              and short content lets images/video use the full width below */}
         <div className="mt-12 overflow-hidden">
           {/* Main image: floated right on desktop so content flows around it */}
@@ -168,14 +168,14 @@ export default function ProjectDetails() {
                 to="/projects"
                 className="font-mono text-sm upperproject tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
               >
-                ← all projects
+                â† all projects
               </Link>
             </div>
           </div>
           {/* overflow-hidden on parent clears the float */}
         </div>
 
-        {/* Responsive screenshots + video — always full width below both columns */}
+        {/* Responsive screenshots + video â€” always full width below both columns */}
         {projectDetails.responsive && (
           <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3 __project-section">
             {[1, 2, 3].map((n) => (
@@ -222,7 +222,7 @@ export default function ProjectDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Previous project</span>
             <Link
               to={`/projects/${prevProjectDetails.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
               id="prev-project-link"
             >
               {prevProjectDetails.title}
@@ -232,7 +232,7 @@ export default function ProjectDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Next project</span>
             <Link
               to={`/projects/${nextProjectDetails.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
               id="next-project-link"
             >
               {nextProjectDetails.title}
