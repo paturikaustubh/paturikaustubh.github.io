@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { TransitionOverlay } from "../../Transition/transition";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
 import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
@@ -36,11 +36,6 @@ export default function ProjectDetails() {
     projectsInfos[
       projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1
     ];
-
-  useEffect(() => {
-    document.body.classList.add("__dark-mode");
-    return () => document.body.classList.remove("__dark-mode");
-  }, []);
 
   useLayoutEffect(() => {
     const match = projectsInfos.find(({ to }) => to === projectName);

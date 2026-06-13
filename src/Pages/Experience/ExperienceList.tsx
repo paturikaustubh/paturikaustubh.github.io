@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
 import { experienceInfos } from "../../ExperienceInfos";
@@ -6,6 +7,11 @@ import { useGsap } from "../../lib/useGsap";
 import { INTRO_DELAY } from "../../lib/intro";
 
 export default function ExperienceList() {
+  useEffect(() => {
+    document.body.classList.add("__dark-mode");
+    return () => document.body.classList.remove("__dark-mode");
+  }, []);
+
   useGsap(() => {
     document
       .querySelectorAll<HTMLElement>(".__exp-row")
