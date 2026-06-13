@@ -1,24 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
-
 .__name-span {
-  font-family: "Bebas Neue", sans-serif;
-  letter-spacing: 0.07em;
-  font-size: 12dvw;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  /* 17.5dvw scales the name with viewport.
+     At 390px → 68px (4.25rem), at 1440px → 11rem cap.
+     white-space: nowrap not needed — each child span is a single word. */
+  font-size: clamp(3rem, 17.5dvw, 11rem);
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
-.__stroke-only {
-  color: transparent;
-  -webkit-text-stroke: var(--text-color);
-  -webkit-text-stroke-width: 1px;
-  font-weight: 600;
+.__name-span > span {
+  padding-inline: 0.05em;
 }
 
-.__name-bg {
-  font-family: "Bebas Neue", sans-serif;
-  font-weight: 900;
-  color: var(--bg-color);
-  /* opacity: 0; */
-  transition: 300ms ease-in-out;
-  letter-spacing: 0.02em;
-  font-size: 50dvw;
+.__name-accent {
+  color: var(--accent-color);
+}
+
+/* hero meta labels - subtle shadow only on dark bg */
+.__hero-meta {
+  text-shadow: none;
 }

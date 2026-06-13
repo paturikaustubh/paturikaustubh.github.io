@@ -1,117 +1,89 @@
-import { useEffect } from "react";
 import Name from "../../components/Name/Name";
 import Projects from "../../components/HeroProjects/HeroProjects";
 import Skills from "../../components/Skills/Skills";
 import Summary from "../../components/Summary/Summary";
+import Experience from "../../components/Experience/Experience";
 
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
+import SplitType, { TargetElement } from "split-type";
 
 import "./styles.css";
-import SplitType, { TargetElement } from "split-type";
 import { TransitionOverlay } from "../../Transition/transition";
+import { useGsap } from "../../lib/useGsap";
+import { prefersReducedMotion } from "../../lib/device";
+import { INTRO_DELAY } from "../../lib/intro";
 
 export default function Hero() {
-  // ANCHOR content animations  ||========================================================================
-  useEffect(() => {
-    const gsapMatchMedia = gsap.matchMedia();
+  useGsap(() => {
     const body = document.body;
-
     if (body.classList.contains("__dark-mode"))
       body.classList.remove("__dark-mode");
 
-    // gsapMatchMedia.add("(max-width: 1024px)", () => {});
-
-    // ANCHOR NAVBAR ANIMATION  ||========================================================================
     gsap.fromTo(
       "nav",
-      {
-        y: "-100%",
-        stagger: 0.02,
-      },
-      {
-        y: 0,
-        delay: 1.5,
-        duration: 0.8,
-      }
+      { y: "-100%" },
+      { y: 0, delay: INTRO_DELAY + 0.45, duration: 0.8 },
     );
 
-    // ANCHOR SECTION TITLE ANIMATION  ||========================================================================
-    const sectionTitles = document.querySelectorAll(".__section-title");
-    const fadeInText = document.querySelectorAll(".__fade-in");
-    const darkThemeElements = document.querySelectorAll(".__theme-change-dark");
-    const textBlendElements =
-      document.querySelectorAll<HTMLElement>(".__cursor-blend");
+    // nav flips to ink while floating over the cream band
+    document.querySelectorAll(".__theme-change-dark").forEach((band) => {
+      gsap.to("nav", {
+        scrollTrigger: {
+          trigger: band,
+          start: "top 5rem",
+          end: "bottom 5rem",
+          onEnter: () =>
+            document.querySelector("nav")?.classList.add("__header-inverted"),
+          onEnterBack: () =>
+            document.querySelector("nav")?.classList.add("__header-inverted"),
+          onLeave: () =>
+            document
+              .querySelector("nav")
+              ?.classList.remove("__header-inverted"),
+          onLeaveBack: () =>
+            document
+              .querySelector("nav")
+              ?.classList.remove("__header-inverted"),
+        },
+      });
+    });
 
-    // ANCHOR LARGE SCREEN ANIMS  ||========================================================================
+    if (prefersReducedMotion()) return;
+
+    // section titles: masked rise with a skew settle
+    document.querySelectorAll(".__section-title").forEach((sectionTitle) => {
+      const { chars } = new SplitType(sectionTitle as TargetElement, {
+        types: "chars",
+      });
+      gsap.from(chars, {
+        scrollTrigger: {
+          trigger: sectionTitle,
+          start: "top 80%",
+          end: "bottom 40%",
+          toggleActions: "play none none none",
+        },
+        yPercent: 120,
+        skewY: 5,
+        stagger: 0.025,
+        ease: "power4.out",
+        duration: 0.85,
+      });
+    });
+
+    // long copy: word-by-word scrub on desktop, one-shot on touch/mobile
+    const gsapMatchMedia = gsap.matchMedia();
     gsapMatchMedia.add("(min-width: 768px)", () => {
-      // ANCHOR CURSOR SIZING  ||========================================================================
-      textBlendElements.forEach((element) => {
-        element.addEventListener("mouseenter", handleMouseEnter);
-        element.addEventListener("mouseleave", handleMouseLeave);
-      });
-
-      darkThemeElements.forEach((darkElement) => {
-        gsap.to("nav", {
-          scrollTrigger: {
-            trigger: darkElement,
-            start: "top 5rem",
-            end: "bottom 5rem",
-            onEnter: () => {
-              document.querySelector("nav")?.classList.add("__header-inverted");
-            },
-            onEnterBack: () => {
-              document.querySelector("nav")?.classList.add("__header-inverted");
-            },
-            onLeave: () => {
-              document
-                .querySelector("nav")
-                ?.classList.remove("__header-inverted");
-            },
-            onLeaveBack: () => {
-              document
-                .querySelector("nav")
-                ?.classList.remove("__header-inverted");
-            },
-          },
-        });
-      });
-
-      
-
-      
-      sectionTitles.forEach((sectionTitle) => {
-        const { chars } = new SplitType(sectionTitle as TargetElement, {
-          types: "chars",
-        });
-        gsap.from(chars, {
-          scrollTrigger: {
-            trigger: sectionTitle,
-            start: "top 80%",
-            end: "bottom 40%",
-            toggleActions: "play none none none",
-          },
-          rotateY: "90deg",
-          transformOrigin: "left left",
-          stagger: 0.02,
-          ease: "bounce.out",
-          duration: 0.8,
-          letterSpacing: "-15px",
-        });
-      });
-
-      fadeInText.forEach((char) => {
-        const { words } = new SplitType(char as TargetElement, {
+      document.querySelectorAll(".__fade-in").forEach((el) => {
+        const { words } = new SplitType(el as TargetElement, {
           types: "words",
         });
         gsap.from(words, {
           scrollTrigger: {
             trigger: words,
-            scrub: 1,
-            start: "top 90%",
-            end: "bottom 65%",
-            toggleActions: "play none none reverse",
+            scrub: 0.6,
+            start: "top 95%",
+            end: "center 75%",
+            toggleActions: "play none none none",
           },
           opacity: 0.03,
           filter: "blur(8px)",
@@ -120,89 +92,34 @@ export default function Hero() {
         });
       });
     });
-
-    // ANCHOR SMALL SCREEN ANIMS  ||========================================================================
     gsapMatchMedia.add("(max-width: 768px)", () => {
-      sectionTitles.forEach((sectionTitle) => {
-        const { chars } = new SplitType(sectionTitle as TargetElement, {
-          types: "chars",
-        });
-        gsap.from(chars, {
-          scrollTrigger: {
-            trigger: sectionTitle,
-            start: "top 90%",
-            end: "bottom 40%",
-            toggleActions: "play none none none",
-          },
-          rotateY: "90deg",
-          transformOrigin: "left left",
-          stagger: 0.02,
-          ease: "bounce.out",
-          duration: 0.8,
-          letterSpacing: "-15px",
-        });
-      });
-
-      fadeInText.forEach((char) => {
-        const { words } = new SplitType(char as TargetElement, {
+      document.querySelectorAll(".__fade-in").forEach((el) => {
+        const { words } = new SplitType(el as TargetElement, {
           types: "words",
         });
         gsap.from(words, {
           scrollTrigger: {
-            trigger: char,
-            scrub: false,
-            start: "top 88%",
+            trigger: el,
+            start: "top 98%",
             toggleActions: "play none none none",
           },
-          opacity: 0.03,
+          opacity: 0.06,
           stagger: 0.02,
           duration: 0.5,
         });
       });
     });
-
-    return () => {
-      ScrollTrigger.killAll();
-      textBlendElements.forEach((element) => {
-        element.removeEventListener("mouseenter", handleMouseEnter);
-        element.removeEventListener("mouseleave", handleMouseLeave);
-      });
-    };
   }, []);
 
-  // ANCHOR FUNCTIONS  ||========================================================================
-  const handleMouseEnter = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "14";
-      cursorElement.style.mixBlendMode = "difference";
-      cursorElement.style.backgroundColor = "#E7E5E4";
-    }
-  };
-
-  const handleMouseLeave = () => {
-    const cursorElement =
-      document.querySelector<HTMLDivElement>(".__custom-cursor");
-    if (cursorElement) {
-      cursorElement.style.scale = "1";
-      cursorElement.style.zIndex = "11";
-      cursorElement.style.mixBlendMode = "unset";
-      cursorElement.style.backgroundColor = "";
-    }
-  };
-
-  // ANCHOR JSX  ||========================================================================
   return (
-    <>
-      <TransitionOverlay>
-        <>
-          <Name />
-          <Summary />
-          <Skills />
-          <Projects />
-        </>
-      </TransitionOverlay>
-    </>
+    <TransitionOverlay>
+      <>
+        <Name />
+        <Summary />
+        <Skills />
+        <Experience />
+        <Projects />
+      </>
+    </TransitionOverlay>
   );
 }

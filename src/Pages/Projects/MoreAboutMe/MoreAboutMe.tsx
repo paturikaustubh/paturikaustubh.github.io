@@ -215,6 +215,7 @@ export default function MoreAboutMe() {
   return (
     <TransitionOverlay>
       <section className="__section-padding">
+        <p className="__mono-label">[ the human behind the code ]</p>
         <h1 className="__section-title __cursor-blend __cursor-difference __cursor-hover">
           More About Me
           <span className="fun-text-container emoji-z-index">

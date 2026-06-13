@@ -32,3 +32,16 @@ video::-webkit-media-controls-download-button {
   display: none !important;
   pointer-events: none;
 }
+
+/* next-case title: solid by default, accent fill on hover */
+.__next-case-title {
+  color: var(--text-color);
+  -webkit-text-stroke: none;
+  transition: color 350ms ease;
+  display: inline-block;
+  letter-spacing: -0.03em;
+}
+
+.__next-case:hover .__next-case-title {
+  color: var(--accent-color);
+}

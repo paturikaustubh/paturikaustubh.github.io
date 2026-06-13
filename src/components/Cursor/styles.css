@@ -6,35 +6,36 @@
   z-index: 11;
   pointer-events: none;
   border-radius: 50%;
-  background-color: #1c1917;
-  transition:
-    transform 300ms,
-    scale 300ms;
-  top: 200vh;
+  background-color: var(--text-color);
+  transition: scale 300ms;
+  top: 0;
+  left: 0;
+  transform: translate(-100px, -100px);
   border-color: var(--bg-color);
   /* transition: width 300ms; */
 }
 
+/* over dark sections the dot flips to cream */
 .__custom-cursor.light-mode {
-  background-color: #e7e5e4;
+  background-color: #ede8e0;
   mix-blend-mode: unset;
 }
 
 .__custom-cursor.mode-difference {
-  background-color: #e7e5e4 !important;
+  background-color: #ede8e0 !important;
   mix-blend-mode: difference !important;
 }
 
 .__custom-cursor.mode-hover {
   scale: 14 !important;
-  background-color: #e7e5e4;
+  background-color: #ede8e0;
   mix-blend-mode: difference;
   z-index: 15;
 }
 
 .__custom-cursor.mode-social {
   backdrop-filter: blur(15px) !important;
-  background-color: #e7e5e4 !important;
+  background-color: #ede8e0 !important;
   scale: 1 !important;
   z-index: 11 !important;
   mix-blend-mode: unset !important;
@@ -62,6 +63,12 @@
 }
 
 @media (max-width: 1024px) {
+  .__custom-cursor {
+    display: none;
+  }
+}
+
+@media (pointer: coarse) {
   .__custom-cursor {
     display: none;
   }
