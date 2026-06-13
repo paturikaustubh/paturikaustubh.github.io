@@ -286,8 +286,11 @@ export const useConsole = (
         } else {
           const pageContent =
             pageLs["root"][
-            currentPath as keyof (typeof pageLs)["root"]
-            ] || pageLs["root"]["/projects/:name"];
+              currentPath as keyof (typeof pageLs)["root"]
+            ] ||
+            (currentPath.startsWith("/experience/")
+              ? pageLs["root"]["/experience/:name"]
+              : pageLs["root"]["/projects/:name"]);
 
           if (Array.isArray(pageContent)) {
             const targetFile = pageContent.find(
