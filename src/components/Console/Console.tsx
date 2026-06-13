@@ -263,7 +263,7 @@ function PKBanner() {
     <pre
       style={{
         fontSize: "1.2em",
-        color: "var(--accent-color, #c2410c)",
+        color: "#ede8e0",
         lineHeight: "1.2",
         whiteSpace: "pre",
         marginBottom: "0.75em",
