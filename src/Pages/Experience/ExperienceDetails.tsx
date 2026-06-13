@@ -148,7 +148,7 @@ export default function ExperienceDetails() {
           className="mt-12 font-serif italic text-2xl lg:text-3xl leading-snug opacity-80 border-l-4 pl-6 lg:pl-8 max-w-4xl __exp-meta-cell"
           style={{ borderColor: "var(--accent-color)" }}
         >
-          ❝ {exp.pullQuote} âž
+          ❝ {exp.pullQuote} ❞
         </blockquote>
 
         {/* tech stack chips */}

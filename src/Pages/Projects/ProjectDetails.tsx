@@ -56,7 +56,7 @@ export default function ProjectDetails() {
       stagger: 0.06,
       ease: "power2.out",
     });
-    // in-view at load â†’ delay-based; below fold â†’ ScrollTrigger
+    // in-view at load → delay-based; below fold → ScrollTrigger
     const vh = window.innerHeight;
     document.querySelectorAll<HTMLElement>(".__project-section").forEach((el, i) => {
       if (el.getBoundingClientRect().top < vh * 0.88) {
@@ -91,7 +91,7 @@ export default function ProjectDetails() {
       <section className="min-h-[100dvh] __section-padding overflow-hidden">
         {/* header */}
         <p className="__mono-label __project-meta">
-          [ project â€” {projectNumber} / {projectTotal} ]
+          [ project — {projectNumber} / {projectTotal} ]
         </p>
         <h1
           ref={titleRef}
@@ -114,7 +114,7 @@ export default function ProjectDetails() {
               target="_blank"
               className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
             >
-              repo â†—
+              repo ↗
             </Link>
           ) : (
             <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
@@ -127,7 +127,7 @@ export default function ProjectDetails() {
               target="_blank"
               className="px-4 py-3 font-mono text-xs tracking-widest upperproject transition-colors hover:text-[--accent-color] __cursor-difference"
             >
-              live â†—
+              live ↗
             </Link>
           ) : (
             <div className="px-4 py-3 font-mono text-xs tracking-widest upperproject opacity-40">
@@ -136,7 +136,7 @@ export default function ProjectDetails() {
           )}
         </div>
 
-        {/* body â€” float layout so long content wraps around the image
+        {/* body — float layout so long content wraps around the image
              and short content lets images/video use the full width below */}
         <div className="mt-12 overflow-hidden">
           {/* Main image: floated right on desktop so content flows around it */}
@@ -168,14 +168,14 @@ export default function ProjectDetails() {
                 to="/projects"
                 className="font-mono text-sm upperproject tracking-widest opacity-70 hover:opacity-100 transition-opacity __cursor-difference"
               >
-                â† all projects
+                ← all projects
               </Link>
             </div>
           </div>
           {/* overflow-hidden on parent clears the float */}
         </div>
 
-        {/* Responsive screenshots + video â€” always full width below both columns */}
+        {/* Responsive screenshots + video — always full width below both columns */}
         {projectDetails.responsive && (
           <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3 __project-section">
             {[1, 2, 3].map((n) => (

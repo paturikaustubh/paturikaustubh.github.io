@@ -151,7 +151,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
                 ref={labelRef}
                 className="relative font-serif italic text-4xl lg:text-7xl md:text-5xl text-[#ede8e0] overflow-hidden"
               >
-                {/* old word drops away, new word drops in, left â†’ right */}
+                {/* old word drops away, new word drops in, left → right */}
                 <div className="__t-old absolute inset-0 flex items-center justify-center overflow-hidden whitespace-nowrap">
                   {renderChars(fromName)}
                 </div>
