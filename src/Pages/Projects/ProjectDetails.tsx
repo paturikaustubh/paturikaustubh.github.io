@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { TransitionOverlay } from "../../Transition/transition";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ProjectDetailsType, projectsInfos } from "../../ProjectsInfos";
 import { gsap } from "gsap";
 import { useGsap } from "../../lib/useGsap";
@@ -37,6 +37,11 @@ export default function ProjectDetails() {
       projectIndx - 1 < 0 ? projectsInfos.length - 1 : projectIndx - 1
     ];
 
+  useEffect(() => {
+    document.body.classList.add("__dark-mode");
+    return () => document.body.classList.remove("__dark-mode");
+  }, []);
+
   useLayoutEffect(() => {
     const match = projectsInfos.find(({ to }) => to === projectName);
     if (match) {
@@ -55,6 +60,16 @@ export default function ProjectDetails() {
       delay: INTRO_DELAY + 0.45,
       stagger: 0.06,
       ease: "power2.out",
+    });
+    // scroll-triggered reveals for body content below the fold
+    document.querySelectorAll<HTMLElement>(".__project-section").forEach((el) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 28,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: el, start: "top 85%" },
+      });
     });
   }, [projectDetails.title]);
 
@@ -117,7 +132,7 @@ export default function ProjectDetails() {
 
         {/* body — float layout so long content wraps around the image
              and short content lets images/video use the full width below */}
-        <div className="mt-12 overflow-hidden">
+        <div className="mt-12 overflow-hidden __project-section">
           {/* Main image: floated right on desktop so content flows around it */}
           {projectDetails.img && (
             <div className="lg:float-right lg:w-[52%] lg:ml-10 lg:mb-4 mb-8">
@@ -163,7 +178,7 @@ export default function ProjectDetails() {
 
         {/* Responsive screenshots + video — always full width below both columns */}
         {projectDetails.responsive && (
-          <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-3 __project-section">
             {[1, 2, 3].map((n) => (
               <img
                 key={n}
@@ -176,7 +191,7 @@ export default function ProjectDetails() {
           </div>
         )}
 
-        <div className="relative mt-10 w-fit mx-auto">
+        <div className="relative mt-10 w-fit mx-auto __project-section">
           <video
             src={`/assets/projects/${projectDetails.img}/sample.mp4`}
             ref={videoRef}

@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ExperienceType, experienceInfos } from "../../ExperienceInfos";
 import { TransitionOverlay } from "../../Transition/transition";
@@ -64,6 +64,11 @@ export default function ExperienceDetails() {
       expIndx - 1 < 0 ? experienceInfos.length - 1 : expIndx - 1
     ];
 
+  useEffect(() => {
+    document.body.classList.add("__dark-mode");
+    return () => document.body.classList.remove("__dark-mode");
+  }, []);
+
   useLayoutEffect(() => {
     const match = experienceInfos.find((e) => e.to === name);
     if (match) {
@@ -82,6 +87,16 @@ export default function ExperienceDetails() {
       delay: INTRO_DELAY + 0.45,
       stagger: 0.06,
       ease: "power2.out",
+    });
+    // scroll-triggered reveals for content below the fold
+    document.querySelectorAll<HTMLElement>(".__highlight-block").forEach((block) => {
+      gsap.from(block, {
+        opacity: 0,
+        y: 28,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: { trigger: block, start: "top 85%" },
+      });
     });
   }, [exp.role]);
 
@@ -123,7 +138,7 @@ export default function ExperienceDetails() {
 
         {/* pull quote */}
         <blockquote
-          className="mt-12 font-serif italic text-2xl lg:text-3xl leading-snug text-[#d4c5b5] border-l-4 pl-6 lg:pl-8 max-w-4xl __exp-meta-cell"
+          className="mt-12 font-serif italic text-2xl lg:text-3xl leading-snug opacity-80 border-l-4 pl-6 lg:pl-8 max-w-4xl __exp-meta-cell"
           style={{ borderColor: "var(--accent-color)" }}
         >
           ❝ {exp.pullQuote} ❞
@@ -147,7 +162,7 @@ export default function ExperienceDetails() {
         <div className="mt-14">
           <p className="__mono-label mb-6">( key work )</p>
           {exp.highlights.map((h, i) => (
-            <div key={i} className="border-t border-[#3a332b] py-8">
+            <div key={i} className="__highlight-block border-t border-[#3a332b] py-8">
               <h3 className="font-display font-[700] text-xl lg:text-2xl uppercase tracking-tight mb-4">
                 {h.title}
               </h3>

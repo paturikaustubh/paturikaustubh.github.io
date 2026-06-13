@@ -33,10 +33,7 @@ export default function Experience() {
   }, []);
 
   return (
-    <section
-      className="__section-padding __theme-change-dark no-bottom-radius"
-      id="experience"
-    >
+    <section className="__section-padding __theme-change-dark" id="experience">
       <p className="__mono-label">[ 03 — work experience ]</p>
       <span className="__cursor-blend">
         <span className="__section-title">Experience</span>
@@ -54,7 +51,10 @@ export default function Experience() {
               {exp.current && (
                 <span
                   className="ml-2 border px-1.5 py-0.5 rounded text-[0.6rem]"
-                  style={{ borderColor: "var(--accent-color)", color: "var(--accent-color)" }}
+                  style={{
+                    borderColor: "var(--accent-color)",
+                    color: "var(--accent-color)",
+                  }}
                 >
                   CURRENT
                 </span>
@@ -63,7 +63,9 @@ export default function Experience() {
             <p className="font-display font-[700] text-xl lg:text-2xl uppercase tracking-tight group-hover:translate-x-1 transition-transform duration-300">
               {exp.role}
             </p>
-            <p className="font-[300] text-sm opacity-60 mt-0.5">{exp.company}</p>
+            <p className="font-[300] text-sm opacity-60 mt-0.5">
+              {exp.company}
+            </p>
             <p className="text-sm font-[300] opacity-50 mt-1 line-clamp-2 lg:line-clamp-1">
               {exp.summary}
             </p>

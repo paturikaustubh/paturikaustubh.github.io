@@ -2,10 +2,9 @@ import { Link } from "react-router-dom";
 import { projectsInfos } from "../../ProjectsInfos";
 import WorkList from "../WorkList/WorkList";
 
-
 export default function Projects() {
   return (
-    <section className="__section-padding __theme-change-dark no-bottom-radius" id="projects">
+    <section className="__section-padding no-bottom-radius" id="projects">
       <p className="__mono-label">[ 04 — selected work ]</p>
       <span className="__cursor-blend">
         <span className="__section-title">Personal Projects</span>
