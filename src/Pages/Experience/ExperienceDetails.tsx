@@ -69,6 +69,12 @@ export default function ExperienceDetails() {
     return () => document.body.classList.remove("__dark-mode");
   }, []);
 
+  // Reset scroll BEFORE useGsap runs so getBoundingClientRect measurements
+  // reflect a fresh page, not the scroll position carried from the previous route.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useLayoutEffect(() => {
     const match = experienceInfos.find((e) => e.to === name);
     if (match) {
@@ -107,9 +113,26 @@ export default function ExperienceDetails() {
     <TransitionOverlay>
       <section className="min-h-[100dvh] __section-padding overflow-hidden">
         {/* header */}
-        <p className="__mono-label __exp-meta-cell">
-          [ {exp.company} — {caseNumber} / {caseTotal} ]
-        </p>
+        <div className="flex items-center justify-between __exp-meta-cell">
+          <p className="__mono-label">
+            [ {exp.company} — {caseNumber} / {caseTotal} ]
+          </p>
+          <div className="flex gap-4">
+            <Link
+              to={`/experience/${prevExp.to}`}
+              id="prev-experience-link"
+              className="font-mono text-xs uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity __cursor-difference"
+            >
+              ← {prevExp.company}
+            </Link>
+            <Link
+              to="/experience"
+              className="font-mono text-xs uppercase tracking-widest opacity-60 hover:opacity-100 transition-opacity __cursor-difference"
+            >
+              all
+            </Link>
+          </div>
+        </div>
         <h1
           ref={titleRef}
           className="font-display font-[800] uppercase leading-[0.95] tracking-tight text-[clamp(2rem,7dvw,7rem)] overflow-hidden __cursor-blend"
@@ -185,18 +208,10 @@ export default function ExperienceDetails() {
             {nextExp.company}
           </span>
           <span className="block mt-4 font-mono text-sm uppercase tracking-widest opacity-0 -translate-x-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-            open case ⟶
+            view details ⟶
           </span>
         </Link>
 
-        {/* prev link — visually hidden, used by console */}
-        <Link
-          to={`/experience/${prevExp.to}`}
-          id="prev-experience-link"
-          className="sr-only"
-        >
-          prev: {prevExp.company}
-        </Link>
       </section>
     </TransitionOverlay>
   );
