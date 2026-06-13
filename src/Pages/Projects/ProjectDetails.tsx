@@ -222,7 +222,7 @@ export default function ProjectDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Previous project</span>
             <Link
               to={`/projects/${prevProjectDetails.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __cursor-difference"
               id="prev-project-link"
             >
               {prevProjectDetails.title}
@@ -232,7 +232,7 @@ export default function ProjectDetails() {
             <span className="font-mono text-xs uppercase tracking-widest opacity-60">Next project</span>
             <Link
               to={`/projects/${nextProjectDetails.to}`}
-              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __nav-underline-element __cursor-difference"
+              className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __cursor-difference"
               id="next-project-link"
             >
               {nextProjectDetails.title}
