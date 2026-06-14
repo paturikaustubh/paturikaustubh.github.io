@@ -1,21 +1,25 @@
-# Hey ther! I'm Kaustubh Patrui 👋🏻
+# Hey there! I'm Kaustubh Paturi 👋🏻
 
-## I'm an application developer who's been building user centric web applications since 2021.
+## I'm an application developer who's been building user-centric web applications since 2021.
 
-Here is my portfolio where you can know more about me. You can also get a glimpse of what I use to build my applications and all my recent projects.
+Here is my portfolio where you can know more about me, get a glimpse of the tools and technologies I use, and explore my recent projects and work experience.
 
-### Here is the tech stack I used to build my portfolio.
+### Tech stack used to build this portfolio
 
-- ReactJs (v18.2.0)
+- React (v18.2.0)
+- TypeScript (v5.2.2)
+- Tailwind CSS (v3.4.1)
 - GSAP (v3.12.5)
 - Framer Motion (v11.0.5)
+- Three.js (v0.165.0)
 - Lenis (v1.0.33)
-- Firebase-storage (v0.12.4)
+- Firebase (v10.11.1) — auth, firestore, storage
+- Vite (v5.0.8)
 
-All the messages that you send from the contact me section are stored in firebase database.
+All messages sent from the contact section are stored in a Firebase database.
 
-This portfolio will be constantly updated with my latest projects and works so you guys can find everything at one place.
+This portfolio is constantly updated with my latest projects and work experience, so everything is in one place.
 
-You can always connect me from the portfolio regarding anything and I will reach out to you. I will be checking the messages regularly.
+Feel free to reach out through the portfolio — I check messages regularly and will get back to you.
 
 Made with love ❤️
