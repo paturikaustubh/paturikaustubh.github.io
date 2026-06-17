@@ -88,6 +88,11 @@ export default function MoreAboutMe() {
     </>,
   ];
 
+  useEffect(() => {
+    document.body.classList.add("__dark-mode");
+    return () => document.body.classList.remove("__dark-mode");
+  }, []);
+
   useLayoutEffect(() => {
     const gsapMatchMedia = gsap.matchMedia();
     const kaustubhImgEle = document.getElementById("img-container");
