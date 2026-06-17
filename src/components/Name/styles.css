@@ -5,7 +5,7 @@
   /* 17.5dvw scales the name with viewport.
      At 390px → 68px (4.25rem), at 1440px → 11rem cap.
      white-space: nowrap not needed — each child span is a single word. */
-  font-size: clamp(3rem, 17.5dvw, 11rem);
+  font-size: min(clamp(3rem, 17.5dvw, 11rem), 20dvh);
   line-height: 0.92;
   text-transform: uppercase;
 }

@@ -14,7 +14,6 @@ import "./styles.css";
 import Loading from "../LoadingScreen";
 import Alert from "../Alert";
 import { Link } from "react-router-dom";
-import SplitType from "split-type";
 import { socialLinks } from "../../socialLinks";
 // import EmailTemplate from "../EmailTemplate/EmailTemplate";
 
@@ -38,123 +37,81 @@ export function Footer() {
       email: "",
       message: "",
       timestamp: "",
-    }
+    },
   );
 
-
   const tl = gsap.timeline();
-  const gsapMatchMedia = gsap.matchMedia();
   useEffect(() => {
     const ctx = gsap.context(() => {
-    tl.to(".connector", {
-      scrollTrigger: {
-        trigger: ".connector",
-        start: "top 95%",
-        end: "bottom top",
-        scrub: true,
-        toggleActions: "play none none none",
-        onEnter: () => {
-          const connectorElement =
-            document.querySelector<HTMLSpanElement>(".connector");
-          const circleElement =
-            document.querySelectorAll<HTMLSpanElement>(".connector-circle");
-          const rippleEle =
-            document.querySelectorAll<HTMLSpanElement>(".circle-ripple");
+      tl.to(".connector", {
+        scrollTrigger: {
+          trigger: ".connector",
+          start: "top 95%",
+          end: "bottom top",
+          scrub: true,
+          toggleActions: "play none none none",
+          onEnter: () => {
+            const connectorElement =
+              document.querySelector<HTMLSpanElement>(".connector");
+            const circleElement =
+              document.querySelectorAll<HTMLSpanElement>(".connector-circle");
+            const rippleEle =
+              document.querySelectorAll<HTMLSpanElement>(".circle-ripple");
 
-          if (connectorElement) {
-            connectorElement.style.animation =
-              "connector-expand 0.45s cubic-bezier(.82,0,.55,.89) forwards";
-          }
-          if (circleElement) {
-            circleElement.forEach(
-              (element) =>
-              (element.style.animation =
-                "connector-circle-reveal 0.3s 0.35s cubic-bezier(.38,-0.01,.32,2.52) forwards")
-            );
-          }
-          if (rippleEle)
-            rippleEle.forEach(
-              (element) =>
-              (element.style.animation =
-                "connector-circle-ripple 0.7s 0.4s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
-            );
+            if (connectorElement) {
+              connectorElement.style.animation =
+                "connector-expand 0.45s cubic-bezier(.82,0,.55,.89) forwards";
+            }
+            if (circleElement) {
+              circleElement.forEach(
+                (element) =>
+                  (element.style.animation =
+                    "connector-circle-reveal 0.3s 0.35s cubic-bezier(.38,-0.01,.32,2.52) forwards"),
+              );
+            }
+            if (rippleEle)
+              rippleEle.forEach(
+                (element) =>
+                  (element.style.animation =
+                    "connector-circle-ripple 0.7s 0.4s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards"),
+              );
+          },
+          onLeaveBack: () => {
+            const connectorElement =
+              document.querySelector<HTMLSpanElement>(".connector");
+            const circleElement =
+              document.querySelectorAll<HTMLSpanElement>(".connector-circle");
+            const rippleEle =
+              document.querySelectorAll<HTMLSpanElement>(".circle-ripple");
+
+            if (connectorElement) {
+              connectorElement.style.animation =
+                "connector-expand-reset 0s cubic-bezier(.82,0,.55,.89) forwards";
+            }
+            if (circleElement) {
+              circleElement.forEach(
+                (element) =>
+                  (element.style.animation =
+                    "connector-circle-reveal-reset 0S ease-out forwards"),
+              );
+            }
+            if (rippleEle)
+              rippleEle.forEach(
+                (element) =>
+                  (element.style.animation =
+                    "connector-circle-ripple-reset 0s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards"),
+              );
+          },
         },
-        onLeaveBack: () => {
-          const connectorElement =
-            document.querySelector<HTMLSpanElement>(".connector");
-          const circleElement =
-            document.querySelectorAll<HTMLSpanElement>(".connector-circle");
-          const rippleEle =
-            document.querySelectorAll<HTMLSpanElement>(".circle-ripple");
-
-          if (connectorElement) {
-            connectorElement.style.animation =
-              "connector-expand-reset 0s cubic-bezier(.82,0,.55,.89) forwards";
-          }
-          if (circleElement) {
-            circleElement.forEach(
-              (element) =>
-              (element.style.animation =
-                "connector-circle-reveal-reset 0S ease-out forwards")
-            );
-          }
-          if (rippleEle)
-            rippleEle.forEach(
-              (element) =>
-              (element.style.animation =
-                "connector-circle-ripple-reset 0s cubic-bezier(0.34, 0.82, 0.36, 0.98) forwards")
-            );
-        },
-      },
-    });
-
-
-
-    // ANCHOR FOOTER NAME ANIMATION ||========================================================================
-    gsapMatchMedia.add("(min-width: 1024px)", () => {
-      const footerNameElement =
-        document.querySelector<HTMLParagraphElement>(".footer-name");
-
-      if (footerNameElement) {
-        const splitChars = new SplitType(footerNameElement, {
-          types: "chars",
-        }).chars;
-
-        splitChars?.forEach((char, indx) => {
-          char.addEventListener("mouseenter", () => {
-            char.style.fontWeight = "800";
-            const children = footerNameElement.childNodes;
-
-            const firstPSibling = children[indx + 1] as HTMLDivElement;
-            const secondPSibling = children[indx + 2] as HTMLDivElement;
-
-            const firstNSibling = children[indx - 1] as HTMLDivElement;
-            const secondNSibling = children[indx - 2] as HTMLDivElement;
-
-            if (firstPSibling) firstPSibling.style.fontWeight = "500";
-            if (secondPSibling) secondPSibling.style.fontWeight = "200";
-            if (firstNSibling) firstNSibling.style.fontWeight = "500";
-            if (secondNSibling) secondNSibling.style.fontWeight = "200";
-          });
-          char.addEventListener("mouseleave", () => {
-            char.style.fontWeight = "100";
-            const children =
-              footerNameElement.childNodes as NodeListOf<HTMLDivElement>;
-            children.forEach((child) => {
-              child.style.fontWeight = "100";
-            });
-          });
-        });
-      }
-    });
+      });
     });
     return () => ctx.revert();
-  }, [gsapMatchMedia, tl]);
+  }, [tl]);
 
   const handleInstantMsgDetailsChange = (
     event:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
     setInstantMsgDetails({ ...instantMsgDetails, [name]: value });
@@ -217,8 +174,6 @@ export function Footer() {
     Loading(false);
     return;
   };
-
-
 
   return (
     <footer
@@ -307,9 +262,7 @@ export function Footer() {
               </div>
             </div>
             <div className="ml-auto">
-              <button
-                className="px-3 py-1 text-2xl font-semibold border-2 rounded-md inst-msg-send __cursor-difference"
-              >
+              <button className="px-3 py-1 text-2xl font-semibold border-2 rounded-md inst-msg-send __cursor-difference">
                 Send
               </button>
             </div>
@@ -338,28 +291,35 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-16 -mx-12 overflow-hidden border-y border-neutral-800 py-3" aria-hidden="true">
+      <div
+        className="mt-16 -mx-12 overflow-hidden border-y border-neutral-800 py-3"
+        aria-hidden="true"
+      >
         <div className="__marquee-track font-mono text-sm uppercase tracking-widest text-neutral-500">
           {Array.from({ length: 2 }).map((_, i) => (
             <span key={i} className="flex gap-16 shrink-0">
-              <span>kaustubh paturi</span><span>—</span>
-              <span>application developer</span><span>—</span>
-              <span>full-stack</span><span>—</span>
-              <span>open to work</span><span>—</span>
-              <span>kaustubh paturi</span><span>—</span>
-              <span>application developer</span><span>—</span>
-              <span>full-stack</span><span>—</span>
-              <span>open to work</span><span>—</span>
+              <span>kaustubh paturi</span>
+              <span>—</span>
+              <span>application developer</span>
+              <span>—</span>
+              <span>full-stack</span>
+              <span>—</span>
+              <span>open to work</span>
+              <span>—</span>
+              <span>kaustubh paturi</span>
+              <span>—</span>
+              <span>application developer</span>
+              <span>—</span>
+              <span>full-stack</span>
+              <span>—</span>
+              <span>open to work</span>
+              <span>—</span>
             </span>
           ))}
         </div>
       </div>
 
-      <p
-        className="mt-8 mb-16 footer-name __cursor-difference"
-      >
-        KaustubhPaturi
-      </p>
+      <p className="mt-8 footer-name __cursor-difference">Kaustubh Paturi</p>
 
       <div className="flex flex-col gap-4 mb-4 text-center">
         <p className="text-neutral-300 ">Nothing great ever came that easy</p>

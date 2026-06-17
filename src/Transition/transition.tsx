@@ -14,7 +14,7 @@ const nameDisplayNameMapper: Record<string, string> = {
 
 const EASE: [number, number, number, number] = [0.76, 0, 0.24, 1];
 
-const ANIM_DELAY = 0.12;
+const ANIM_DELAY = 0;
 const STAGGER = 0.035;
 const OLD_DURATION = 0.32;
 const NEW_DURATION = 0.38;
@@ -71,7 +71,7 @@ export const TransitionOverlay = ({ children }: { children: JSX.Element }) => {
     ? Math.max(fromName.length, displayName.length)
     : 0;
   const animEndTime = crossfade
-    ? ANIM_DELAY + (spacerLen - 1) * STAGGER + NEW_SLOT_DELAY + NEW_DURATION + 0.08
+    ? (spacerLen - 1) * STAGGER + NEW_SLOT_DELAY + NEW_DURATION
     : 0;
   const curtainDelay = crossfade ? animEndTime : CURTAIN_DELAY;
 
