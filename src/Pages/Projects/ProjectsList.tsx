@@ -1,8 +1,16 @@
 import { projectsInfos } from "../../ProjectsInfos";
 import { TransitionOverlay } from "../../Transition/transition";
 import WorkList from "../../components/WorkList/WorkList";
+import { useGsap } from "../../lib/useGsap";
+import { revealChars } from "../../lib/reveal";
+import { INTRO_DELAY } from "../../lib/intro";
 
 export default function ProjectsList() {
+  useGsap(() => {
+    const title = document.querySelector<HTMLElement>(".__section-title");
+    if (title) revealChars(title, { delay: INTRO_DELAY });
+  }, []);
+
   return (
     <TransitionOverlay>
       <section className="__section-padding min-h-[100dvh]">

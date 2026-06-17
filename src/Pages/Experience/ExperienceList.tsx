@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { experienceInfos } from "../../ExperienceInfos";
 import { TransitionOverlay } from "../../Transition/transition";
 import { useGsap } from "../../lib/useGsap";
+import { revealChars } from "../../lib/reveal";
 import { INTRO_DELAY } from "../../lib/intro";
 
 export default function ExperienceList() {
@@ -13,6 +14,9 @@ export default function ExperienceList() {
   }, []);
 
   useGsap(() => {
+    const title = document.querySelector<HTMLElement>(".__section-title");
+    if (title) revealChars(title, { delay: INTRO_DELAY });
+
     document
       .querySelectorAll<HTMLElement>(".__exp-row")
       .forEach((row, i) => {
@@ -20,7 +24,7 @@ export default function ExperienceList() {
           yPercent: 40,
           opacity: 0,
           duration: 0.8,
-          delay: INTRO_DELAY + i * 0.1,
+          delay: INTRO_DELAY + 0.4 + i * 0.08,
           ease: "power3.out",
         });
       });
