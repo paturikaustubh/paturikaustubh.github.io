@@ -58,8 +58,7 @@ export default function Hero() {
       gsap.from(chars, {
         scrollTrigger: {
           trigger: sectionTitle,
-          start: "top 80%",
-          end: "bottom 40%",
+          start: "top 92%",
           toggleActions: "play none none none",
         },
         yPercent: 120,
@@ -79,11 +78,10 @@ export default function Hero() {
         });
         gsap.from(words, {
           scrollTrigger: {
-            trigger: words,
+            trigger: el,
             scrub: 0.6,
-            start: "top 95%",
-            end: "center 75%",
-            toggleActions: "play none none none",
+            start: "top 78%",
+            end: "center 55%",
           },
           opacity: 0.03,
           filter: "blur(8px)",
@@ -100,7 +98,7 @@ export default function Hero() {
         gsap.from(words, {
           scrollTrigger: {
             trigger: el,
-            start: "top 98%",
+            start: "top 88%",
             toggleActions: "play none none none",
           },
           opacity: 0.06,
