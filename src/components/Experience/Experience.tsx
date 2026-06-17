@@ -26,7 +26,7 @@ export default function Experience() {
             opacity: 0,
             duration: 0.8,
             ease: "power3.out",
-            scrollTrigger: { trigger: entry, start: "top 88%" },
+            scrollTrigger: { trigger: entry, start: "top 95%" },
           });
         }
       });
