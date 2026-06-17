@@ -75,7 +75,7 @@ export default function Skills() {
         ease: "power3.out",
         scrollTrigger: {
           trigger: card,
-          start: "top 85%",
+          start: "top 95%",
           end: "center 75%",
         },
       });

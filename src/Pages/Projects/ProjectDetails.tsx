@@ -58,25 +58,27 @@ export default function ProjectDetails() {
     });
     // in-view at load → delay-based; below fold → ScrollTrigger
     const vh = window.innerHeight;
-    document.querySelectorAll<HTMLElement>(".__project-section").forEach((el, i) => {
-      if (el.getBoundingClientRect().top < vh * 0.88) {
-        gsap.from(el, {
-          opacity: 0,
-          y: 28,
-          duration: 0.7,
-          delay: INTRO_DELAY + 0.3 + i * 0.12,
-          ease: "power3.out",
-        });
-      } else {
-        gsap.from(el, {
-          opacity: 0,
-          y: 28,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
-        });
-      }
-    });
+    document
+      .querySelectorAll<HTMLElement>(".__project-section")
+      .forEach((el, i) => {
+        if (el.getBoundingClientRect().top < vh * 0.88) {
+          gsap.from(el, {
+            opacity: 0,
+            y: 28,
+            duration: 0.7,
+            delay: INTRO_DELAY + 0.3 + i * 0.12,
+            ease: "power3.out",
+          });
+        } else {
+          gsap.from(el, {
+            opacity: 0,
+            y: 28,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 95%" },
+          });
+        }
+      });
   }, [projectDetails.title]);
 
   const handleFullscreen = () => {
@@ -219,7 +221,9 @@ export default function ProjectDetails() {
         {/* prev / next project navigation */}
         <div className="mt-20 border-t border-[#3a332b] pt-8 flex flex-col sm:flex-row items-start justify-between gap-8">
           <div className="flex flex-col gap-2">
-            <span className="font-mono text-xs uppercase tracking-widest opacity-60">Previous project</span>
+            <span className="font-mono text-xs uppercase tracking-widest opacity-60">
+              Previous project
+            </span>
             <Link
               to={`/projects/${prevProjectDetails.to}`}
               className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __cursor-difference"
@@ -229,7 +233,9 @@ export default function ProjectDetails() {
             </Link>
           </div>
           <div className="flex flex-col gap-2 sm:items-end">
-            <span className="font-mono text-xs uppercase tracking-widest opacity-60">Next project</span>
+            <span className="font-mono text-xs uppercase tracking-widest opacity-60">
+              Next project
+            </span>
             <Link
               to={`/projects/${nextProjectDetails.to}`}
               className="text-3xl lg:text-5xl font-display font-[800] uppercase leading-none transition-colors duration-300 hover:text-[color:var(--accent-color)] __cursor-difference"
