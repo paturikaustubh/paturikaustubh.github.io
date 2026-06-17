@@ -5,6 +5,9 @@ import SplitType, { TargetElement } from "split-type";
 import dayjs from "dayjs";
 
 import { TransitionOverlay } from "../../../Transition/transition";
+import { useGsap } from "../../../lib/useGsap";
+import { revealChars } from "../../../lib/reveal";
+import { INTRO_DELAY } from "../../../lib/intro";
 
 import "./styles.css";
 // import { Link } from "react-router-dom";
@@ -93,6 +96,11 @@ export default function MoreAboutMe() {
     return () => document.body.classList.remove("__dark-mode");
   }, []);
 
+  useGsap(() => {
+    const title = document.querySelector<HTMLElement>(".__section-title");
+    if (title) revealChars(title, { delay: INTRO_DELAY });
+  }, []);
+
   useLayoutEffect(() => {
     const gsapMatchMedia = gsap.matchMedia();
     const kaustubhImgEle = document.getElementById("img-container");
@@ -172,7 +180,7 @@ export default function MoreAboutMe() {
         stagger: 0.04,
         duration: 1,
         ease: "power1.out",
-        delay: index === 0 ? 0.8 : 0,
+        delay: index === 0 ? INTRO_DELAY + 0.35 : 0,
       });
     });
     timeline.play();
@@ -221,7 +229,7 @@ export default function MoreAboutMe() {
     <TransitionOverlay>
       <section className="__section-padding">
         <p className="__mono-label">[ the human behind the code ]</p>
-        <h1 className="__section-title __cursor-blend __cursor-difference __cursor-hover">
+        <h1 className="__section-title __cursor-blend __cursor-difference">
           More About Me
           <span className="fun-text-container emoji-z-index">
             🧍🏻‍♂️
