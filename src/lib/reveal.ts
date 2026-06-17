@@ -4,7 +4,10 @@ import { prefersReducedMotion } from "./device";
 
 const splits = new WeakMap<HTMLElement, SplitType>();
 
-function freshSplit(el: HTMLElement, types: "chars,lines" | "words"): SplitType {
+function freshSplit(
+  el: HTMLElement,
+  types: "chars,lines" | "words",
+): SplitType {
   splits.get(el)?.revert();
   const split = new SplitType(el, { types });
   splits.set(el, split);
@@ -45,7 +48,7 @@ export function scrubWords(
     scrollTrigger: {
       trigger,
       scrub: 1,
-      start: "top 85%",
+      start: "top 95%",
       end: "bottom 55%",
     },
   });

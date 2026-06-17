@@ -123,56 +123,58 @@ export function Footer() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    Loading(true, "Sending message...");
     e.preventDefault();
     const { firstName, lastName, email, message } = instantMsgDetails;
 
     if (firstName.trim().length === 0) {
       getIntoFocus("firstName");
       Alert("First name cannot be empty", "warning");
-    } else if (email.trim().length === 0) {
+      return;
+    }
+    if (email.trim().length === 0) {
       getIntoFocus("email");
       Alert("Email cannot be empty", "warning");
-    } else if (message.trim().length === 0) {
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      getIntoFocus("email");
+      Alert("Enter a valid email address", "warning");
+      return;
+    }
+    if (message.trim().length === 0) {
       getIntoFocus("message");
       Alert("Message cannot be empty", "warning");
-    } else {
-      const finalValues = {
+      return;
+    }
+
+    Loading(true, "Sending message...");
+    try {
+      await addDoc(userMessagesRef, {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
         email: email.trim(),
         message: message.trim(),
         timestamp: dayjs.utc().format("DD MMM, YY (hh:mm A)"),
-      };
-
-      addDoc(userMessagesRef, finalValues)
-        .then(async () => {
-          setInstantMsgDetails({
-            firstName: "",
-            lastName: "",
-            email: "",
-            message: "",
-            timestamp: "",
-          });
-          // await emailjs.send(
-          //   import.meta.env.REACT_APP_EMAIL_SERVICE_ID as string,
-          //   import.meta.env.REACT_APP_EMAIL_TEMPLATE_ID as string,
-          //   {
-          //     subject: `New portfolio message from ${finalValues.firstName} ${finalValues.lastName} 👀`,
-          //     message: "Hello",
-          //   }
-          // );
-          Alert("Message reached destination!", "success");
-        })
-        .catch((error) => {
-          Alert("Sorry, there was an error...", "error");
-          console.error("Error adding message:", error);
-        })
-        .finally(() => Loading(false));
-      return;
+      });
+      setInstantMsgDetails({ firstName: "", lastName: "", email: "", message: "", timestamp: "" });
+      Alert("Message reached destination!", "success");
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code;
+      const msg =
+        code === "permission-denied"
+          ? "Permission denied. Try again later."
+          : code === "unavailable" || code === "network-request-failed"
+            ? "No internet connection. Check your network and try again."
+            : code === "resource-exhausted"
+              ? "Server is busy. Try again in a moment."
+              : code === "deadline-exceeded"
+                ? "Request timed out. Please try again."
+                : "Something went wrong. Please try again.";
+      Alert(msg, "error");
+      console.error("Firestore error:", err);
+    } finally {
+      Loading(false);
     }
-    Loading(false);
-    return;
   };
 
   return (

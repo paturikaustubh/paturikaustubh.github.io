@@ -50,28 +50,48 @@ export default function Hero() {
 
     if (prefersReducedMotion()) return;
 
-    // section titles: masked rise with a skew settle
-    document.querySelectorAll(".__section-title").forEach((sectionTitle) => {
-      const { chars } = new SplitType(sectionTitle as TargetElement, {
-        types: "chars",
-      });
-      gsap.from(chars, {
-        scrollTrigger: {
-          trigger: sectionTitle,
-          start: "top 80%",
-          end: "bottom 40%",
-          toggleActions: "play none none none",
-        },
-        yPercent: 120,
-        skewY: 5,
-        stagger: 0.025,
-        ease: "power4.out",
-        duration: 0.85,
-      });
-    });
-
     // long copy: word-by-word scrub on desktop, one-shot on touch/mobile
     const gsapMatchMedia = gsap.matchMedia();
+
+    // section titles: masked rise with a skew settle
+    gsapMatchMedia.add("(min-width: 768px)", () => {
+      document.querySelectorAll(".__section-title").forEach((sectionTitle) => {
+        const { chars } = new SplitType(sectionTitle as TargetElement, {
+          types: "chars",
+        });
+        gsap.from(chars, {
+          scrollTrigger: {
+            trigger: sectionTitle,
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+          yPercent: 120,
+          skewY: 5,
+          stagger: 0.025,
+          ease: "power4.out",
+          duration: 0.85,
+        });
+      });
+    });
+    gsapMatchMedia.add("(max-width: 768px)", () => {
+      document.querySelectorAll(".__section-title").forEach((sectionTitle) => {
+        const { chars } = new SplitType(sectionTitle as TargetElement, {
+          types: "chars",
+        });
+        gsap.from(chars, {
+          scrollTrigger: {
+            trigger: sectionTitle,
+            start: "top 95%",
+            toggleActions: "play none none none",
+          },
+          yPercent: 120,
+          skewY: 5,
+          stagger: 0.025,
+          ease: "power4.out",
+          duration: 0.85,
+        });
+      });
+    });
     gsapMatchMedia.add("(min-width: 768px)", () => {
       document.querySelectorAll(".__fade-in").forEach((el) => {
         const { words } = new SplitType(el as TargetElement, {
@@ -79,11 +99,10 @@ export default function Hero() {
         });
         gsap.from(words, {
           scrollTrigger: {
-            trigger: words,
+            trigger: el,
             scrub: 0.6,
             start: "top 95%",
             end: "center 75%",
-            toggleActions: "play none none none",
           },
           opacity: 0.03,
           filter: "blur(8px)",
@@ -100,7 +119,7 @@ export default function Hero() {
         gsap.from(words, {
           scrollTrigger: {
             trigger: el,
-            start: "top 98%",
+            start: "top 95%",
             toggleActions: "play none none none",
           },
           opacity: 0.06,

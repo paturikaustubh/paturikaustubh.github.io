@@ -42,7 +42,7 @@ export default function WorkList({
             opacity: 0,
             duration: 0.8,
             ease: "power3.out",
-            scrollTrigger: { trigger: row, start: "top 88%" },
+            scrollTrigger: { trigger: row, start: "top 95%" },
           });
         }
       });
